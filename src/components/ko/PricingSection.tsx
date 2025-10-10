@@ -9,6 +9,7 @@ interface PricingPlan {
   features: string[];
   price: string;
   originalPrice?: string;
+  highlightBadge?: boolean;
 }
 
 const pricingPlans: PricingPlan[] = [
@@ -38,6 +39,7 @@ const pricingPlans: PricingPlan[] = [
     ],
     price: "월 140,000원",
     originalPrice: "월 160,000원",
+    highlightBadge: true,
   },
 ];
 
@@ -54,12 +56,25 @@ function PlanCard({
             <span className="text-white">{plan.titleEmphasis}</span>{" "}
             <span className="text-main-600">{plan.titleSuffix}</span>
           </h3>
-          <p className="mt-2 text-[15px] font-medium text-main-300 md:text-[16px]">
-            {plan.badge}
-          </p>
-          <p className="mt-4 text-[16px] leading-[26px] text-white">
-            {plan.description}
-          </p>
+          {plan.highlightBadge ? (
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <span className="inline-flex items-center rounded-lg bg-main-600 px-3 py-1 text-[14px] font-semibold text-white">
+                {plan.badge}
+              </span>
+              <p className="text-[16px] leading-[26px] text-white">
+                {plan.description}
+              </p>
+            </div>
+          ) : (
+            <>
+              <p className="mt-2 text-[15px] font-medium text-main-300 md:text-[16px]">
+                {plan.badge}
+              </p>
+              <p className="mt-4 text-[16px] leading-[26px] text-white">
+                {plan.description}
+              </p>
+            </>
+          )}
         </div>
 
         <ul className="list-none space-y-3 text-[15px] leading-[24px] text-white">
