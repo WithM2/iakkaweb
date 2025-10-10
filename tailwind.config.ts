@@ -20,7 +20,7 @@ export default {
         main: {
           DEFAULT: "#0079EA",
 
-          100: "#D9E8FF",
+          100: "#E8F4FF",
 
           300: "#C1E1FF",
           600: "#0079EA",
