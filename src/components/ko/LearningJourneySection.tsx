@@ -5,8 +5,6 @@ import { useState } from "react";
 interface JourneyStage {
   id: string;
   stepTitle: string;
-  label: string;
-  summary: string;
   subtitle: string;
   sections: Array<{
     title: string;
@@ -18,8 +16,6 @@ const journeyStages: JourneyStage[] = [
   {
     id: "discovery",
     stepTitle: "Alpha Leader",
-    label: "아이디어 발굴",
-    summary: "아이의 흥미에서 출발해 해결하고 싶은 문제를 찾습니다.",
     subtitle: "문제 정의형 교육",
     sections: [
       {
@@ -51,8 +47,6 @@ const journeyStages: JourneyStage[] = [
   {
     id: "design",
     stepTitle: "Alpha Member",
-    label: "설계 & 프로토타입",
-    summary: "아이디어를 구체적인 서비스 콘셉트와 설계로 발전시켜요.",
     subtitle: "서비스 설계형 교육",
     sections: [
       {
@@ -84,8 +78,6 @@ const journeyStages: JourneyStage[] = [
   {
     id: "build",
     stepTitle: "Alpha Scout",
-    label: "개발 & 제작",
-    summary: "실제 동작하는 결과물을 팀과 함께 구현해요.",
     subtitle: "실행 제작형 교육",
     sections: [
       {
@@ -117,8 +109,6 @@ const journeyStages: JourneyStage[] = [
   {
     id: "launch",
     stepTitle: "Dream Maker",
-    label: "출시 & 회고",
-    summary: "사용자 앞에 결과물을 선보이고 성장 포인트를 찾습니다.",
     subtitle: "홈미디어 체험형 교육",
     sections: [
       {
@@ -152,11 +142,9 @@ const journeyStages: JourneyStage[] = [
 export default function LearningJourneySection() {
   const [selectedStageId, setSelectedStageId] = useState(journeyStages[0].id);
 
-  const activeStageIndex = Math.max(
-    journeyStages.findIndex((stage) => stage.id === selectedStageId),
-    0,
-  );
-  const activeStage = journeyStages[activeStageIndex] ?? journeyStages[0];
+  const activeStage =
+    journeyStages.find((stage) => stage.id === selectedStageId) ??
+    journeyStages[0];
 
   return (
     <section className="w-full bg-[linear-gradient(180deg,#232323_0%,#143263_50%,#232323_100%)] text-white">
@@ -188,20 +176,6 @@ export default function LearningJourneySection() {
                     <div className="text-[26px] font-semibold text-main-600">
                       {stage.stepTitle}
                     </div>
-                    <div
-                      className={`mt-1 text-[18px] font-semibold md:text-[20px] ${
-                        isActive ? "text-slate-900" : "text-white"
-                      }`}
-                    >
-                      {stage.label}
-                    </div>
-                    <p
-                      className={`mt-2 text-[14px] leading-[22px] md:text-[15px] ${
-                        isActive ? "text-slate-700" : "text-white/70"
-                      }`}
-                    >
-                      {stage.summary}
-                    </p>
                   </button>
                 );
               })}
@@ -210,13 +184,10 @@ export default function LearningJourneySection() {
 
           <div className="flex flex-1 flex-col gap-8 rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,#1f2c4f_0%,#0f162b_100%)] p-8 md:gap-10 md:p-10">
             <div>
-              <span className="text-[14px] font-semibold uppercase tracking-[0.18em] text-main-300">
-                {`Step ${activeStageIndex + 1}`}
-              </span>
-              <h4 className="mt-3 text-[34px] font-semibold text-white md:text-[38px]">
+              <h4 className="text-[28px] font-semibold text-main-600 md:text-[30px]">
                 {activeStage.stepTitle}
               </h4>
-              <p className="mt-2 text-[18px] font-medium text-main-100 md:text-[20px]">
+              <p className="mt-2 text-[18px] font-medium text-white md:text-[18px]">
                 {activeStage.subtitle}
               </p>
             </div>
@@ -224,10 +195,10 @@ export default function LearningJourneySection() {
             <div className="space-y-7 md:space-y-8">
               {activeStage.sections.map((section) => (
                 <div key={section.title} className="flex flex-col gap-3">
-                  <h5 className="text-[18px] font-semibold text-white md:text-[20px]">
+                  <h5 className="text-[18px] font-semibold text-white md:text-[18px]">
                     {section.title}
                   </h5>
-                  <ul className="space-y-2 text-[15px] leading-[24px] text-white/85 md:space-y-3 md:text-[16px] md:leading-[26px]">
+                  <ul className="space-y-2 text-[16px] leading-[26px] text-white md:space-y-3">
                     {section.items.map((item) => (
                       <li key={item} className="list-disc pl-5 marker:text-main-400">
                         {item}
