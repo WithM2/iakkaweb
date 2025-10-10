@@ -1,5 +1,6 @@
 import Header from "@/components/common/Header";
 import LearningJourneySection from "@/components/ko/LearningJourneySection";
+import MentorShowcaseSection from "@/components/ko/MentorShowcaseSection";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -206,6 +207,8 @@ export default function PageKO() {
       </section>
 
       <LearningJourneySection />
+
+      <MentorShowcaseSection />
 
       {/* 아래부터 다음 섹션들… */}
       <main className="mx-auto max-w-[1200px] px-5 md:px-6 py-16">
