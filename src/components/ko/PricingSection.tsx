@@ -109,7 +109,7 @@ export default function PricingSection() {
           <h2 className="text-[32px] font-semibold leading-tight text-white md:text-[40px]">
             합리적인 가격
           </h2>
-          <p className="mt-4 text-[16px] leading-[26px] text-ink-400 md:text-[18px] md:leading-[28px]">
+          <p className="mt-3 text-[14px] font-medium leading-[22px] text-white md:text-[16px] md:leading-[24px]">
             우리 아이만을 위한 특별한 여정, 지금 시작하세요.
           </p>
         </div>
