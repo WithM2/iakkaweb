@@ -37,7 +37,7 @@ export default function PageKO() {
               {/* 파란 필드 버튼 */}
               <Link
                 href="/mentoring/apply"
-                className="inline-flex items-center rounded-[12px] bg-[#1976FF] px-4 py-2 text-[14px] font-semibold text-white hover:bg-[#1668df]"
+                className="inline-flex items-center rounded-[12px] bg-main-600 px-4 py-2 text-[14px] font-semibold text-white hover:bg-main-600/90"
               >
                 멘토링 신청
               </Link>
@@ -45,7 +45,7 @@ export default function PageKO() {
               {/* 파란 아웃라인 버튼 */}
               <Link
                 href="/contact"
-                className="inline-flex items-center rounded-[12px] border border-[#1976FF] px-4 py-2 text-[14px] font-semibold text-[#1976FF] hover:bg-[#1976FF14]"
+                className="inline-flex items-center rounded-[12px] border border-main-600 px-4 py-2 text-[14px] font-semibold text-main-600 hover:bg-main-600/10"
               >
                 상담 예약
               </Link>
