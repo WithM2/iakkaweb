@@ -221,17 +221,16 @@ export default function LearningJourneySection() {
               </p>
             </div>
 
-            <div className="grid gap-7 md:gap-8">
+            <div className="space-y-7 md:space-y-8">
               {activeStage.sections.map((section) => (
-                <div key={section.title} className="rounded-[20px] bg-white/10 p-5 md:p-6">
+                <div key={section.title} className="flex flex-col gap-3">
                   <h5 className="text-[18px] font-semibold text-white md:text-[20px]">
                     {section.title}
                   </h5>
-                  <ul className="mt-3 space-y-2 text-[15px] leading-[24px] text-white/85 md:space-y-3 md:text-[16px] md:leading-[26px]">
+                  <ul className="space-y-2 text-[15px] leading-[24px] text-white/85 md:space-y-3 md:text-[16px] md:leading-[26px]">
                     {section.items.map((item) => (
-                      <li key={item} className="flex gap-3">
-                        <span className="relative mt-[6px] inline-block h-[6px] w-[6px] flex-shrink-0 rounded-full bg-main-600" aria-hidden />
-                        <span className="flex-1">{item}</span>
+                      <li key={item} className="list-disc pl-5 marker:text-main-400">
+                        {item}
                       </li>
                     ))}
                   </ul>
