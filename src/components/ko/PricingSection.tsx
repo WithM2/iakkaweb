@@ -60,7 +60,7 @@ function PlanCard({
           <p className="mt-2 text-[15px] font-medium text-main-300 md:text-[16px]">
             {plan.badge}
           </p>
-          <p className="mt-4 text-[16px] leading-[26px] text-ink-400">
+          <p className="mt-4 text-[16px] leading-[26px] text-ink">
             {plan.description}
           </p>
         </div>
