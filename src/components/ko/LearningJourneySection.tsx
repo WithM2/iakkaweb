@@ -77,18 +77,22 @@ export default function LearningJourneySection() {
 
   return (
     <section className="w-full bg-[linear-gradient(180deg,#232323_0%,#143263_50%,#232323_100%)] text-white">
-      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-10 px-5 py-16 md:px-6 md:py-20 lg:flex-row lg:items-stretch lg:gap-16">
-        <div className="flex w-full max-w-[460px] flex-shrink-0 flex-col">
-          <div className="inline-flex w-fit items-center rounded-full border border-white/15 bg-white/10 px-5 py-2 text-[14px] font-semibold text-white/85 backdrop-blur">
-            체계적인 교육 프로세스
-          </div>
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-10 px-5 py-16 md:px-6 md:py-20">
+        <div className="flex flex-col items-center text-center">
+          <h3 className="text-[36px] font-semibold text-white">체계적인 교육 프로세스</h3>
+          <p className="mt-3 text-[20px] text-white/80">
+            프로젝트가 완성으로 이어지는 과정을 단계별로 살펴보세요.
+          </p>
+        </div>
 
-          <div className="mt-6 grid gap-3">
-            {journeyStages.map((stage, index) => {
-              const isActive = stage.id === activeStage.id;
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-stretch lg:gap-16">
+          <div className="flex w-full max-w-[460px] flex-shrink-0 flex-col">
+            <div className="mt-6 grid gap-3 lg:mt-0">
+              {journeyStages.map((stage, index) => {
+                const isActive = stage.id === activeStage.id;
 
-              return (
-                <button
+                return (
+                  <button
                   key={stage.id}
                   type="button"
                   onClick={() => setSelectedStageId(stage.id)}
@@ -111,27 +115,28 @@ export default function LearningJourneySection() {
               );
             })}
           </div>
-        </div>
-
-        <div className="flex flex-1 flex-col rounded-[24px] border border-white/10 bg-white/5 p-6 md:p-8">
-          <div>
-            <span className="text-[12px] font-semibold uppercase tracking-[0.24em] text-white/60">
-              {`Step ${activeStageIndex + 1}`}
-            </span>
-            <h4 className="mt-2 text-[24px] font-bold md:text-[28px]">{activeStage.detailTitle}</h4>
-            <p className="mt-4 text-[14px] leading-[24px] text-white/80 md:text-[16px] md:leading-[26px]">
-              {activeStage.detailDescription}
-            </p>
           </div>
 
-          <ul className="mt-8 space-y-3 text-[14px] leading-[22px] text-white md:mt-10 md:text-[15px]">
-            {activeStage.keyPoints.map((point) => (
-              <li key={point} className="flex gap-2">
-                <span className="mt-1 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-main-600" aria-hidden />
-                <span className="flex-1 text-white/85">{point}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="flex flex-1 flex-col rounded-[24px] border border-white/10 bg-white/5 p-6 md:p-8">
+            <div>
+              <span className="text-[12px] font-semibold uppercase tracking-[0.24em] text-white/60">
+                {`Step ${activeStageIndex + 1}`}
+              </span>
+              <h4 className="mt-2 text-[24px] font-bold md:text-[28px]">{activeStage.detailTitle}</h4>
+              <p className="mt-4 text-[14px] leading-[24px] text-white/80 md:text-[16px] md:leading-[26px]">
+                {activeStage.detailDescription}
+              </p>
+            </div>
+
+            <ul className="mt-8 space-y-3 text-[14px] leading-[22px] text-white md:mt-10 md:text-[15px]">
+              {activeStage.keyPoints.map((point) => (
+                <li key={point} className="flex gap-2">
+                  <span className="mt-1 inline-block h-2 w-2 flex-shrink-0 rounded-full bg-main-600" aria-hidden />
+                  <span className="flex-1 text-white/85">{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>
