@@ -25,6 +25,7 @@ const pricingPlans: PricingPlan[] = [
       "1:4 소수 정예 협업 스튜디오",
     ],
     price: "월 80,000원",
+    highlightBadge: true,
   },
   {
     id: "plus",
