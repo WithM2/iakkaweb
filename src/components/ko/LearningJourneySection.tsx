@@ -230,7 +230,7 @@ export default function LearningJourneySection() {
             })}
           </div>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
+          <div className="mt-10 grid gap-6 md:grid-cols-2 md:items-stretch">
             <div className="flex flex-col rounded-[24px] border border-white/12 bg-black/35 p-6 text-left backdrop-blur md:p-7">
               <h5 className="text-[20px] font-semibold md:text-[22px]">
                 {activeMode.title}
@@ -262,18 +262,16 @@ export default function LearningJourneySection() {
             {activeMode.galleryImages.map((image) => (
               <div
                 key={image.alt}
-                className="relative overflow-hidden rounded-[24px] border border-white/10 bg-black/30 shadow-[0_20px_45px_rgba(0,0,0,0.35)]"
+                className="group relative h-full overflow-hidden rounded-[24px] border border-white/10 bg-black/30 shadow-[0_20px_45px_rgba(0,0,0,0.35)]"
               >
-                <div className="relative aspect-[4/5] w-full">
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    sizes="(min-width: 768px) 45vw, 90vw"
-                    className="object-cover"
-                    priority={false}
-                  />
-                </div>
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes="(min-width: 768px) 45vw, 90vw"
+                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+                  priority={false}
+                />
               </div>
             ))}
           </div>
