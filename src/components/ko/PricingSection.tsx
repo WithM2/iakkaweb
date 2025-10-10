@@ -9,7 +9,6 @@ interface PricingPlan {
   features: string[];
   price: string;
   originalPrice?: string;
-  caption?: string;
 }
 
 const pricingPlans: PricingPlan[] = [
@@ -25,7 +24,6 @@ const pricingPlans: PricingPlan[] = [
       "1:4 소수 정예 협업 스튜디오",
     ],
     price: "월 80,000원",
-    caption: "VAT 포함, 재료비 별도",
   },
   {
     id: "plus",
@@ -40,7 +38,6 @@ const pricingPlans: PricingPlan[] = [
     ],
     price: "월 140,000원",
     originalPrice: "월 160,000원",
-    caption: "VAT 포함, 재료비 별도",
   },
 ];
 
@@ -65,12 +62,9 @@ function PlanCard({
           </p>
         </div>
 
-        <ul className="space-y-3 text-[15px] leading-[24px] text-white">
+        <ul className="list-none space-y-3 text-[15px] leading-[24px] text-white">
           {plan.features.map((feature) => (
-            <li key={feature} className="flex items-start gap-3">
-              <span className="mt-[3px] inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full bg-main-600" aria-hidden />
-              <span>{feature}</span>
-            </li>
+            <li key={feature}>{feature}</li>
           ))}
         </ul>
       </div>
@@ -86,9 +80,6 @@ function PlanCard({
             </span>
           ) : null}
         </div>
-        {plan.caption ? (
-          <p className="text-[13px] text-ink-400">{plan.caption}</p>
-        ) : null}
       </div>
     </article>
   );
