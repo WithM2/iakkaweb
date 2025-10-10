@@ -21,6 +21,7 @@ interface LearningMode {
   highlights: string[];
   imageSrc: string;
   imageAlt: string;
+  galleryImages: { src: string; alt: string }[];
 }
 
 const journeyStages: JourneyStage[] = [
@@ -92,6 +93,16 @@ const learningModes: LearningMode[] = [
     ],
     imageSrc: "/images/hybrid-learning-illustration.svg",
     imageAlt: "태블릿으로 온라인 수업을 듣는 모습을 형상화한 일러스트",
+    galleryImages: [
+      {
+        src: "/images/hybrid-learning-illustration.svg",
+        alt: "온라인 협업 툴을 활용해 프로젝트를 진행하는 모습",
+      },
+      {
+        src: "/images/hybrid-learning-illustration.svg",
+        alt: "프로젝트 산출물을 화면으로 공유하며 토론하는 모습",
+      },
+    ],
   },
   {
     id: "offline",
@@ -106,6 +117,16 @@ const learningModes: LearningMode[] = [
     ],
     imageSrc: "/images/hybrid-learning-illustration.svg",
     imageAlt: "프로젝트를 발표하는 학생들의 모습을 형상화한 일러스트",
+    galleryImages: [
+      {
+        src: "/images/hybrid-learning-illustration.svg",
+        alt: "오프라인 캠프에서 팀 프로젝트를 준비하는 학생들",
+      },
+      {
+        src: "/images/hybrid-learning-illustration.svg",
+        alt: "현장에서 결과물을 시연하는 학생들",
+      },
+    ],
   },
 ];
 
@@ -186,8 +207,8 @@ export default function LearningJourneySection() {
         </div>
 
         <div className="flex flex-col overflow-hidden rounded-[32px] border border-white/10 bg-[radial-gradient(120%_120%_at_0%_0%,rgba(255,255,255,0.12)_0%,rgba(20,50,99,0.65)_45%,rgba(11,19,34,0.95)_100%)] p-6 md:p-10">
-          <div className="max-w-[640px]">
-            <div className="inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-1 text-[13px] font-semibold text-white/85 backdrop-blur">
+          <div className="max-w-[700px] mx-auto text-center">
+            <div className="mx-auto inline-flex items-center rounded-full border border-white/15 bg-white/10 px-4 py-1 text-[13px] font-semibold text-white/85 backdrop-blur">
               앱과 캠프를 잇는 하이브리드 수업
             </div>
             <h4 className="mt-4 text-[26px] font-bold leading-[1.2] md:text-[32px]">
@@ -197,7 +218,7 @@ export default function LearningJourneySection() {
               온라인에서는 꾸준함을, 오프라인에서는 몰입과 실전을 경험하며 프로젝트가 완성됩니다.
             </p>
           </div>
-          <div className="mt-6 inline-flex w-fit items-center rounded-full border border-white/10 bg-white/10 p-1">
+          <div className="mt-6 inline-flex w-fit items-center rounded-full border border-white/10 bg-white/10 p-1 mx-auto">
             {learningModes.map((mode) => {
               const isActive = mode.id === activeMode.id;
               return (
@@ -217,8 +238,8 @@ export default function LearningJourneySection() {
             })}
           </div>
 
-          <div className="mt-8 flex flex-col gap-8 rounded-[24px] border border-white/10 bg-black/35 p-6 backdrop-blur md:flex-row md:items-center md:gap-10 md:p-8">
-            <div className="flex-1">
+          <div className="mt-10 grid gap-6 md:grid-cols-3">
+            <div className="flex flex-col rounded-[24px] border border-white/12 bg-black/35 p-6 text-left backdrop-blur md:p-7">
               <h5 className="text-[20px] font-semibold md:text-[22px]">
                 {activeMode.title}
               </h5>
@@ -240,24 +261,29 @@ export default function LearningJourneySection() {
 
               <Link
                 href="/mentoring/apply"
-                className="mt-8 inline-flex items-center justify-center rounded-[12px] bg-main-600 px-5 py-3 text-[14px] font-semibold text-white shadow-[0_12px_24px_rgba(0,121,234,0.35)] transition-colors hover:bg-main-600/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgba(11,19,34,0.95)]"
+                className="mt-8 inline-flex w-full items-center justify-center rounded-[12px] bg-main-600 px-5 py-3 text-[14px] font-semibold text-white shadow-[0_12px_24px_rgba(0,121,234,0.35)] transition-colors hover:bg-main-600/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[rgba(11,19,34,0.95)]"
               >
                 멘토링 신청
               </Link>
             </div>
 
-            <div className="relative flex flex-shrink-0 items-center justify-center md:w-[320px]">
-              <div className="relative h-[220px] w-[260px] overflow-hidden rounded-[24px] border border-white/10 bg-black/30 shadow-[0_20px_45px_rgba(0,0,0,0.35)] md:h-[260px] md:w-[320px]">
-                <Image
-                  src={activeMode.imageSrc}
-                  alt={activeMode.imageAlt}
-                  fill
-                  sizes="(min-width: 768px) 320px, 70vw"
-                  className="object-cover"
-                  priority={false}
-                />
+            {activeMode.galleryImages.map((image) => (
+              <div
+                key={image.alt}
+                className="relative overflow-hidden rounded-[24px] border border-white/10 bg-black/30 shadow-[0_20px_45px_rgba(0,0,0,0.35)]"
+              >
+                <div className="relative aspect-[4/5] w-full">
+                  <Image
+                    src={image.src}
+                    alt={image.alt}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 90vw"
+                    className="object-cover"
+                    priority={false}
+                  />
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
