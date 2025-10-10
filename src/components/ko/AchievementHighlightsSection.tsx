@@ -35,7 +35,7 @@ const achievements: AchievementCard[] = [
 
 export default function AchievementHighlightsSection() {
   return (
-    <section className="w-full bg-[#f4f1eb]">
+    <section className="w-full bg-white">
       <div className="mx-auto w-full max-w-[1200px] px-5 py-20 md:px-6 md:py-[120px]">
         <div className="text-center">
           <h3 className="text-[28px] font-semibold leading-[36px] text-gray-900">
