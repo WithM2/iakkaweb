@@ -96,7 +96,7 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
       />
 
       <div
-        className={`relative z-10 flex flex-1 flex-col justify-end px-6 py-6 text-white md:px-8 ${
+        className={`relative z-10 flex flex-1 flex-col justify-end px-6 py-6 text-white transition-opacity duration-200 group-hover:opacity-0 md:px-8 ${
           isFeatured ? "md:py-8" : "md:py-6"
         }`}
       >
