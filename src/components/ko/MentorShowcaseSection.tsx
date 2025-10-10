@@ -15,8 +15,7 @@ const mentors: MentorProfile[] = [
     id: "james-lee",
     name: "James Lee",
     role: "Product Design",
-    tagline:
-      "IAKKA의 교육 철학을 설계하는 제품 디자이너이자 멘토",
+    tagline: "IAKKA의 교육 철학을 설계하는 제품 디자이너이자 멘토",
     education: [
       "하버드 대학교 (Design Thinking & Innovation Executive Education)",
       "시애틀 미술대학 (Cinematography & Media Communication)",
@@ -30,8 +29,8 @@ const mentors: MentorProfile[] = [
     featured: true,
   },
   {
-    id: "jun-yongwoon",
-    name: "전용운",
+    id: "jun-yongho",
+    name: "전용호",
     role: "기획자",
     tagline: "실리콘밸리 스타트업 PM으로 활동한 서비스 전략가",
     education: [
@@ -44,8 +43,8 @@ const mentors: MentorProfile[] = [
     ],
   },
   {
-    id: "kim-heedon",
-    name: "김희돈",
+    id: "kim-heedo",
+    name: "김희도",
     role: "개발자",
     tagline: "AI 기반 제품을 만들어온 풀스택 개발 멘토",
     education: ["University of Washington, Computer Science"],
@@ -60,21 +59,15 @@ const mentors: MentorProfile[] = [
     role: "프로그램 디렉터",
     tagline: "학생 성장을 중심으로 프로젝트를 설계하는 리더",
     education: ["서울대학교 교육학과"],
-    experience: [
-      "現 IAKKA 프로그램 총괄",
-      "前 교육 스타트업 Program Lead",
-    ],
+    experience: ["現 IAKKA 프로그램 총괄", "前 교육 스타트업 Program Lead"],
   },
   {
-    id: "geum-gyoryeon",
-    name: "금교련",
+    id: "geum-gyowon",
+    name: "금교원",
     role: "운영 매니저",
     tagline: "팀 협업과 커뮤니티를 이끄는 운영 전문가",
     education: ["연세대학교 경영학과"],
-    experience: [
-      "現 IAKKA 커뮤니티 매니저",
-      "前 글로벌 에듀테크 운영 리드",
-    ],
+    experience: ["現 IAKKA 커뮤니티 매니저", "前 글로벌 에듀테크 운영 리드"],
   },
 ];
 
@@ -187,12 +180,12 @@ export default function MentorShowcaseSection() {
   return (
     <section className="w-full bg-[linear-gradient(180deg,#f5f7ff_0%,#e4e9f6_100%)]">
       <div className="mx-auto w-full max-w-[1200px] px-5 py-16 md:px-6 md:py-20">
-        <div className="max-w-[520px]">
-          <span className="inline-flex items-center rounded-full border border-main-200/60 bg-white/60 px-4 py-1.5 text-[12px] font-semibold tracking-[0.12em] text-main-600">
+        <div className="max-w-none">
+          <h2 className="mt-5 text-[36px] font-bold leading-[36px] text-[#1C2B4B] md:text-[36px] md:leading-[46px]">
             멘토단 이야기
-          </span>
-          <h2 className="mt-5 text-[28px] font-bold leading-[36px] text-[#1C2B4B] md:text-[36px] md:leading-[46px]">
-            IAKKA와 교육 프로그램 설계를 돕는 멘토들을 소개합니다.
+          </h2>
+          <h2 className="mt-5 text-[20px] font-bold leading-[36px] text-[#767676] md:text-[20px] md:leading-[46px]">
+            IAKKA의 교육 프로그램 개발에 도움을 주시는 멘토단을 소개합니다.
           </h2>
         </div>
 
