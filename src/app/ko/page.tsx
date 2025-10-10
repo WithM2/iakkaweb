@@ -37,7 +37,7 @@ export default function PageKO() {
               {/* 파란 필드 버튼 */}
               <Link
                 href="/mentoring/apply"
-                className="inline-flex items-center rounded-[12px] bg-[#1976FF] px-4 py-2 text-[14px] font-semibold text-white hover:bg-[#1668df]"
+                className="inline-flex items-center rounded-[12px] bg-main-600 px-4 py-2 text-[14px] font-semibold text-white hover:bg-main-600/90"
               >
                 멘토링 신청
               </Link>
@@ -45,7 +45,7 @@ export default function PageKO() {
               {/* 파란 아웃라인 버튼 */}
               <Link
                 href="/contact"
-                className="inline-flex items-center rounded-[12px] border border-[#1976FF] px-4 py-2 text-[14px] font-semibold text-[#1976FF] hover:bg-[#1976FF14]"
+                className="inline-flex items-center rounded-[12px] border border-main-600 px-4 py-2 text-[14px] font-semibold text-main-600 hover:bg-main-600/10"
               >
                 상담 예약
               </Link>
@@ -62,7 +62,7 @@ export default function PageKO() {
               md:whitespace-nowrap              /* 데스크톱: 줄바꿈 없음 */
               text-[24px] md:text-[48px]        /* 모바일/데스크톱 글자 크기 */
               leading-[42px] md:leading-[58px]  /* 모바일/데스크톱 줄간격 */
-              font-bold text-[#0079EA]
+              font-bold text-main-600
             "
           >
             <span className="block md:inline">“미래를 바꾸는 사람들,</span>
@@ -106,11 +106,11 @@ export default function PageKO() {
             {/* Row 1 */}
             <div className="grid gap-4 md:grid-cols-[1fr_64px_1fr] md:items-center">
               {/* Left bubble (Problem) */}
-              <div className="rounded-[24px] bg-[#E8F4FF] border border-[#C1E1FF] px-6 py-6 md:px-8 md:py-8">
-                <h4 className="text-[18px] md:text-[20px] font-semibold text-[#0079EA]">
+              <div className="rounded-[24px] bg-main-100 border border-main-300 px-6 py-6 md:px-8 md:py-8">
+                <h4 className="text-[18px] md:text-[20px] font-semibold text-main-600">
                   “내 아이가 진짜 좋아하고 잘하는 게 무엇일까?”
                 </h4>
-                <p className="mt-2 text-[14px] md:text-[16px] text-[#232323]">
+                <p className="mt-2 text-[14px] md:text-[16px] text-ink-900">
                   입시 중심 교육 속에서 아이의 흥미와 적성을 잘 모르겠어요.
                 </p>
               </div>
@@ -118,7 +118,7 @@ export default function PageKO() {
               {/* Arrow (색 유지 원하면 이 부분은 건드리지 않아도 됨) */}
               <div className="flex justify-center md:justify-center">
                 <svg
-                  className="hidden md:block h-8 w-8 text-[#0079EA]"
+                  className="hidden md:block h-8 w-8 text-main-600"
                   viewBox="0 0 24 24"
                   fill="none"
                 >
@@ -131,7 +131,7 @@ export default function PageKO() {
                   />
                 </svg>
                 <svg
-                  className="md:hidden h-8 w-8 text-[#0079EA]"
+                  className="md:hidden h-8 w-8 text-main-600"
                   viewBox="0 0 24 24"
                   fill="none"
                 >
@@ -146,11 +146,11 @@ export default function PageKO() {
               </div>
 
               {/* Right bubble (Solution) */}
-              <div className="rounded-[24px] bg-[#E8F4FF] border border-[#C1E1FF] px-6 py-6 md:px-8 md:py-8">
-                <h4 className="text-[18px] md:text-[20px] font-semibold text-[#0079EA]">
+              <div className="rounded-[24px] bg-main-100 border border-main-300 px-6 py-6 md:px-8 md:py-8">
+                <h4 className="text-[18px] md:text-[20px] font-semibold text-main-600">
                   IAKKA는 아이의 아이디어에서 시작합니다
                 </h4>
-                <p className="mt-2 text-[14px] md:text-[16px] text-[#232323]">
+                <p className="mt-2 text-[14px] md:text-[16px] text-ink-900">
                   직접 기획하고 만들며, 스스로의 흥미와 강점을 발견하게 합니다.
                 </p>
               </div>
@@ -159,11 +159,11 @@ export default function PageKO() {
             {/* Row 2 */}
             <div className="grid gap-4 md:grid-cols-[1fr_64px_1fr] md:items-center">
               {/* Left bubble */}
-              <div className="rounded-[24px] bg-[#E8F4FF] border border-[#C1E1FF] px-6 py-6 md:px-8 md:py-8">
-                <h4 className="text-[18px] md:text-[20px] font-semibold text-[#0079EA]">
+              <div className="rounded-[24px] bg-main-100 border border-main-300 px-6 py-6 md:px-8 md:py-8">
+                <h4 className="text-[18px] md:text-[20px] font-semibold text-main-600">
                   “이 불확실한 시대, 공부만 잘하면 될까?”
                 </h4>
-                <p className="mt-2 text-[14px] md:text-[16px] text-[#232323]">
+                <p className="mt-2 text-[14px] md:text-[16px] text-ink-900">
                   AI, 변화하는 세상 속에서 어떤 역량이 진짜 필요한지 잘
                   모르겠어요.
                 </p>
@@ -172,7 +172,7 @@ export default function PageKO() {
               {/* Arrow */}
               <div className="flex justify-center md:justify-center">
                 <svg
-                  className="hidden md:block h-8 w-8 text-[#0079EA]"
+                  className="hidden md:block h-8 w-8 text-main-600"
                   viewBox="0 0 24 24"
                   fill="none"
                 >
@@ -185,7 +185,7 @@ export default function PageKO() {
                   />
                 </svg>
                 <svg
-                  className="md:hidden h-8 w-8 text-[#0079EA]"
+                  className="md:hidden h-8 w-8 text-main-600"
                   viewBox="0 0 24 24"
                   fill="none"
                 >
@@ -200,11 +200,11 @@ export default function PageKO() {
               </div>
 
               {/* Right bubble */}
-              <div className="rounded-[24px] bg-[#E8F4FF] border border-[#C1E1FF] px-6 py-6 md:px-8 md:py-8">
-                <h4 className="text-[18px] md:text-[20px] font-semibold text-[#0079EA]">
+              <div className="rounded-[24px] bg-main-100 border border-main-300 px-6 py-6 md:px-8 md:py-8">
+                <h4 className="text-[18px] md:text-[20px] font-semibold text-main-600">
                   실제 세상과 연결된 교육을 제공합니다
                 </h4>
-                <p className="mt-2 text-[14px] md:text-[16px] text-[#232323]">
+                <p className="mt-2 text-[14px] md:text-[16px] text-ink-900">
                   기획·개발·협업을 경험하며 미래 사회에 필요한 실전형 문제
                   해결력을 기릅니다.
                 </p>
