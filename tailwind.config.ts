@@ -24,11 +24,12 @@ export default {
 
           300: "#C1E1FF",
           600: "#0079EA",
-          800: "#0B3B8E",
+
+          800: "#0053A1",
         },
         ink: {
-          DEFAULT: "#F8FAFF",
-          400: "#A3ADC2",
+          DEFAULT: "#FFFFFF",
+          400: "#BDBDBD",
           900: "#232323",
         },
       },
