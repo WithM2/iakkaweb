@@ -215,11 +215,11 @@ export default function PageKO() {
         {/* Row 3 */}
         <div className="grid gap-4 md:grid-cols-[1fr_64px_1fr] md:items-center">
           {/* Left bubble */}
-          <div className="rounded-[24px] bg-[#E8F4FF] border border-[#C1E1FF] px-6 py-6 md:px-8 md:py-8">
-            <h4 className="text-[18px] md:text-[20px] font-semibold text-[#0079EA]">
+          <div className="rounded-[24px] bg-main-100 border border-main-300 px-6 py-6 md:px-8 md:py-8">
+            <h4 className="text-[18px] md:text-[20px] font-semibold text-main-600">
               “성적이 전부가 아닌 건 알지만, 대체 뭐가 중요한 걸까?”
             </h4>
-            <p className="mt-2 text-[14px] md:text-[16px] text-[#232323]">
+            <p className="mt-2 text-[14px] md:text-[16px] text-ink-900">
               인성, 협업, 창의력이 중요하다지만, 구체적으로 어떻게 길러야 할지
               막막해요.
             </p>
@@ -228,20 +228,20 @@ export default function PageKO() {
           {/* Arrow */}
           <div className="flex justify-center md:justify-center">
             <svg
-              className="hidden md:block h-8 w-8 text-[#0079EA]"
+              className="hidden md:block h-8 w-8 text-main-600"
               viewBox="0 0 24 24"
               fill="none"
             >
               <path
                 d="M5 12h14M13 6l6 6-6 6"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="4"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
             <svg
-              className="md:hidden h-8 w-8 text-[#0079EA]"
+              className="md:hidden h-8 w-8 text-main-600"
               viewBox="0 0 24 24"
               fill="none"
             >
@@ -256,11 +256,11 @@ export default function PageKO() {
           </div>
 
           {/* Right bubble */}
-          <div className="rounded-[24px] bg-[#E8F4FF] border border-[#C1E1FF] px-6 py-6 md:px-8 md:py-8">
-            <h4 className="text-[18px] md:text-[20px] font-semibold text-[#0079EA]">
+          <div className="rounded-[24px] bg-main-100 border border-main-300 px-6 py-6 md:px-8 md:py-8">
+            <h4 className="text-[18px] md:text-[20px] font-semibold text-main-600">
               IAKKA는 팀 프로젝트를 통해 ‘함께 만드는 배움’을 제공합니다
             </h4>
-            <p className="mt-2 text-[14px] md:text-[16px] text-[#232323]">
+            <p className="mt-2 text-[14px] md:text-[16px] text-ink-900">
               기획 · 소통 · 책임감을 자연스럽게 체득합니다.
             </p>
           </div>
@@ -269,11 +269,11 @@ export default function PageKO() {
         {/* Row 4 */}
         <div className="grid gap-4 md:grid-cols-[1fr_64px_1fr] md:items-center">
           {/* Left bubble */}
-          <div className="rounded-[24px] bg-[#E8F4FF] border border-[#C1E1FF] px-6 py-6 md:px-8 md:py-8">
-            <h4 className="text-[18px] md:text-[20px] font-semibold text-[#0079EA]">
+          <div className="rounded-[24px] bg-main-100 border border-main-300 px-6 py-6 md:px-8 md:py-8">
+            <h4 className="text-[18px] md:text-[20px] font-semibold text-main-600">
               “우리 아이, 자신감이 없고 도전을 두려워해요”
             </h4>
-            <p className="mt-2 text-[14px] md:text-[16px] text-[#232323]">
+            <p className="mt-2 text-[14px] md:text-[16px] text-ink-900">
               실패가 두려워서 새로운 시도도 꺼려해요.
             </p>
           </div>
@@ -281,20 +281,20 @@ export default function PageKO() {
           {/* Arrow */}
           <div className="flex justify-center md:justify-center">
             <svg
-              className="hidden md:block h-8 w-8 text-[#0079EA]"
+              className="hidden md:block h-8 w-8 text-main-600"
               viewBox="0 0 24 24"
               fill="none"
             >
               <path
                 d="M5 12h14M13 6l6 6-6 6"
                 stroke="currentColor"
-                strokeWidth="2"
+                strokeWidth="4"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
             <svg
-              className="md:hidden h-8 w-8 text-[#0079EA]"
+              className="md:hidden h-8 w-8 text-main-600"
               viewBox="0 0 24 24"
               fill="none"
             >
@@ -309,11 +309,11 @@ export default function PageKO() {
           </div>
 
           {/* Right bubble */}
-          <div className="rounded-[24px] bg-[#E8F4FF] border border-[#C1E1FF] px-6 py-6 md:px-8 md:py-8">
-            <h4 className="text-[18px] md:text-[20px] font-semibold text-[#0079EA]">
+          <div className="rounded-[24px] bg-main-100 border border-main-300 px-6 py-6 md:px-8 md:py-8">
+            <h4 className="text-[18px] md:text-[20px] font-semibold text-main-600">
               ‘만들고, 출시하는 경험’이 자신감을 만듭니다
             </h4>
-            <p className="mt-2 text-[14px] md:text-[16px] text-[#232323]">
+            <p className="mt-2 text-[14px] md:text-[16px] text-ink-900">
               작은 성장을 직접 경험하며 ‘나도 할 수 있다’는 자기 효능감을
               키웁니다.
             </p>
