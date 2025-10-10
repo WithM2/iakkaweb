@@ -98,10 +98,6 @@ const learningModes: LearningMode[] = [
         src: "/images/hybrid-learning-illustration.svg",
         alt: "온라인 협업 툴을 활용해 프로젝트를 진행하는 모습",
       },
-      {
-        src: "/images/hybrid-learning-illustration.svg",
-        alt: "프로젝트 산출물을 화면으로 공유하며 토론하는 모습",
-      },
     ],
   },
   {
@@ -121,10 +117,6 @@ const learningModes: LearningMode[] = [
       {
         src: "/images/hybrid-learning-illustration.svg",
         alt: "오프라인 캠프에서 팀 프로젝트를 준비하는 학생들",
-      },
-      {
-        src: "/images/hybrid-learning-illustration.svg",
-        alt: "현장에서 결과물을 시연하는 학생들",
       },
     ],
   },
@@ -238,7 +230,7 @@ export default function LearningJourneySection() {
             })}
           </div>
 
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
             <div className="flex flex-col rounded-[24px] border border-white/12 bg-black/35 p-6 text-left backdrop-blur md:p-7">
               <h5 className="text-[20px] font-semibold md:text-[22px]">
                 {activeMode.title}
@@ -277,7 +269,7 @@ export default function LearningJourneySection() {
                     src={image.src}
                     alt={image.alt}
                     fill
-                    sizes="(min-width: 768px) 33vw, 90vw"
+                    sizes="(min-width: 768px) 45vw, 90vw"
                     className="object-cover"
                     priority={false}
                   />
