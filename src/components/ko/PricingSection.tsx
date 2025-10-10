@@ -60,12 +60,12 @@ function PlanCard({
           <p className="mt-2 text-[15px] font-medium text-main-300 md:text-[16px]">
             {plan.badge}
           </p>
-          <p className="mt-4 text-[16px] leading-[26px] text-ink">
+          <p className="mt-4 text-[16px] leading-[26px] text-white">
             {plan.description}
           </p>
         </div>
 
-        <ul className="space-y-3 text-[15px] leading-[24px] text-ink-400">
+        <ul className="space-y-3 text-[15px] leading-[24px] text-white">
           {plan.features.map((feature) => (
             <li key={feature} className="flex items-start gap-3">
               <span className="mt-[3px] inline-flex h-2.5 w-2.5 flex-shrink-0 rounded-full bg-main-600" aria-hidden />
@@ -81,7 +81,7 @@ function PlanCard({
             {plan.price}
           </span>
           {plan.originalPrice ? (
-            <span className="text-[16px] font-medium text-ink-400 line-through">
+            <span className="text-[16px] font-medium text-white line-through">
               {plan.originalPrice}
             </span>
           ) : null}
