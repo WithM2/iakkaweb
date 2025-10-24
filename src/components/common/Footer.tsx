@@ -8,7 +8,7 @@ const FOOTER_LINKS = [
 
 const COMPANY_DETAILS = [
   "이용약관 | 등록자 : IAKKA",
-  "사업자등록번호 : 000-00-00000 | 통신판매업 신고번호 : 2024-안양만안-0000",
+  "사업자등록번호 : 000-00-00000 | ",
   "이메일 : iakka.kr@gmail.com | 전화 : 010-3199-1331",
   "주소 : 경기도 안양시 만안구 안양로 311, project 500 tower 1610",
   "© IAKKA ALL RIGHTS RESERVED",
@@ -57,7 +57,7 @@ const CONTACT_CHANNELS = [
   },
   {
     label: "인스타그램 열기",
-    href: "https://www.instagram.com/iakka/",
+    href: "https://www.instagram.com/iakka_official/",
     icon: (
       <svg
         aria-hidden
@@ -81,7 +81,9 @@ export default function Footer() {
       <div className="mx-auto w-full max-w-[1200px] px-5 py-14 md:px-6 md:py-16">
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="space-y-6 md:max-w-[420px]">
-            <p className="text-[26px] font-semibold tracking-[-0.01em] text-white md:text-[32px]">IAKKA</p>
+            <p className="text-[26px] font-semibold tracking-[-0.01em] text-white md:text-[32px]">
+              IAKKA
+            </p>
             <nav className="flex flex-wrap gap-x-6 gap-y-3 text-[14px] text-white/70 md:text-[15px]">
               {FOOTER_LINKS.map(({ label, href }) => (
                 <Link
@@ -133,11 +135,19 @@ export default function Footer() {
           </div>
 
           <div className="flex flex-col items-start gap-2 text-[12px] text-white/60 md:text-right">
-            <span className="font-semibold text-white/80 md:text-[13px]">상담 예약</span>
-            <a className="text-white hover:text-main-300" href="mailto:iakka.kr@gmail.com">
+            <span className="font-semibold text-white/80 md:text-[13px]">
+              상담 예약
+            </span>
+            <a
+              className="text-white hover:text-main-300"
+              href="mailto:iakka.kr@gmail.com"
+            >
               iakka.kr@gmail.com
             </a>
-            <a className="text-white hover:text-main-300" href="tel:01031991331">
+            <a
+              className="text-white hover:text-main-300"
+              href="tel:01031991331"
+            >
               010-3199-1331
             </a>
           </div>
