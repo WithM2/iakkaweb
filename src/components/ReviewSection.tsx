@@ -36,39 +36,43 @@ const REVIEWS = [
 
 export function ReviewSection() {
   return (
-    <section className="w-full max-w-5xl rounded-[40px] bg-[#F8FAFC] px-6 py-12 shadow-[0_24px_64px_rgba(15,23,42,0.08)]">
-      <h2 className="text-center text-2xl font-semibold text-slate-900 sm:text-3xl">
-        학부모가 만족하는 커리큘럼을 제공합니다
-      </h2>
-      <p className="mt-4 text-center text-base leading-7 text-slate-500">
-        프로젝트 기반 학습으로 자녀의 창의력과 문제 해결력을 키워낸 학부모님들의 생생한 후기를 만나보세요.
-      </p>
-      <div className="mt-10 grid gap-6 md:grid-cols-3">
-        {REVIEWS.map((review) => (
-          <article
-            key={review.name}
-            className="flex h-full flex-col gap-4 rounded-3xl bg-white p-6 shadow-[0_20px_40px_rgba(15,23,42,0.06)]"
-          >
-            <div className="flex items-center gap-4">
-              <div
-                className={`flex h-12 w-12 items-center justify-center rounded-full text-lg font-semibold text-white ${
-                  review.accentColor
-                }`}
+    <section className="w-full bg-slate-50">
+      <div className="mx-auto w-full max-w-[1200px] px-5 py-20 md:px-6 md:py-[120px]">
+        <div className="mx-auto max-w-[1040px] rounded-[40px] bg-white px-6 py-12 shadow-[0_24px_64px_rgba(15,23,42,0.08)] md:px-12">
+          <h2 className="text-center text-[28px] font-semibold leading-[36px] text-slate-900 md:text-[32px] md:leading-[42px]">
+            학부모가 만족하는 커리큘럼을 제공합니다
+          </h2>
+          <p className="mt-4 text-center text-[16px] leading-[26px] text-slate-500">
+            프로젝트 기반 학습으로 자녀의 창의력과 문제 해결력을 키워낸 학부모님들의 생생한 후기를 만나보세요.
+          </p>
+          <div className="mt-10 grid gap-6 md:mt-12 md:grid-cols-3">
+            {REVIEWS.map((review) => (
+              <article
+                key={review.name}
+                className="flex h-full flex-col gap-4 rounded-[28px] bg-slate-50 p-6 shadow-[0_20px_40px_rgba(15,23,42,0.06)]"
               >
-                {review.initial}
-              </div>
-              <div>
-                <p className="text-sm font-medium text-slate-500">{review.grade}</p>
-                <p className="text-base font-semibold text-slate-900">{review.name}</p>
-              </div>
-            </div>
-            <div className="space-y-3">
-              <p className="text-sm font-medium text-blue-600">{review.course}</p>
-              <p className="text-base font-semibold leading-7 text-slate-900">{review.highlight}</p>
-              <p className="text-sm leading-6 text-slate-500">{review.detail}</p>
-            </div>
-          </article>
-        ))}
+                <div className="flex items-center gap-4">
+                  <div
+                    className={`flex h-12 w-12 items-center justify-center rounded-full text-lg font-semibold text-white ${
+                      review.accentColor
+                    }`}
+                  >
+                    {review.initial}
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-slate-500">{review.grade}</p>
+                    <p className="text-base font-semibold text-slate-900">{review.name}</p>
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <p className="text-sm font-medium text-blue-600">{review.course}</p>
+                  <p className="text-base font-semibold leading-7 text-slate-900">{review.highlight}</p>
+                  <p className="text-sm leading-6 text-slate-500">{review.detail}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
