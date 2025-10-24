@@ -119,14 +119,12 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
         }`}
         aria-hidden
       />
-      <div
-        className={`pointer-events-none absolute inset-0 ${
-          hasImage
-            ? "bg-[radial-gradient(140%_140%_at_50%_0%,rgba(255,255,255,0.16)_0%,rgba(195,255,255,0)_65%)] mix-blend-screen"
-            : "bg-[linear-gradient(180deg,rgba(24,45,84,0)_0%,rgba(24,45,84,0.3)_100%)]"
-        }`}
-        aria-hidden
-      />
+      {hasImage ? null : (
+        <div
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(24,45,84,0)_0%,rgba(24,45,84,0.3)_100%)]"
+          aria-hidden
+        />
+      )}
 
       <div
         className={`relative z-10 flex flex-1 flex-col justify-end px-6 py-6 text-white transition-opacity duration-200 group-hover:opacity-0 md:px-8 ${
