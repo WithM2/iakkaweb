@@ -48,7 +48,7 @@ export function ReviewSection() {
                 REVIEWS.map((review, index) => (
                   <article
                     key={`${review.author}-${index}-${cycle}`}
-                    className="flex min-h-[220px] min-w-[260px] max-w-[320px] flex-col justify-between rounded-[36px] border border-main-600 bg-[#0079EA] px-6 py-6 text-left text-white shadow-[0_24px_64px_rgba(8,16,44,0.35)] md:min-h-[240px] md:min-w-[320px] md:max-w-[360px] md:px-8 md:py-7"
+                    className="flex min-h-[220px] min-w-[260px] max-w-[320px] flex-shrink-0 flex-col justify-between rounded-[36px] border border-main-600 bg-[#0079EA] px-6 py-6 text-left text-white shadow-[0_24px_64px_rgba(8,16,44,0.35)] md:min-h-[240px] md:min-w-[320px] md:max-w-[360px] md:px-8 md:py-7"
                     style={{
                       backgroundColor: "#0079EA",
                       backgroundImage:

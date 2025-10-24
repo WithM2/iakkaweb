@@ -32,17 +32,18 @@ body {
     "Malgun Gothic", Arial, sans-serif;
 }
 
-@layer utilities {
-  @keyframes review-marquee {
-    0% {
-      transform: translateX(0);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
+@keyframes review-marquee {
+  0% {
+    transform: translateX(0);
   }
+  100% {
+    transform: translateX(-50%);
+  }
+}
 
+@layer utilities {
   .animate-review-marquee {
     animation: review-marquee 36s linear infinite;
+    will-change: transform;
   }
 }
