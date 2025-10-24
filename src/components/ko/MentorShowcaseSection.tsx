@@ -87,39 +87,50 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
   const hasImage = Boolean(imageSrc);
   return (
     <article
-      className={`group relative flex h-full flex-col overflow-hidden rounded-[32px] border border-white/40 bg-[linear-gradient(180deg,#dde3f6_0%,#b8c7e8_100%)] shadow-[0_24px_60px_rgba(38,68,120,0.22)] transition-transform duration-300 hover:-translate-y-1 ${
+      className={`group relative flex h-full flex-col overflow-hidden rounded-[32px] border border-white/40 shadow-[0_24px_60px_rgba(38,68,120,0.22)] transition-transform duration-300 hover:-translate-y-1 ${
         isFeatured ? "min-h-[360px] md:min-h-[440px]" : "min-h-[220px]"
+      } ${
+        hasImage
+          ? "bg-[#0F1F3C]"
+          : "bg-[linear-gradient(180deg,#dde3f6_0%,#b8c7e8_100%)]"
       }`}
     >
+      {imageSrc ? (
+        <Image
+          src={imageSrc}
+          alt={`${profile.name} 프로필 이미지`}
+          fill
+          sizes={
+            isFeatured
+              ? "(min-width: 1024px) 420px, (min-width: 768px) 360px, 100vw"
+              : "(min-width: 1024px) 320px, (min-width: 768px) 280px, 100vw"
+          }
+          className="absolute inset-0 h-full w-full object-cover"
+          priority={isFeatured}
+        />
+      ) : null}
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_120%_at_50%_0%,rgba(255,255,255,0.7)_0%,rgba(255,255,255,0)_65%)]"
+        className={`pointer-events-none absolute inset-0 ${
+          hasImage
+            ? "bg-[linear-gradient(180deg,rgba(9,20,40,0.45)_0%,rgba(9,20,40,0.82)_100%)]"
+            : "bg-[radial-gradient(120%_120%_at_50%_0%,rgba(255,255,255,0.7)_0%,rgba(195,255,255,0)_65%)]"
+        }`}
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(24,45,84,0)_0%,rgba(24,45,84,0.3)_100%)]"
+        className={`pointer-events-none absolute inset-0 ${
+          hasImage
+            ? "bg-[radial-gradient(140%_140%_at_50%_0%,rgba(255,255,255,0.16)_0%,rgba(195,255,255,0)_65%)] mix-blend-screen"
+            : "bg-[linear-gradient(180deg,rgba(24,45,84,0)_0%,rgba(24,45,84,0.3)_100%)]"
+        }`}
         aria-hidden
       />
 
       <div
-        className={`relative z-10 flex flex-1 flex-col px-6 py-6 text-white transition-opacity duration-200 group-hover:opacity-0 md:px-8 ${
-          hasImage ? "justify-between" : "justify-end"
-        } ${isFeatured ? "gap-6 md:py-8" : "gap-4 md:py-6"}`}
+        className={`relative z-10 flex flex-1 flex-col justify-end px-6 py-6 text-white transition-opacity duration-200 group-hover:opacity-0 md:px-8 ${
+          isFeatured ? "gap-6 md:py-8" : "gap-4 md:py-6"
+        }`}
       >
-        {imageSrc ? (
-          <div className="flex justify-center md:justify-start">
-            <div className="relative h-[116px] w-[116px] overflow-hidden rounded-[24px] border border-white/40 bg-white/10 shadow-[0_8px_24px_rgba(28,43,75,0.16)] md:h-[136px] md:w-[136px]">
-              <Image
-                src={imageSrc}
-                alt={`${profile.name} 프로필 이미지`}
-                fill
-                sizes="(min-width: 768px) 136px, 116px"
-                className="object-cover"
-                priority={isFeatured}
-              />
-            </div>
-          </div>
-        ) : null}
-
         <div>
           <div
             className={`font-semibold ${
@@ -152,19 +163,6 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
       <div className="absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
         <div className="flex h-full flex-col justify-between rounded-[32px] bg-[#353C48]/90 px-6 py-6 text-white md:px-7 md:py-7">
           <div className="space-y-5">
-            {imageSrc ? (
-              <div className="flex justify-center md:justify-start">
-                <div className="relative h-[108px] w-[108px] overflow-hidden rounded-[24px] border border-white/30 bg-white/5 shadow-[0_6px_20px_rgba(0,0,0,0.25)] md:h-[126px] md:w-[126px]">
-                  <Image
-                    src={imageSrc}
-                    alt={`${profile.name} 프로필 이미지`}
-                    fill
-                    sizes="(min-width: 768px) 126px, 108px"
-                    className="object-cover"
-                  />
-                </div>
-              </div>
-            ) : null}
             <div
               className={`font-semibold ${
                 isFeatured
