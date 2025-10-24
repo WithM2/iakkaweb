@@ -90,7 +90,7 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
       className={`group relative flex w-full flex-col overflow-hidden rounded-[32px] border border-white/40 shadow-[0_24px_60px_rgba(38,68,120,0.22)] transition-transform duration-300 hover:-translate-y-1 ${
         isFeatured
           ? "aspect-[3/4] min-h-[360px] md:aspect-[4/5] md:min-h-[420px]"
-          : "aspect-[3/4] min-h-[220px] md:aspect-[4/5]"
+          : "aspect-[3/4] min-h-[220px] sm:aspect-auto sm:h-full sm:min-h-[320px] md:min-h-0"
       } ${
         hasImage
           ? "bg-[#0F1F3C]"
@@ -234,7 +234,7 @@ export default function MentorShowcaseSection() {
         <div className="mt-10 grid gap-6 md:mt-14 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:gap-8">
           <MentorCard profile={featured} />
 
-          <div className="grid gap-6 sm:grid-cols-2">
+          <div className="grid gap-6 sm:h-full sm:grid-cols-2 sm:grid-rows-2 sm:auto-rows-fr">
             {others.map((mentor) => (
               <MentorCard key={mentor.id} profile={mentor} />
             ))}
