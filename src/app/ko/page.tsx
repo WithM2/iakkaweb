@@ -1,4 +1,5 @@
 import Header from "@/components/common/Header";
+import AchievementHighlightsSection from "@/components/ko/AchievementHighlightsSection";
 import LearningJourneySection from "@/components/ko/LearningJourneySection";
 import MentorShowcaseSection from "@/components/ko/MentorShowcaseSection";
 import PricingSection from "@/components/ko/PricingSection";
@@ -212,6 +213,8 @@ export default function PageKO() {
       <MentorShowcaseSection />
 
       <PricingSection />
+
+      <AchievementHighlightsSection />
 
       {/* 아래부터 다음 섹션들… */}
       <main className="mx-auto max-w-[1200px] px-5 md:px-6 py-16">
