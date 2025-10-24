@@ -87,8 +87,10 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
   const hasImage = Boolean(imageSrc);
   return (
     <article
-      className={`group relative flex h-full flex-col overflow-hidden rounded-[32px] border border-white/40 shadow-[0_24px_60px_rgba(38,68,120,0.22)] transition-transform duration-300 hover:-translate-y-1 ${
-        isFeatured ? "min-h-[360px] md:min-h-[440px]" : "min-h-[220px]"
+      className={`group relative flex w-full flex-col overflow-hidden rounded-[32px] border border-white/40 shadow-[0_24px_60px_rgba(38,68,120,0.22)] transition-transform duration-300 hover:-translate-y-1 ${
+        isFeatured
+          ? "aspect-[3/4] min-h-[360px] md:aspect-[4/5] md:min-h-[420px]"
+          : "aspect-[3/4] min-h-[220px] md:aspect-[4/5]"
       } ${
         hasImage
           ? "bg-[#0F1F3C]"
