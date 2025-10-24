@@ -31,3 +31,18 @@ body {
   font-family: var(--font-pretendard), system-ui, "Segoe UI", "Apple SD Gothic Neo",
     "Malgun Gothic", Arial, sans-serif;
 }
+
+@layer utilities {
+  @keyframes review-marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-review-marquee {
+    animation: review-marquee 36s linear infinite;
+  }
+}
