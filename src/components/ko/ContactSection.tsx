@@ -1,10 +1,10 @@
 const OFFICE_INFO = [
-  "경기도 안양시 동안구 시민대로 311,",
+  "경기도 안양시 만안구 안양로 311,",
   "project 500 tower 1610",
 ];
 
 const INQUIRY_INFO = [
-  { label: "전화 문의", value: "0000-0000" },
+  { label: "전화 문의", value: "010-3199-1331" },
   { label: "이메일 문의", value: "iakka.kr@gmail.com" },
 ];
 
@@ -28,7 +28,9 @@ export function ContactSection() {
 
           <div className="flex flex-1 flex-col gap-6 md:flex-row">
             <div className="flex-1 rounded-[32px] border border-main-300 bg-main-100/80 px-7 py-8 shadow-[0_20px_60px_rgba(8,32,85,0.1)] md:px-9 md:py-10">
-              <h4 className="text-[18px] font-semibold text-main-800 md:text-[20px]">사무실 오시는 길</h4>
+              <h4 className="text-[18px] font-semibold text-main-800 md:text-[20px]">
+                사무실 오시는 길
+              </h4>
               <div className="mt-4 space-y-1 text-[15px] leading-[24px] text-ink-900/80 md:text-[16px] md:leading-[26px]">
                 {OFFICE_INFO.map((line) => (
                   <p key={line}>{line}</p>
@@ -37,7 +39,9 @@ export function ContactSection() {
             </div>
 
             <div className="flex-1 rounded-[32px] border border-main-300 bg-main-100/80 px-7 py-8 shadow-[0_20px_60px_rgba(8,32,85,0.1)] md:px-9 md:py-10">
-              <h4 className="text-[18px] font-semibold text-main-800 md:text-[20px]">전화 문의</h4>
+              <h4 className="text-[18px] font-semibold text-main-800 md:text-[20px]">
+                전화 문의
+              </h4>
               <dl className="mt-4 space-y-4">
                 {INQUIRY_INFO.map(({ label, value }) => (
                   <div key={label} className="flex flex-col gap-1 text-left">
