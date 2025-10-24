@@ -11,25 +11,25 @@ const achievements: AchievementCard[] = [
     title: "다양한 개발 포트폴리오",
     description:
       "IAKKA의 프로젝트 수업으로 완성한 결과물을 통해 실전 감각과 자신감을 기릅니다.",
-    imageSrc: "/images/achievements/portfolio.jpg",
+    imageSrc: "/images/test_blueming.jpg",
   },
   {
     title: "다양한 네트워크",
     description:
       "글로벌 전문가와 동료 학생과의 협업으로 넓어진 시야와 인적 네트워크를 경험합니다.",
-    imageSrc: "/images/achievements/network.jpg",
+    imageSrc: "/images/test_blueming.jpg",
   },
   {
     title: "대회 수상 및 수료 역량",
     description:
       "실제 문제 해결 경험을 바탕으로 각종 공모전과 대회에서 의미 있는 결과를 만들어 냈습니다.",
-    imageSrc: "/images/achievements/award.jpg",
+    imageSrc: "/images/test_blueming.jpg",
   },
   {
     title: "성장의 발판",
     description:
       "스스로 기획하고 만들어 본 경험은 앞으로의 진로 탐색과 도전을 위한 든든한 자산이 됩니다.",
-    imageSrc: "/images/achievements/growth.jpg",
+    imageSrc: "/images/test_blueming.jpg",
   },
 ];
 
