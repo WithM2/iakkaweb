@@ -22,7 +22,7 @@ const mentors: MentorProfile[] = [
     id: "james-lee",
     name: "James Lee",
     role: "Product Design",
-    tagline: "IAKKA의 교육 철학을 설계하는 제품 디자이너이자 멘토",
+    tagline: "",
     education: [
       "하버드 대학교 (Design Thinking & Innovation Executive Education)",
       "시애틀 미술대학 (Cinematography & Media Communication)",
@@ -37,29 +37,24 @@ const mentors: MentorProfile[] = [
     imageFileName: "JamesLee.jpg",
   },
   {
-    id: "jun-yongho",
-    name: "전용호",
-    role: "기획자",
-    tagline: "실리콘밸리 스타트업 PM으로 활동한 서비스 전략가",
-    education: [
-      "KAIST 산업디자인학과",
-      "Stanford d.school Design Impact Program",
-    ],
-    experience: [
-      "前 Meta, Product Manager",
-      "前 실리콘밸리 스타트업 공동창업자",
-    ],
+    id: "Park-Chanhyeok",
+    name: "박찬혁",
+    role: "개발자",
+    tagline: "",
+    education: ["성균관대학교 소프트웨어학과"],
+    experience: ["프로젝트 경험 다수", "2019~ 특목고 입시 준비 강사"],
   },
   {
     id: "kim-heedo",
     name: "김희도",
-    role: "개발자",
-    tagline: "AI 기반 제품을 만들어온 풀스택 개발 멘토",
+    role: "멘토",
+    tagline: "",
     education: ["University of Washington, Computer Science"],
     experience: [
       "現 IAKKA 테크 멘토",
       "前 Amazon Lab126, Senior Software Engineer",
     ],
+    imageFileName: "김희도.jpg",
   },
   {
     id: "hong-gildong",
@@ -73,9 +68,9 @@ const mentors: MentorProfile[] = [
     id: "geum-gyowon",
     name: "금교원",
     role: "운영 매니저",
-    tagline: "팀 협업과 커뮤니티를 이끄는 운영 전문가",
-    education: ["연세대학교 경영학과"],
-    experience: ["現 IAKKA 커뮤니티 매니저", "前 글로벌 에듀테크 운영 리드"],
+    tagline: "",
+    education: ["고려대학교"],
+    experience: ["現 IAKKA 커뮤니티 매니저"],
   },
 ];
 
