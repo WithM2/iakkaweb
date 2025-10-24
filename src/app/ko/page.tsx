@@ -2,6 +2,7 @@ import Header from "@/components/common/Header";
 import AchievementHighlightsSection from "@/components/ko/AchievementHighlightsSection";
 import ReviewSection from "@/components/ReviewSection";
 import ContactSection from "@/components/ko/ContactSection";
+import Footer from "@/components/common/Footer";
 import LearningJourneySection from "@/components/ko/LearningJourneySection";
 import MentorShowcaseSection from "@/components/ko/MentorShowcaseSection";
 import PricingSection from "@/components/ko/PricingSection";
@@ -221,6 +222,8 @@ export default function PageKO() {
       <ReviewSection />
 
       <ContactSection />
+
+      <Footer />
     </>
   );
 }
