@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 interface MentorProfile {
   id: string;
   name: string;
@@ -8,6 +10,11 @@ interface MentorProfile {
   education?: string[];
   experience?: string[];
   featured?: boolean;
+  /**
+   * `public/images/person` 폴더에 있는 파일명을 입력하세요.
+   * 예) "james-lee.jpg" → `/public/images/person/james-lee.jpg`
+   */
+  imageFileName?: string;
 }
 
 const mentors: MentorProfile[] = [
@@ -27,6 +34,7 @@ const mentors: MentorProfile[] = [
       "前 마이크로소프트, Lead UX",
     ],
     featured: true,
+    imageFileName: "JamesLee.jpg",
   },
   {
     id: "jun-yongho",
@@ -73,6 +81,10 @@ const mentors: MentorProfile[] = [
 
 function MentorCard({ profile }: { profile: MentorProfile }) {
   const isFeatured = profile.featured;
+  const imageSrc = profile.imageFileName
+    ? `/images/person/${profile.imageFileName}`
+    : undefined;
+  const hasImage = Boolean(imageSrc);
   return (
     <article
       className={`group relative flex h-full flex-col overflow-hidden rounded-[32px] border border-white/40 bg-[linear-gradient(180deg,#dde3f6_0%,#b8c7e8_100%)] shadow-[0_24px_60px_rgba(38,68,120,0.22)] transition-transform duration-300 hover:-translate-y-1 ${
@@ -89,40 +101,70 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
       />
 
       <div
-        className={`relative z-10 flex flex-1 flex-col justify-end px-6 py-6 text-white transition-opacity duration-200 group-hover:opacity-0 md:px-8 ${
-          isFeatured ? "md:py-8" : "md:py-6"
-        }`}
+        className={`relative z-10 flex flex-1 flex-col px-6 py-6 text-white transition-opacity duration-200 group-hover:opacity-0 md:px-8 ${
+          hasImage ? "justify-between" : "justify-end"
+        } ${isFeatured ? "gap-6 md:py-8" : "gap-4 md:py-6"}`}
       >
-        <div
-          className={`font-semibold ${
-            isFeatured
-              ? "text-[22px] leading-[30px] md:text-[28px] md:leading-[36px]"
-              : "text-[18px] leading-[26px] md:text-[20px]"
-          }`}
-        >
-          {profile.name}
+        {imageSrc ? (
+          <div className="flex justify-center md:justify-start">
+            <div className="relative h-[116px] w-[116px] overflow-hidden rounded-[24px] border border-white/40 bg-white/10 shadow-[0_8px_24px_rgba(28,43,75,0.16)] md:h-[136px] md:w-[136px]">
+              <Image
+                src={imageSrc}
+                alt={`${profile.name} 프로필 이미지`}
+                fill
+                sizes="(min-width: 768px) 136px, 116px"
+                className="object-cover"
+                priority={isFeatured}
+              />
+            </div>
+          </div>
+        ) : null}
+
+        <div>
+          <div
+            className={`font-semibold ${
+              isFeatured
+                ? "text-[22px] leading-[30px] md:text-[28px] md:leading-[36px]"
+                : "text-[18px] leading-[26px] md:text-[20px]"
+            }`}
+          >
+            {profile.name}
+          </div>
+          <div
+            className={`mt-1 text-white/80 ${
+              isFeatured ? "text-[16px]" : "text-[14px]"
+            }`}
+          >
+            {profile.role}
+          </div>
+          <p
+            className={`mt-4 text-white/75 ${
+              isFeatured
+                ? "text-[14px] leading-[22px] md:text-[15px]"
+                : "text-[13px] leading-[20px]"
+            }`}
+          >
+            {profile.tagline}
+          </p>
         </div>
-        <div
-          className={`mt-1 text-white/80 ${
-            isFeatured ? "text-[16px]" : "text-[14px]"
-          }`}
-        >
-          {profile.role}
-        </div>
-        <p
-          className={`mt-4 text-white/75 ${
-            isFeatured
-              ? "text-[14px] leading-[22px] md:text-[15px]"
-              : "text-[13px] leading-[20px]"
-          }`}
-        >
-          {profile.tagline}
-        </p>
       </div>
 
       <div className="absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
         <div className="flex h-full flex-col justify-between rounded-[32px] bg-[#353C48]/90 px-6 py-6 text-white md:px-7 md:py-7">
-          <div>
+          <div className="space-y-5">
+            {imageSrc ? (
+              <div className="flex justify-center md:justify-start">
+                <div className="relative h-[108px] w-[108px] overflow-hidden rounded-[24px] border border-white/30 bg-white/5 shadow-[0_6px_20px_rgba(0,0,0,0.25)] md:h-[126px] md:w-[126px]">
+                  <Image
+                    src={imageSrc}
+                    alt={`${profile.name} 프로필 이미지`}
+                    fill
+                    sizes="(min-width: 768px) 126px, 108px"
+                    className="object-cover"
+                  />
+                </div>
+              </div>
+            ) : null}
             <div
               className={`font-semibold ${
                 isFeatured
@@ -139,7 +181,7 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
 
           <div
             className={`mt-5 space-y-5 text-[13px] leading-[20px] text-white/85 ${
-              isFeatured ? "md:mt-8" : "md:mt-6"
+              isFeatured ? "md:mt-6" : "md:mt-4"
             }`}
           >
             {profile.education && profile.education.length > 0 ? (
