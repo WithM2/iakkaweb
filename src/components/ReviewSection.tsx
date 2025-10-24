@@ -48,14 +48,20 @@ export function ReviewSection() {
                 REVIEWS.map((review, index) => (
                   <article
                     key={`${review.author}-${index}-${cycle}`}
-                    className="flex min-h-[220px] min-w-[260px] max-w-[320px] flex-col justify-between rounded-[28px] border border-white/10 bg-white/5 px-6 py-6 text-left text-white shadow-[0_24px_64px_rgba(8,16,44,0.35)] backdrop-blur-sm md:min-h-[240px] md:min-w-[320px] md:max-w-[360px] md:px-8 md:py-7"
+                    className="flex min-h-[220px] min-w-[260px] max-w-[320px] flex-col justify-between rounded-[36px] border border-main-600 bg-[#0079EA] px-6 py-6 text-left text-white shadow-[0_24px_64px_rgba(8,16,44,0.35)] md:min-h-[240px] md:min-w-[320px] md:max-w-[360px] md:px-8 md:py-7"
+                    style={{
+                      backgroundColor: "#0079EA",
+                      backgroundImage:
+                        "linear-gradient(180deg, #232323 -6.57%, #123365 122.68%)",
+                    }}
                     aria-hidden={cycle === 1}
                   >
                     <p className="text-[15px] font-medium leading-[24px] text-white/90 md:text-[18px] md:leading-[30px]">
                       “{review.quote}”
                     </p>
-                    <div className="mt-6 flex flex-col text-[13px] leading-[20px] text-white/60 md:text-[14px] md:leading-[22px]">
-                      <span className="font-semibold text-white">{review.author}</span>
+                    <div className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-1 text-[13px] leading-[20px] text-main-600 md:text-[14px] md:leading-[22px]">
+                      <span className="font-semibold text-main-600">{review.author}</span>
+                      <span className="hidden md:inline">|</span>
                       <span>{review.meta}</span>
                     </div>
                   </article>
