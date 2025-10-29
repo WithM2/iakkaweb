@@ -72,7 +72,7 @@ export default async function MentoringSubscribePage({
 
             <div className="grid gap-10 md:grid-cols-[minmax(0,1fr)_320px] md:items-start">
               <form className="space-y-10" noValidate>
-                <section className="space-y-6 rounded-[28px] border border-gray-100 bg-white p-6 shadow-[0_18px_60px_rgba(9,30,66,0.08)] md:p-8">
+                <section className="space-y-6">
                   <div className="space-y-1">
                     <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
                       결제 상품 정보
@@ -82,25 +82,18 @@ export default async function MentoringSubscribePage({
                     </p>
                   </div>
 
-                  <div className="space-y-4 rounded-[20px] border border-gray-100 bg-main-100/60 p-5 md:p-6">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="rounded-full bg-main-100 px-3 py-1 text-[12px] font-semibold text-main-600">
+                  <div className="space-y-4 text-[14px] leading-[24px] text-ink-900/80 md:text-[15px] md:leading-[26px]">
+                    <div className="flex flex-wrap items-center gap-2 text-ink-900">
+                      <span className="text-[12px] font-semibold text-main-600">
                         {planId === "plus" ? "추천" : "정규"}
                       </span>
-                      <h3 className="text-[20px] font-bold text-ink-900 md:text-[22px]">
-                        {selectedPlan.displayName}
-                      </h3>
+                      <h3 className="text-[20px] font-bold md:text-[22px]">{selectedPlan.displayName}</h3>
                     </div>
-                    <p className="text-[14px] leading-[24px] text-ink-900/80 md:text-[15px] md:leading-[26px]">
-                      {selectedPlan.subtitle}
-                    </p>
+                    <p>{selectedPlan.subtitle}</p>
 
-                    <ul className="flex flex-wrap gap-2">
+                    <ul className="list-disc space-y-1 pl-5 text-[13px] leading-[22px] text-ink-900/70 md:text-[14px] md:leading-[24px]">
                       {selectedPlan.benefits.map((benefit) => (
-                        <li
-                          key={benefit}
-                          className="rounded-full bg-white px-3 py-1 text-[12px] font-medium text-main-600 shadow-[0_4px_14px_rgba(15,23,42,0.08)]"
-                        >
+                        <li key={benefit}>
                           {benefit}
                         </li>
                       ))}
@@ -108,7 +101,7 @@ export default async function MentoringSubscribePage({
                   </div>
                 </section>
 
-                <section className="space-y-6 rounded-[28px] border border-gray-100 bg-white p-6 shadow-[0_18px_60px_rgba(9,30,66,0.08)] md:p-8">
+                <section className="space-y-6">
                   <div className="space-y-1">
                     <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
                       주문자 정보 입력
