@@ -7,6 +7,7 @@ type MentoringPlan = {
   titleEmphasis: string;
   tier: string;
   description: string;
+  tags: readonly string[];
   features: readonly string[];
   price: string;
   originalPrice?: string;
@@ -19,6 +20,7 @@ const mentoringPlans: MentoringPlan[] = [
     titleEmphasis: "Dream Maker",
     tier: "Standard",
     description: "정규 교육 과정과 병행할 수 있는 유연한 커리큘럼",
+    tags: ["6개월 과정"],
     features: [
       "격주 1회 · 회당 3시간 집중 세션",
       "아이디어 발굴부터 결과물 완성까지 단계별 프로젝트",
@@ -32,6 +34,7 @@ const mentoringPlans: MentoringPlan[] = [
     titleEmphasis: "Dream Maker",
     tier: "Plus",
     description: "자녀의 변화를 빠르게 확인할 수 있는 집중형 커리큘럼",
+    tags: ["추천", "3개월 과정"],
     features: [
       "주 1회 · 회당 3시간 심화 세션",
       "전담 멘토의 1:1 피드백 & 데모데이 발표 코칭",
@@ -71,26 +74,35 @@ export default function MentoringApplyPage() {
                   key={plan.id}
                   className="flex h-full flex-col rounded-[32px] border border-gray-100 bg-white p-8 shadow-[0_24px_80px_rgba(9,30,66,0.08)] transition-transform duration-200 hover:-translate-y-1 md:p-10"
                 >
-                  <div className="flex flex-1 flex-col gap-6">
-                    <div className="space-y-4">
-                      <div className="flex flex-wrap items-center gap-3">
-                        <h2 className="text-[28px] font-bold text-ink-900 md:text-[32px]">
-                          {plan.titleEmphasis}
-                        </h2>
-                        <span className="inline-flex items-center rounded-full bg-main-100 px-3 py-1 text-[13px] font-semibold text-main-600">
-                          {plan.tier}
-                        </span>
+                    <div className="flex flex-1 flex-col gap-6">
+                      <div className="space-y-4">
+                        <div className="flex flex-wrap items-center gap-2">
+                          {plan.tags.map((tag) => (
+                            <span
+                              key={tag}
+                              className="inline-flex items-center rounded-full border border-main-200 bg-main-100/60 px-3 py-1 text-[12px] font-semibold text-main-600"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                        <div className="flex flex-wrap items-center gap-3">
+                          <h2 className="text-[28px] font-bold text-ink-900 md:text-[32px]">
+                            {plan.titleEmphasis}
+                          </h2>
+                          <span className="inline-flex items-center rounded-full bg-main-100 px-3 py-1 text-[13px] font-semibold text-main-600">
+                            {plan.tier}
+                          </span>
+                        </div>
+                        <p className="text-[14px] leading-[22px] text-ink-900/70 md:text-[16px] md:leading-[26px]">
+                          {plan.description}
+                        </p>
                       </div>
-                      <p className="text-[14px] leading-[22px] text-ink-900/70 md:text-[16px] md:leading-[26px]">
-                        {plan.description}
-                      </p>
-                    </div>
 
                     <ul className="space-y-3 text-[14px] leading-[22px] text-ink-900/80 md:text-[15px] md:leading-[24px]">
                       {plan.features.map((feature) => (
-                        <li key={feature} className="flex items-start gap-3">
-                          <span className="mt-[6px] inline-flex h-1.5 w-1.5 rounded-full bg-main-600" aria-hidden />
-                          <span>{feature}</span>
+                        <li key={feature} className="text-left">
+                          {feature}
                         </li>
                       ))}
                     </ul>
