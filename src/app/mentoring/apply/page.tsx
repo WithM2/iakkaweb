@@ -155,9 +155,9 @@ export default function MentoringApplyPage() {
               ))}
             </div>
 
-            <div className="rounded-[28px] border border-gray-100 bg-gray-50 px-6 py-7 md:px-8 md:py-8">
+            <div className="space-y-4">
               <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">신청 전 안내사항</h2>
-              <ul className="mt-4 list-disc space-y-2 pl-5 text-[13px] leading-[22px] text-ink-900/70 md:text-[14px] md:leading-[24px]">
+              <ul className="list-disc space-y-2 pl-5 text-[13px] leading-[22px] text-ink-900/70 md:text-[14px] md:leading-[24px]">
                 <li>커리큘럼 완료에 소요되는 시간은 학생의 학습 상황에 따라 상이할 수 있습니다.</li>
                 <li>상황에 따라 1:3 멘토링이 아닌, 1:2 혹은 1:1 멘토링으로 진행될 수 있습니다.</li>
                 <li>학생의 레벨 상승에 따라 구독 요금이 변경됩니다.</li>
