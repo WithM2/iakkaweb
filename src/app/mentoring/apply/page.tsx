@@ -154,6 +154,22 @@ export default function MentoringApplyPage() {
                 </article>
               ))}
             </div>
+
+            <div className="space-y-4">
+              <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">신청 전 안내사항</h2>
+              <ul className="list-disc space-y-2 pl-5 text-[13px] leading-[22px] text-ink-900/70 md:text-[14px] md:leading-[24px]">
+                <li>커리큘럼 완료에 소요되는 시간은 학생의 학습 상황에 따라 상이할 수 있습니다.</li>
+                <li>상황에 따라 1:3 멘토링이 아닌, 1:2 혹은 1:1 멘토링으로 진행될 수 있습니다.</li>
+                <li>학생의 레벨 상승에 따라 구독 요금이 변경됩니다.</li>
+                <li>
+                  Dream Maker 이후 단계부터 학습을 원하시는 경우,
+                  <span className="px-1 font-semibold text-main-600">
+                    <Link href="/support">고객지원 &gt; 문의하기</Link>
+                  </span>
+                  를 이용해 주세요.
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
       </main>
