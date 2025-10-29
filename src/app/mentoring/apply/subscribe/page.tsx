@@ -130,7 +130,7 @@ export default async function MentoringSubscribePage({
                   </div>
                 </section>
 
-                <section className="space-y-6 rounded-[28px] border border-gray-100 bg-white p-6 shadow-[0_18px_60px_rgba(9,30,66,0.08)] md:p-8">
+                <section className="space-y-6">
                   <div className="space-y-1">
                     <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
                       학생 정보 입력
@@ -148,7 +148,7 @@ export default async function MentoringSubscribePage({
                   </div>
                 </section>
 
-                <section className="space-y-6 rounded-[28px] border border-gray-100 bg-white p-6 shadow-[0_18px_60px_rgba(9,30,66,0.08)] md:p-8">
+                <section className="space-y-6">
                   <div className="space-y-1">
                     <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
                       약관 동의
@@ -158,14 +158,14 @@ export default async function MentoringSubscribePage({
                     </p>
                   </div>
 
-                  <div className="space-y-4">
-                    <label className="flex items-start gap-3 rounded-[18px] border border-gray-100 px-4 py-4 text-[14px] leading-[24px] text-ink-900/80">
+                  <div className="space-y-4 text-[14px] leading-[24px] text-ink-900/80">
+                    <label className="flex items-start gap-3">
                       <input type="checkbox" className="mt-1 h-5 w-5 rounded border-gray-300 text-main-600 focus:ring-main-300" />
                       <span>
                         (필수) 서비스 이용약관 및 개인정보 수집·이용에 동의합니다.
                       </span>
                     </label>
-                    <label className="flex items-start gap-3 rounded-[18px] border border-gray-100 px-4 py-4 text-[14px] leading-[24px] text-ink-900/80">
+                    <label className="flex items-start gap-3">
                       <input type="checkbox" className="mt-1 h-5 w-5 rounded border-gray-300 text-main-600 focus:ring-main-300" />
                       <span>(선택) 이벤트 및 프로그램 안내 수신에 동의합니다.</span>
                     </label>
