@@ -106,9 +106,7 @@ export default function MentoringApplyPage() {
                         ))}
                         <p
                           className={
-                            plan.id === "plus"
-                              ? "text-[16px] font-bold leading-[24px] text-ink-900 md:ml-2 md:flex-1 md:text-[18px] md:leading-[28px]"
-                              : "text-[14px] leading-[22px] text-ink-900/70 md:ml-2 md:flex-1 md:text-[16px] md:leading-[26px]"
+                            "text-[16px] font-bold leading-[24px] text-ink-900 md:ml-2 md:flex-1 md:text-[18px] md:leading-[28px]"
                           }
                         >
                           {plan.description}
