@@ -2,7 +2,18 @@ import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Link from "next/link";
 
-const mentoringPlans = [
+type MentoringPlan = {
+  id: "standard" | "plus";
+  titleEmphasis: string;
+  tier: string;
+  description: string;
+  features: readonly string[];
+  price: string;
+  originalPrice?: string;
+  ctaLabel: string;
+};
+
+const mentoringPlans: MentoringPlan[] = [
   {
     id: "standard",
     titleEmphasis: "Dream Maker",
