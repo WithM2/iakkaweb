@@ -7,7 +7,10 @@ type MentoringPlan = {
   titleEmphasis: string;
   tier: string;
   description: string;
-  tags: readonly string[];
+  tags: readonly {
+    label: string;
+    variant: "soft" | "solid";
+  }[];
   features: readonly string[];
   price: string;
   originalPrice?: string;
@@ -20,7 +23,12 @@ const mentoringPlans: MentoringPlan[] = [
     titleEmphasis: "Dream Maker",
     tier: "Standard",
     description: "정규 교육 과정과 병행할 수 있는 유연한 커리큘럼",
-    tags: ["6개월 과정"],
+    tags: [
+      {
+        label: "6개월 과정",
+        variant: "soft",
+      },
+    ],
     features: [
       "격주 1회 · 회당 3시간 집중 세션",
       "아이디어 발굴부터 결과물 완성까지 단계별 프로젝트",
@@ -34,7 +42,16 @@ const mentoringPlans: MentoringPlan[] = [
     titleEmphasis: "Dream Maker",
     tier: "Plus",
     description: "자녀의 변화를 빠르게 확인할 수 있는 집중형 커리큘럼",
-    tags: ["추천", "3개월 과정"],
+    tags: [
+      {
+        label: "추천",
+        variant: "solid",
+      },
+      {
+        label: "3개월 과정",
+        variant: "solid",
+      },
+    ],
     features: [
       "주 1회 · 회당 3시간 심화 세션",
       "전담 멘토의 1:1 피드백 & 데모데이 발표 코칭",
@@ -76,16 +93,6 @@ export default function MentoringApplyPage() {
                 >
                     <div className="flex flex-1 flex-col gap-6">
                       <div className="space-y-4">
-                        <div className="flex flex-wrap items-center gap-2">
-                          {plan.tags.map((tag) => (
-                            <span
-                              key={tag}
-                              className="inline-flex items-center rounded-full border border-main-200 bg-main-100/60 px-3 py-1 text-[12px] font-semibold text-main-600"
-                            >
-                              {tag}
-                            </span>
-                          ))}
-                        </div>
                         <div className="flex flex-wrap items-center gap-3">
                           <h2 className="text-[28px] font-bold text-ink-900 md:text-[32px]">
                             {plan.titleEmphasis}
@@ -94,9 +101,23 @@ export default function MentoringApplyPage() {
                             {plan.tier}
                           </span>
                         </div>
-                        <p className="text-[14px] leading-[22px] text-ink-900/70 md:text-[16px] md:leading-[26px]">
-                          {plan.description}
-                        </p>
+                        <div className="flex flex-wrap items-center gap-2 md:gap-3">
+                          {plan.tags.map((tag) => (
+                            <span
+                              key={tag.label}
+                              className={`inline-flex flex-shrink-0 items-center rounded-full px-3 py-1 text-[12px] font-semibold ${
+                                tag.variant === "soft"
+                                  ? "bg-main-100 text-main-600"
+                                  : "bg-main-600 text-white"
+                              }`}
+                            >
+                              {tag.label}
+                            </span>
+                          ))}
+                          <p className="text-[14px] leading-[22px] text-ink-900/70 md:ml-2 md:flex-1 md:text-[16px] md:leading-[26px]">
+                            {plan.description}
+                          </p>
+                        </div>
                       </div>
 
                     <ul className="space-y-3 text-[14px] leading-[22px] text-ink-900/80 md:text-[15px] md:leading-[24px]">
@@ -123,7 +144,11 @@ export default function MentoringApplyPage() {
                     <div className="mt-6">
                       <Link
                         href={{ pathname: "/contact", query: { plan: plan.id } }}
-                        className="inline-flex w-full items-center justify-center rounded-[14px] bg-main-600 px-4 py-3 text-[15px] font-semibold text-white transition-colors duration-200 hover:bg-main-600/90"
+                        className={`inline-flex w-full items-center justify-center rounded-[14px] px-4 py-3 text-[15px] font-semibold transition-colors duration-200 ${
+                          plan.id === "standard"
+                            ? "border border-main-600 bg-white text-main-600 hover:bg-main-100"
+                            : "bg-main-600 text-white hover:bg-main-600/90"
+                        }`}
                       >
                         {plan.ctaLabel}
                       </Link>
