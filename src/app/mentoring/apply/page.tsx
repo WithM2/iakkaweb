@@ -83,7 +83,11 @@ export default function MentoringApplyPage() {
               {mentoringPlans.map((plan) => (
                 <article
                   key={plan.id}
-                  className="flex h-full flex-col rounded-[32px] border border-gray-100 bg-white p-8 shadow-[0_24px_80px_rgba(9,30,66,0.08)] transition-transform duration-200 hover:-translate-y-1 md:p-10"
+                  className={`flex h-full flex-col rounded-[32px] border p-8 shadow-[0_24px_80px_rgba(9,30,66,0.08)] transition-transform duration-200 hover:-translate-y-1 md:p-10 ${
+                    plan.id === "plus"
+                      ? "border-main-300 bg-main-100"
+                      : "border-gray-100 bg-white"
+                  }`}
                 >
                   <div className="flex flex-1 flex-col gap-6">
                     <div className="space-y-4">
@@ -108,7 +112,13 @@ export default function MentoringApplyPage() {
                             {tag.label}
                           </span>
                         ))}
-                        <p className="text-[14px] leading-[22px] text-ink-900/70 md:ml-2 md:flex-1 md:text-[16px] md:leading-[26px]">
+                        <p
+                          className={
+                            plan.id === "plus"
+                              ? "text-[16px] font-bold leading-[24px] text-ink-900 md:ml-2 md:flex-1 md:text-[18px] md:leading-[28px]"
+                              : "text-[14px] leading-[22px] text-ink-900/70 md:ml-2 md:flex-1 md:text-[16px] md:leading-[26px]"
+                          }
+                        >
                           {plan.description}
                         </p>
                       </div>
