@@ -22,18 +22,14 @@ const mentoringPlans: MentoringPlan[] = [
     id: "standard",
     titleEmphasis: "Dream Maker",
     tier: "Standard",
-    description: "정규 교육 과정과 병행할 수 있는 유연한 커리큘럼",
+    description: "정규 교육 과정과 병행할 수 있는 여유로운 커리큘럼",
     tags: [
       {
         label: "6개월 과정",
         variant: "soft",
       },
     ],
-    features: [
-      "격주 1회 · 회당 3시간 집중 세션",
-      "아이디어 발굴부터 결과물 완성까지 단계별 프로젝트",
-      "1:4 소수 정예 협업 스튜디오",
-    ],
+    features: ["주 1회 60분 수업 (월 4회 총 240분)", "1:3 멘토링"],
     price: "월 80,000원",
     ctaLabel: "Standard 구독하기",
   },
@@ -41,7 +37,7 @@ const mentoringPlans: MentoringPlan[] = [
     id: "plus",
     titleEmphasis: "Dream Maker",
     tier: "Plus",
-    description: "자녀의 변화를 빠르게 확인할 수 있는 집중형 커리큘럼",
+    description: "빠르게 레벨을 완료할 수 있는 커리큘럼",
     tags: [
       {
         label: "추천",
@@ -52,11 +48,7 @@ const mentoringPlans: MentoringPlan[] = [
         variant: "solid",
       },
     ],
-    features: [
-      "주 1회 · 회당 3시간 심화 세션",
-      "전담 멘토의 1:1 피드백 & 데모데이 발표 코칭",
-      "완성 포트폴리오 및 성과 리포트 제공",
-    ],
+    features: ["주 2회 60분 수업 (월 8회 총 480분)", "1:3 멘토링"],
     price: "월 140,000원",
     originalPrice: "월 160,000원",
     ctaLabel: "Plus 구독하기",
@@ -156,10 +148,15 @@ export default function MentoringApplyPage() {
             </div>
 
             <div className="space-y-4">
-              <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">신청 전 안내사항</h2>
               <ul className="list-disc space-y-2 pl-5 text-[13px] leading-[22px] text-ink-900/70 md:text-[14px] md:leading-[24px]">
-                <li>커리큘럼 완료에 소요되는 시간은 학생의 학습 상황에 따라 상이할 수 있습니다.</li>
-                <li>상황에 따라 1:3 멘토링이 아닌, 1:2 혹은 1:1 멘토링으로 진행될 수 있습니다.</li>
+                <li>
+                  커리큘럼 완료에 소요되는 시간은 학생의 학습 상황에 따라 상이할
+                  수 있습니다.
+                </li>
+                <li>
+                  상황에 따라 1:3 멘토링이 아닌, 1:2 혹은 1:1 멘토링으로 진행될
+                  수 있습니다.
+                </li>
                 <li>학생의 레벨 상승에 따라 구독 요금이 변경됩니다.</li>
                 <li>
                   Dream Maker 이후 단계부터 학습을 원하시는 경우,
