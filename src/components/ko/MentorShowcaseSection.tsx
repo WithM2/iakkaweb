@@ -53,17 +53,17 @@ const mentors: MentorProfile[] = [
     education: ["성균관대학교 소프트웨어학과"],
     experience: [
       "프로젝트 경험 다수",
-      "정보올림피아드 강사",
+      "2022~ 정보올림피아드 강사",
       "2019~ 특목고 입시 준비 강사",
     ],
   },
   {
-    id: "geum-gyowon",
-    name: "금교원",
-    role: "운영 매니저",
+    id: "mentor",
+    name: "멘토단 일동",
+    role: "",
     tagline: "",
-    education: ["고려대학교"],
-    experience: ["IAKKA 매니저"],
+    education: ["고려대학교", "성균관대학교", "아주대학교"],
+    experience: ["강의 경력 많은 학부생, 대학원생 및 연구원 멘토"],
   },
 ];
 
