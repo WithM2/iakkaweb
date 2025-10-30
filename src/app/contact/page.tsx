@@ -39,11 +39,7 @@ const inquiryTypes = [
   "기타",
 ];
 
-const contactPreferences = [
-  "전화 상담",
-  "온라인 화상 상담",
-  "방문 상담",
-];
+const contactPreferences = ["전화 상담", "문자 상담", "이메일 상담"];
 
 export default function ContactPage() {
   const [selectedAction, setSelectedAction] = useState<InquiryAction | null>(null);
@@ -83,7 +79,12 @@ export default function ContactPage() {
                   <button
                     key={action.id}
                     type="button"
-                    onClick={() => setSelectedAction(action.id)}
+                    onClick={() =>
+                      setSelectedAction((prev) =>
+                        prev === action.id ? null : action.id,
+                      )
+                    }
+                    aria-pressed={isActive}
                     className={`flex h-full flex-col items-start rounded-[28px] border px-7 py-8 text-left transition-all duration-200 md:px-9 md:py-10 ${
                       isActive
                         ? "border-main-400 bg-main-100 shadow-[0_24px_60px_rgba(8,32,85,0.15)]"
@@ -118,7 +119,7 @@ export default function ContactPage() {
                   <div className="grid gap-5 md:grid-cols-2">
                     <label className="flex flex-col gap-2">
                       <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        학생 이름<span className="text-main-600">*</span>
+                        이름<span className="text-main-600">*</span>
                       </span>
                       <input
                         type="text"
@@ -148,17 +149,33 @@ export default function ContactPage() {
                       </select>
                     </label>
 
-                    <fieldset className="md:col-span-2">
-                      <legend className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        관심 레벨<span className="text-main-600">*</span>
+                    <fieldset className="md:col-span-2 space-y-2">
+                      <legend className="flex items-center justify-between text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                        <span>
+                          관심 레벨<span className="text-main-600">*</span>
+                        </span>
+                        <button
+                          type="button"
+                          className="text-[12px] font-semibold text-main-500 underline-offset-2 hover:underline md:text-[13px]"
+                        >
+                          레벨 설명 확인하기
+                        </button>
                       </legend>
-                      <div className="mt-3 flex flex-wrap gap-3">
+                      <p className="text-[13px] text-ink-900/60 md:text-[14px]">
+                        학생의 관심 레벨을 선택해 주세요.
+                      </p>
+                      <div className="flex flex-wrap gap-3 pt-1">
                         {["알아보는 중", "검토 중", "바로 상담 희망"].map((level) => (
                           <label
                             key={level}
-                            className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-[13px] text-ink-900/80 transition-colors hover:border-main-400"
+                            className="group inline-flex cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-[13px] text-ink-900/80 transition-all hover:-translate-y-[1px] hover:border-main-400 hover:shadow-sm"
                           >
-                            <input type="radio" name="interestLevel" className="h-4 w-4" required />
+                            <input
+                              type="radio"
+                              name="interestLevel"
+                              className="h-4 w-4 accent-main-500"
+                              required
+                            />
                             {level}
                           </label>
                         ))}
@@ -178,23 +195,21 @@ export default function ContactPage() {
                   <div className="grid gap-5 md:grid-cols-2">
                     <label className="flex flex-col gap-2">
                       <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        이름<span className="text-main-600">*</span>
+                        성함<span className="text-main-600">*</span>
                       </span>
                       <input
                         type="text"
-                        placeholder="보호자님 성함을 입력해 주세요."
+                        placeholder="보호자 성함을 입력해 주세요."
                         className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
                         required
                       />
                     </label>
 
                     <label className="flex flex-col gap-2">
-                      <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        관계<span className="text-main-600">*</span>
-                      </span>
+                      <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">이메일</span>
                       <input
-                        type="text"
-                        placeholder="학생과의 관계를 입력해 주세요."
+                        type="email"
+                        placeholder="상담 안내를 받을 이메일을 입력해 주세요."
                         className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
                         required
                       />
@@ -202,7 +217,7 @@ export default function ContactPage() {
 
                     <label className="flex flex-col gap-2 md:col-span-2">
                       <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        연락처<span className="text-main-600">*</span>
+                        휴대전화<span className="text-main-600">*</span>
                       </span>
                       <input
                         type="tel"
@@ -212,14 +227,26 @@ export default function ContactPage() {
                       />
                     </label>
 
-                    <label className="flex flex-col gap-2 md:col-span-2">
-                      <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">이메일</span>
-                      <input
-                        type="email"
-                        placeholder="상담 안내를 받을 이메일을 입력해 주세요."
-                        className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
-                      />
-                    </label>
+                    <fieldset className="md:col-span-2">
+                      <legend className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                        선호하는 상담 방식
+                      </legend>
+                      <div className="mt-3 flex flex-wrap gap-3">
+                        {contactPreferences.map((preference) => (
+                          <label
+                            key={preference}
+                            className="group inline-flex cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-[13px] text-ink-900/80 transition-all hover:-translate-y-[1px] hover:border-main-400 hover:shadow-sm"
+                          >
+                            <input
+                              type="radio"
+                              name="guardianContactPreference"
+                              className="h-4 w-4 accent-main-500"
+                            />
+                            {preference}
+                          </label>
+                        ))}
+                      </div>
+                    </fieldset>
                   </div>
                 </section>
 
@@ -232,7 +259,7 @@ export default function ContactPage() {
                   </div>
 
                   <div className="grid gap-5 md:grid-cols-2">
-                    <label className="flex flex-col gap-2">
+                    <label className="flex flex-col gap-2 md:col-span-2">
                       <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
                         문의 유형<span className="text-main-600">*</span>
                       </span>
@@ -251,31 +278,6 @@ export default function ContactPage() {
                         ))}
                       </select>
                     </label>
-
-                    <label className="flex flex-col gap-2">
-                      <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">희망 상담일</span>
-                      <input
-                        type="date"
-                        className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
-                      />
-                    </label>
-
-                    <fieldset className="md:col-span-2">
-                      <legend className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        선호하는 상담 방식
-                      </legend>
-                      <div className="mt-3 flex flex-wrap gap-3">
-                        {contactPreferences.map((preference) => (
-                          <label
-                            key={preference}
-                            className="inline-flex items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-[13px] text-ink-900/80 transition-colors hover:border-main-400"
-                          >
-                            <input type="radio" name="contactPreference" className="h-4 w-4" />
-                            {preference}
-                          </label>
-                        ))}
-                      </div>
-                    </fieldset>
 
                     <label className="flex flex-col gap-2 md:col-span-2">
                       <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
@@ -303,11 +305,7 @@ export default function ContactPage() {
                   </div>
                 </section>
               </form>
-            ) : (
-              <div className="rounded-[32px] border border-dashed border-main-200 bg-main-50 px-7 py-16 text-center text-[14px] leading-[22px] text-main-700 shadow-[0_16px_60px_rgba(8,32,85,0.06)] md:px-10 md:text-[16px] md:leading-[26px]">
-                상담 문의를 선택하면 예약 양식을 작성하실 수 있어요.
-              </div>
-            )}
+            ) : null}
           </div>
         </section>
       </main>
