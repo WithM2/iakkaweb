@@ -43,7 +43,7 @@ export default function Header() {
 
           {/* 교육신청: 블루 */}
           <Link
-            href="/apply"
+            href="mentoring/apply"
             className="inline-flex items-center rounded-[12px] bg-blue-600 text-white px-3 py-2 text-[13px] font-semibold hover:bg-blue-700"
           >
             교육신청
