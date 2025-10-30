@@ -107,189 +107,200 @@ export default function ContactPage() {
             </div>
 
             {showConsultForm ? (
-              <form className="space-y-12">
-                <section className="space-y-6 rounded-[32px] border border-gray-100 bg-white px-7 py-8 shadow-[0_24px_80px_rgba(9,30,66,0.08)] md:px-10 md:py-12">
+              <form>
+                <section className="space-y-10 rounded-[32px] border border-gray-100 bg-white px-7 py-8 shadow-[0_24px_80px_rgba(9,30,66,0.08)] md:px-10 md:py-12">
                   <div className="space-y-2">
-                    <h2 className="text-[20px] font-semibold text-ink-900 md:text-[24px]">학생 정보</h2>
+                    <h2 className="text-[20px] font-semibold text-ink-900 md:text-[24px]">상담 예약 입력 항목</h2>
                     <p className="text-[13px] text-ink-900/60 md:text-[14px]">
-                      상담을 희망하는 학생의 기본 정보를 입력해 주세요.
+                      상담을 위해 필요한 학생, 보호자, 문의 정보를 차례로 입력해 주세요.
                     </p>
                   </div>
 
-                  <div className="grid gap-5 md:grid-cols-2">
-                    <label className="flex flex-col gap-2">
-                      <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        이름<span className="text-main-600">*</span>
-                      </span>
-                      <input
-                        type="text"
-                        placeholder="학생 이름을 입력해 주세요."
-                        className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
-                        required
-                      />
-                    </label>
-
-                    <label className="flex flex-col gap-2">
-                      <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        학년<span className="text-main-600">*</span>
-                      </span>
-                      <select
-                        defaultValue=""
-                        className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
-                        required
-                      >
-                        <option value="" disabled>
-                          학년을 선택해 주세요.
-                        </option>
-                        {gradeOptions.map((grade) => (
-                          <option key={grade} value={grade}>
-                            {grade}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <fieldset className="md:col-span-2 space-y-2">
-                      <legend className="flex items-center justify-between text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        <span>
-                          관심 레벨<span className="text-main-600">*</span>
-                        </span>
-                        <button
-                          type="button"
-                          className="text-[12px] font-semibold text-main-500 underline-offset-2 hover:underline md:text-[13px]"
-                        >
-                          레벨 설명 확인하기
-                        </button>
-                      </legend>
-                      <p className="text-[13px] text-ink-900/60 md:text-[14px]">
-                        학생의 관심 레벨을 선택해 주세요.
-                      </p>
-                      <div className="flex flex-wrap gap-3 pt-1">
-                        {["알아보는 중", "검토 중", "바로 상담 희망"].map((level) => (
-                          <label
-                            key={level}
-                            className="group inline-flex cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-[13px] text-ink-900/80 transition-all hover:-translate-y-[1px] hover:border-main-400 hover:shadow-sm"
-                          >
-                            <input
-                              type="radio"
-                              name="interestLevel"
-                              className="h-4 w-4 accent-main-500"
-                              required
-                            />
-                            {level}
-                          </label>
-                        ))}
+                  <div className="space-y-10">
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <h3 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">학생 정보</h3>
+                        <p className="text-[13px] text-ink-900/60 md:text-[14px]">
+                          상담을 희망하는 학생의 기본 정보를 입력해 주세요.
+                        </p>
                       </div>
-                    </fieldset>
-                  </div>
-                </section>
 
-                <section className="space-y-6 rounded-[32px] border border-gray-100 bg-white px-7 py-8 shadow-[0_24px_80px_rgba(9,30,66,0.08)] md:px-10 md:py-12">
-                  <div className="space-y-2">
-                    <h2 className="text-[20px] font-semibold text-ink-900 md:text-[24px]">보호자 정보</h2>
-                    <p className="text-[13px] text-ink-900/60 md:text-[14px]">
-                      상담 진행을 위한 보호자님의 연락처 정보를 입력해 주세요.
-                    </p>
-                  </div>
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <label className="flex flex-col gap-2">
+                          <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                            이름<span className="text-main-600">*</span>
+                          </span>
+                          <input
+                            type="text"
+                            placeholder="학생 이름을 입력해 주세요."
+                            className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                            required
+                          />
+                        </label>
 
-                  <div className="grid gap-5 md:grid-cols-2">
-                    <label className="flex flex-col gap-2">
-                      <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        성함<span className="text-main-600">*</span>
-                      </span>
-                      <input
-                        type="text"
-                        placeholder="보호자 성함을 입력해 주세요."
-                        className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
-                        required
-                      />
-                    </label>
-
-                    <label className="flex flex-col gap-2">
-                      <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">이메일</span>
-                      <input
-                        type="email"
-                        placeholder="상담 안내를 받을 이메일을 입력해 주세요."
-                        className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
-                        required
-                      />
-                    </label>
-
-                    <label className="flex flex-col gap-2 md:col-span-2">
-                      <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        휴대전화<span className="text-main-600">*</span>
-                      </span>
-                      <input
-                        type="tel"
-                        placeholder="연락 가능한 휴대전화 번호를 입력해 주세요."
-                        className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
-                        required
-                      />
-                    </label>
-
-                    <fieldset className="md:col-span-2">
-                      <legend className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        선호하는 상담 방식
-                      </legend>
-                      <div className="mt-3 flex flex-wrap gap-3">
-                        {contactPreferences.map((preference) => (
-                          <label
-                            key={preference}
-                            className="group inline-flex cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-[13px] text-ink-900/80 transition-all hover:-translate-y-[1px] hover:border-main-400 hover:shadow-sm"
+                        <label className="flex flex-col gap-2">
+                          <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                            학년<span className="text-main-600">*</span>
+                          </span>
+                          <select
+                            defaultValue=""
+                            className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                            required
                           >
-                            <input
-                              type="radio"
-                              name="guardianContactPreference"
-                              className="h-4 w-4 accent-main-500"
-                            />
-                            {preference}
-                          </label>
-                        ))}
+                            <option value="" disabled>
+                              학년을 선택해 주세요.
+                            </option>
+                            {gradeOptions.map((grade) => (
+                              <option key={grade} value={grade}>
+                                {grade}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+
+                        <fieldset className="space-y-2 md:col-span-2">
+                          <legend className="flex items-center justify-between text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                            <span>
+                              관심 레벨<span className="text-main-600">*</span>
+                            </span>
+                            <button
+                              type="button"
+                              className="text-[12px] font-semibold text-main-500 underline-offset-2 hover:underline md:text-[13px]"
+                            >
+                              레벨 설명 확인하기
+                            </button>
+                          </legend>
+                          <p className="text-[13px] text-ink-900/60 md:text-[14px]">
+                            학생의 관심 레벨을 선택해 주세요.
+                          </p>
+                          <div className="flex flex-wrap gap-3 pt-1">
+                            {["알아보는 중", "검토 중", "바로 상담 희망"].map((level) => (
+                              <label
+                                key={level}
+                                className="group inline-flex cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-[13px] text-ink-900/80 transition-all hover:-translate-y-[1px] hover:border-main-400 hover:shadow-sm"
+                              >
+                                <input
+                                  type="radio"
+                                  name="interestLevel"
+                                  className="h-4 w-4 accent-main-500"
+                                  required
+                                />
+                                {level}
+                              </label>
+                            ))}
+                          </div>
+                        </fieldset>
                       </div>
-                    </fieldset>
-                  </div>
-                </section>
+                    </div>
 
-                <section className="space-y-6 rounded-[32px] border border-gray-100 bg-white px-7 py-8 shadow-[0_24px_80px_rgba(9,30,66,0.08)] md:px-10 md:py-12">
-                  <div className="space-y-2">
-                    <h2 className="text-[20px] font-semibold text-ink-900 md:text-[24px]">문의 내용</h2>
-                    <p className="text-[13px] text-ink-900/60 md:text-[14px]">
-                      상담을 도와드리기 위해 자세한 내용을 알려 주세요.
-                    </p>
-                  </div>
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <h3 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">보호자 정보</h3>
+                        <p className="text-[13px] text-ink-900/60 md:text-[14px]">
+                          상담 진행을 위한 보호자님의 연락처 정보를 입력해 주세요.
+                        </p>
+                      </div>
 
-                  <div className="grid gap-5 md:grid-cols-2">
-                    <label className="flex flex-col gap-2 md:col-span-2">
-                      <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        문의 유형<span className="text-main-600">*</span>
-                      </span>
-                      <select
-                        defaultValue=""
-                        className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
-                        required
-                      >
-                        <option value="" disabled>
-                          문의 유형을 선택해 주세요.
-                        </option>
-                        {inquiryTypes.map((type) => (
-                          <option key={type} value={type}>
-                            {type}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <label className="flex flex-col gap-2">
+                          <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                            성함<span className="text-main-600">*</span>
+                          </span>
+                          <input
+                            type="text"
+                            placeholder="보호자 성함을 입력해 주세요."
+                            className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                            required
+                          />
+                        </label>
 
-                    <label className="flex flex-col gap-2 md:col-span-2">
-                      <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                        내용<span className="text-main-600">*</span>
-                      </span>
-                      <textarea
-                        rows={6}
-                        placeholder="궁금하신 내용을 1,000자 이내로 입력해 주세요."
-                        className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
-                        required
-                      />
-                    </label>
+                        <label className="flex flex-col gap-2">
+                          <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">이메일</span>
+                          <input
+                            type="email"
+                            placeholder="상담 안내를 받을 이메일을 입력해 주세요."
+                            className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                            required
+                          />
+                        </label>
+
+                        <label className="flex flex-col gap-2 md:col-span-2">
+                          <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                            휴대전화<span className="text-main-600">*</span>
+                          </span>
+                          <input
+                            type="tel"
+                            placeholder="연락 가능한 휴대전화 번호를 입력해 주세요."
+                            className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                            required
+                          />
+                        </label>
+
+                        <fieldset className="md:col-span-2">
+                          <legend className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                            선호하는 상담 방식
+                          </legend>
+                          <div className="mt-3 flex flex-wrap gap-3">
+                            {contactPreferences.map((preference) => (
+                              <label
+                                key={preference}
+                                className="group inline-flex cursor-pointer items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-[13px] text-ink-900/80 transition-all hover:-translate-y-[1px] hover:border-main-400 hover:shadow-sm"
+                              >
+                                <input
+                                  type="radio"
+                                  name="guardianContactPreference"
+                                  className="h-4 w-4 accent-main-500"
+                                />
+                                {preference}
+                              </label>
+                            ))}
+                          </div>
+                        </fieldset>
+                      </div>
+                    </div>
+
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <h3 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">문의 내용</h3>
+                        <p className="text-[13px] text-ink-900/60 md:text-[14px]">
+                          상담을 도와드리기 위해 자세한 내용을 알려 주세요.
+                        </p>
+                      </div>
+
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <label className="flex flex-col gap-2 md:col-span-2">
+                          <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                            문의 유형<span className="text-main-600">*</span>
+                          </span>
+                          <select
+                            defaultValue=""
+                            className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                            required
+                          >
+                            <option value="" disabled>
+                              문의 유형을 선택해 주세요.
+                            </option>
+                            {inquiryTypes.map((type) => (
+                              <option key={type} value={type}>
+                                {type}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+
+                        <label className="flex flex-col gap-2 md:col-span-2">
+                          <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                            내용<span className="text-main-600">*</span>
+                          </span>
+                          <textarea
+                            rows={6}
+                            placeholder="궁금하신 내용을 1,000자 이내로 입력해 주세요."
+                            className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                            required
+                          />
+                        </label>
+                      </div>
+                    </div>
                   </div>
 
                   <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
