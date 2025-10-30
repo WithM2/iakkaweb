@@ -22,37 +22,40 @@ const mentors: MentorProfile[] = [
     name: "James Lee",
     role: "Product Design",
     tagline: "",
-    education: [
-      "하버드 대학교 (Design Thinking & Innovation Executive Education)",
-      "시애틀 미술대학 (Cinematography & Media Communication)",
-      "홍익대학교 (광고홍보학부)",
-    ],
+    education: ["홍익대학교"],
     experience: [
-      "現 IAKKA, Adviser & Consultant",
-      "前 삼성전자 미국법인, Head of Product Strategy",
-      "前 마이크로소프트, Lead UX",
+      "Microsoft. UX Head",
+      "Samsung. Head of Product",
+      "GE.  Sr. Dir. Global Head of Design & Research",
+      "FourKites. VP of Product Design & Research",
     ],
     imageFileName: "JamesLee.jpg",
-  },
-  {
-    id: "Park-Chanhyeok",
-    name: "박찬혁",
-    role: "개발자",
-    tagline: "",
-    education: ["성균관대학교 소프트웨어학과"],
-    experience: ["프로젝트 경험 다수", "2019~ 특목고 입시 준비 강사"],
   },
   {
     id: "kim-heedo",
     name: "김희도",
     role: "멘토",
     tagline: "",
-    education: ["University of Washington, Computer Science"],
+    education: ["한밭대학교창의융합학과", "연세대 경영대학원 석사"],
     experience: [
-      "現 IAKKA 테크 멘토",
-      "前 Amazon Lab126, Senior Software Engineer",
+      "2021~ (주) AILAB 대표이사",
+      "2025.03~ 마다(주)사업본부장",
+      "2025.09~ 에이닷홀딩스(주) 상무이사",
+      "(주)아카 멘토",
     ],
     imageFileName: "김희도.jpg",
+  },
+  {
+    id: "Park-Chanhyeok",
+    name: "박찬혁",
+    role: "개발자 출신 멘토",
+    tagline: "",
+    education: ["성균관대학교 소프트웨어학과"],
+    experience: [
+      "프로젝트 경험 다수",
+      "정보올림피아드 강사",
+      "2019~ 특목고 입시 준비 강사",
+    ],
   },
   {
     id: "geum-gyowon",
@@ -60,7 +63,7 @@ const mentors: MentorProfile[] = [
     role: "운영 매니저",
     tagline: "",
     education: ["고려대학교"],
-    experience: ["現 IAKKA 커뮤니티 매니저"],
+    experience: ["IAKKA 매니저"],
   },
 ];
 
@@ -106,9 +109,7 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
           <div className="text-[18px] font-semibold leading-[26px] md:text-[20px]">
             {profile.name}
           </div>
-          <div className="mt-1 text-[14px] text-white/80">
-            {profile.role}
-          </div>
+          <div className="mt-1 text-[14px] text-white/80">{profile.role}</div>
           <p className="mt-4 text-[13px] leading-[20px] text-white/75">
             {profile.tagline}
           </p>
