@@ -514,6 +514,42 @@ export default function ContactPage() {
                     </div>
                   </section>
 
+                  {/* 구분선 */}
+                  <hr className="my-12 border-t border-gray-100" />
+
+                  {/* === 개인정보 수집 동의 === */}
+                  <section className="grid gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[220px_1fr]">
+                    {/* 좌측 여백(섹션 타이틀이 필요 없으면 비워둠) */}
+                    <div className="pt-2" />
+
+                    {/* 우측 내용 */}
+                    <div className="space-y-4">
+                      <p className="text-[13px] font-semibold text-ink-900">
+                        개인정보 수집 동의
+                      </p>
+
+                      <ul className="list-disc space-y-1 pl-5 text-[13px] text-ink-900/60">
+                        <li>처리 목적: 문의 내용에 대한 안내</li>
+                        <li>처리 항목: 이름, 전화번호, 이메일</li>
+                        <li>
+                          이용 및 보유 기간: 문의일로부터 2년 보관 후 파기
+                        </li>
+                      </ul>
+
+                      <label className="mt-3 flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          name="privacyConsent"
+                          required
+                          className="h-4 w-4 rounded border-gray-300 accent-main-600"
+                        />
+                        <span className="text-[14px] text-ink-900">
+                          상담문의을 위한 개인정보 수집에 동의합니다.
+                        </span>
+                      </label>
+                    </div>
+                  </section>
+
                   {/* 제출 영역 */}
                   <div className="mt-10 flex flex-col gap-3 border-t border-gray-100 pt-6 md:flex-row md:items-center md:justify-between">
                     <p className="text-[13px] text-ink-900/60 md:text-[14px]">
