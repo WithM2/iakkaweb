@@ -76,7 +76,7 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
   const hasImage = Boolean(imageSrc);
   return (
     <article
-      className={`group relative flex aspect-[3/4] w-full flex-col overflow-hidden rounded-[32px] border border-white/40 shadow-[0_24px_60px_rgba(38,68,120,0.22)] transition-transform duration-300 hover:-translate-y-1 ${
+      className={`group relative flex aspect-[3/5] w-full flex-col overflow-hidden rounded-[32px] border border-white/40 shadow-[0_24px_60px_rgba(38,68,120,0.22)] transition-transform duration-300 hover:-translate-y-1 ${
         hasImage
           ? "bg-[#0F1F3C]"
           : "bg-[linear-gradient(180deg,#dde3f6_0%,#b8c7e8_100%)]"
