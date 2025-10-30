@@ -9,7 +9,6 @@ interface MentorProfile {
   tagline: string;
   education?: string[];
   experience?: string[];
-  featured?: boolean;
   /**
    * `public/images/person` 폴더에 있는 파일명을 입력하세요.
    * 예) "james-lee.jpg" → `/public/images/person/james-lee.jpg`
@@ -33,7 +32,6 @@ const mentors: MentorProfile[] = [
       "前 삼성전자 미국법인, Head of Product Strategy",
       "前 마이크로소프트, Lead UX",
     ],
-    featured: true,
     imageFileName: "JamesLee.jpg",
   },
   {
@@ -57,14 +55,6 @@ const mentors: MentorProfile[] = [
     imageFileName: "김희도.jpg",
   },
   {
-    id: "hong-gildong",
-    name: "홍길동",
-    role: "프로그램 디렉터",
-    tagline: "학생 성장을 중심으로 프로젝트를 설계하는 리더",
-    education: ["서울대학교 교육학과"],
-    experience: ["現 IAKKA 프로그램 총괄", "前 교육 스타트업 Program Lead"],
-  },
-  {
     id: "geum-gyowon",
     name: "금교원",
     role: "운영 매니저",
@@ -75,18 +65,13 @@ const mentors: MentorProfile[] = [
 ];
 
 function MentorCard({ profile }: { profile: MentorProfile }) {
-  const isFeatured = profile.featured;
   const imageSrc = profile.imageFileName
     ? `/images/person/${profile.imageFileName}`
     : undefined;
   const hasImage = Boolean(imageSrc);
   return (
     <article
-      className={`group relative flex w-full flex-col overflow-hidden rounded-[32px] border border-white/40 shadow-[0_24px_60px_rgba(38,68,120,0.22)] transition-transform duration-300 hover:-translate-y-1 ${
-        isFeatured
-          ? "aspect-[3/4] min-h-[360px] md:aspect-[4/5] md:min-h-[420px]"
-          : "aspect-[3/4] min-h-[220px] sm:aspect-auto sm:h-full sm:min-h-[320px] md:min-h-0"
-      } ${
+      className={`group relative flex aspect-[3/4] w-full flex-col overflow-hidden rounded-[32px] border border-white/40 shadow-[0_24px_60px_rgba(38,68,120,0.22)] transition-transform duration-300 hover:-translate-y-1 ${
         hasImage
           ? "bg-[#0F1F3C]"
           : "bg-[linear-gradient(180deg,#dde3f6_0%,#b8c7e8_100%)]"
@@ -97,13 +82,8 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
           src={imageSrc}
           alt={`${profile.name} 프로필 이미지`}
           fill
-          sizes={
-            isFeatured
-              ? "(min-width: 1024px) 420px, (min-width: 768px) 360px, 100vw"
-              : "(min-width: 1024px) 320px, (min-width: 768px) 280px, 100vw"
-          }
+          sizes="(min-width: 1024px) 260px, (min-width: 768px) 50vw, 50vw"
           className="absolute inset-0 h-full w-full object-cover"
-          priority={isFeatured}
         />
       ) : null}
       <div
@@ -121,35 +101,15 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
         />
       )}
 
-      <div
-        className={`relative z-10 flex flex-1 flex-col justify-end px-6 py-6 text-white transition-opacity duration-200 group-hover:opacity-0 md:px-8 ${
-          isFeatured ? "gap-6 md:py-8" : "gap-4 md:py-6"
-        }`}
-      >
+      <div className="relative z-10 flex flex-1 flex-col justify-end gap-4 px-6 py-6 text-white transition-opacity duration-200 group-hover:opacity-0 md:gap-5 md:px-7 md:py-7">
         <div>
-          <div
-            className={`font-semibold ${
-              isFeatured
-                ? "text-[22px] leading-[30px] md:text-[28px] md:leading-[36px]"
-                : "text-[18px] leading-[26px] md:text-[20px]"
-            }`}
-          >
+          <div className="text-[18px] font-semibold leading-[26px] md:text-[20px]">
             {profile.name}
           </div>
-          <div
-            className={`mt-1 text-white/80 ${
-              isFeatured ? "text-[16px]" : "text-[14px]"
-            }`}
-          >
+          <div className="mt-1 text-[14px] text-white/80">
             {profile.role}
           </div>
-          <p
-            className={`mt-4 text-white/75 ${
-              isFeatured
-                ? "text-[14px] leading-[22px] md:text-[15px]"
-                : "text-[13px] leading-[20px]"
-            }`}
-          >
+          <p className="mt-4 text-[13px] leading-[20px] text-white/75">
             {profile.tagline}
           </p>
         </div>
@@ -158,13 +118,7 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
       <div className="absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
         <div className="flex h-full flex-col justify-between rounded-[32px] bg-[#353C48]/90 px-6 py-6 text-white md:px-7 md:py-7">
           <div className="space-y-5">
-            <div
-              className={`font-semibold ${
-                isFeatured
-                  ? "text-[22px] leading-[30px] md:text-[26px] md:leading-[34px]"
-                  : "text-[18px] leading-[26px]"
-              }`}
-            >
+            <div className="text-[18px] font-semibold leading-[26px] md:text-[20px]">
               {profile.name}
             </div>
             <div className="mt-1 text-[13px] text-white/70 md:text-[14px]">
@@ -172,11 +126,7 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
             </div>
           </div>
 
-          <div
-            className={`mt-5 space-y-5 text-[13px] leading-[20px] text-white/85 ${
-              isFeatured ? "md:mt-6" : "md:mt-4"
-            }`}
-          >
+          <div className="mt-4 space-y-5 text-[13px] leading-[20px] text-white/85 md:mt-5">
             {profile.education && profile.education.length > 0 ? (
               <div>
                 <div className="text-[12px] font-semibold uppercase tracking-[0.18em] text-white/60">
@@ -210,8 +160,6 @@ function MentorCard({ profile }: { profile: MentorProfile }) {
 }
 
 export default function MentorShowcaseSection() {
-  const [featured, ...others] = mentors;
-
   return (
     <section className="w-full bg-[linear-gradient(180deg,#f5f7ff_0%,#e4e9f6_100%)]">
       <div className="mx-auto w-full max-w-[1200px] px-5 py-16 md:px-6 md:py-20">
@@ -224,14 +172,10 @@ export default function MentorShowcaseSection() {
           </h2>
         </div>
 
-        <div className="mt-10 grid gap-6 md:mt-14 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:gap-8">
-          <MentorCard profile={featured} />
-
-          <div className="grid gap-6 sm:h-full sm:grid-cols-2 sm:grid-rows-2 sm:auto-rows-fr">
-            {others.map((mentor) => (
-              <MentorCard key={mentor.id} profile={mentor} />
-            ))}
-          </div>
+        <div className="mt-10 grid grid-cols-2 gap-6 md:mt-14 md:grid-cols-4 md:gap-8">
+          {mentors.map((mentor) => (
+            <MentorCard key={mentor.id} profile={mentor} />
+          ))}
         </div>
       </div>
     </section>
