@@ -74,13 +74,6 @@ export default function SubscribePageClient({
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const [isCodeSent, setIsCodeSent] = useState(false);
-  const [verificationCode, setVerificationCode] = useState("");
-  const [enteredCode, setEnteredCode] = useState("");
-  const [contactVerificationError, setContactVerificationError] = useState<string>("");
-  const [contactVerificationMessage, setContactVerificationMessage] = useState<string>("");
-  const [isContactVerified, setIsContactVerified] = useState(false);
-
   const nameError = (touched.ordererName || isSubmitted) ? getNameError(ordererName) : "";
   const contactError = (touched.contact || isSubmitted) ? getContactError(contact) : "";
   const emailError = (touched.email || isSubmitted) ? getEmailError(email) : "";
@@ -91,10 +84,9 @@ export default function SubscribePageClient({
       !getNameError(ordererName) &&
       !getContactError(contact) &&
       !getEmailError(email) &&
-      agreeRequired &&
-      isContactVerified
+      agreeRequired
     );
-  }, [ordererName, contact, email, agreeRequired, isContactVerified]);
+  }, [ordererName, contact, email, agreeRequired]);
 
   const handleBlur = (field: keyof TouchedState) => {
     setTouched((prev) => ({ ...prev, [field]: true }));
@@ -104,53 +96,6 @@ export default function SubscribePageClient({
     const digitsOnly = event.target.value.replace(/[^\d]/g, "");
     setContact(digitsOnly);
     setTouched((prev) => ({ ...prev, contact: true }));
-    if (isContactVerified) {
-      setIsContactVerified(false);
-    }
-    setIsCodeSent(false);
-    setVerificationCode("");
-    setEnteredCode("");
-    setContactVerificationError("");
-    setContactVerificationMessage("");
-  };
-
-  const requestVerificationCode = () => {
-    const error = getContactError(contact);
-    setTouched((prev) => ({ ...prev, contact: true }));
-
-    if (error) {
-      setContactVerificationError("");
-      setContactVerificationMessage("");
-      setIsCodeSent(false);
-      setVerificationCode("");
-      return;
-    }
-
-    const generatedCode = Math.floor(100000 + Math.random() * 900000).toString();
-    setVerificationCode(generatedCode);
-    setIsCodeSent(true);
-    setIsContactVerified(false);
-    setContactVerificationError("");
-    setContactVerificationMessage(`인증번호가 발송되었습니다. (테스트용 코드: ${generatedCode})`);
-    setEnteredCode("");
-  };
-
-  const verifyCode = () => {
-    if (!enteredCode.trim()) {
-      setContactVerificationError("인증번호를 입력해주세요.");
-      setContactVerificationMessage("");
-      return;
-    }
-
-    if (enteredCode !== verificationCode) {
-      setContactVerificationError("인증번호가 일치하지 않습니다.");
-      setContactVerificationMessage("");
-      return;
-    }
-
-    setIsContactVerified(true);
-    setContactVerificationError("");
-    setContactVerificationMessage("연락처 인증이 완료되었습니다.");
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -161,17 +106,7 @@ export default function SubscribePageClient({
     const contactValidation = getContactError(contact);
 
     if (contactValidation) {
-      setContactVerificationError("");
-      setContactVerificationMessage("");
       return;
-    }
-
-    if (!isContactVerified) {
-      if (isCodeSent) {
-        setContactVerificationError("연락처 인증을 완료해주세요.");
-      } else {
-        setContactVerificationMessage("연락처 인증을 완료해주세요.");
-      }
     }
   };
 
@@ -243,53 +178,7 @@ export default function SubscribePageClient({
                     onBlur={() => handleBlur("contact")}
                     error={contactError}
                     required
-                    disabled={isContactVerified}
-                    trailing={
-                      <button
-                        type="button"
-                        onClick={requestVerificationCode}
-                        disabled={isContactVerified}
-                        className={`whitespace-nowrap rounded-[12px] px-3 py-2 text-[13px] font-semibold transition-colors duration-200 ${
-                          isContactVerified
-                            ? "bg-gray-200 text-ink-900/40"
-                            : "bg-main-600 text-white hover:bg-main-600/90"
-                        }`}
-                      >
-                        {isContactVerified ? "인증완료" : isCodeSent ? "재전송" : "인증번호 받기"}
-                      </button>
-                    }
                   />
-                  {isCodeSent || isContactVerified ? (
-                    <Field
-                      label="인증번호"
-                      placeholder="수신한 6자리 인증번호를 입력해주세요."
-                      inputMode="numeric"
-                      maxLength={6}
-                      value={enteredCode}
-                      onChange={(event) => {
-                        setEnteredCode(event.target.value.replace(/[^\d]/g, ""));
-                        if (contactVerificationError) {
-                          setContactVerificationError("");
-                        }
-                      }}
-                      disabled={isContactVerified}
-                      error={contactVerificationError}
-                    trailing={
-                        !isContactVerified ? (
-                          <button
-                            type="button"
-                            onClick={verifyCode}
-                            className="whitespace-nowrap rounded-[12px] bg-main-600 px-3 py-2 text-[13px] font-semibold text-white transition-colors duration-200 hover:bg-main-600/90"
-                          >
-                            인증하기
-                          </button>
-                        ) : undefined
-                      }
-                    />
-                  ) : null}
-                  {contactVerificationMessage ? (
-                    <p className="text-[12px] leading-[20px] text-main-600">{contactVerificationMessage}</p>
-                  ) : null}
                   <Field
                     label="이메일"
                     placeholder="영수증을 받을 이메일 주소를 입력해주세요."
