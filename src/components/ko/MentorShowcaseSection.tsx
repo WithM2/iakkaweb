@@ -56,6 +56,7 @@ const mentors: MentorProfile[] = [
       "2022~ 정보올림피아드 강사",
       "2019~ 특목고 입시 준비 강사",
     ],
+    imageFileName: "human.png",
   },
   {
     id: "mentor",
@@ -64,6 +65,7 @@ const mentors: MentorProfile[] = [
     tagline: "",
     education: ["고려대학교", "성균관대학교", "아주대학교"],
     experience: ["강의 경력 많은 학부생, 대학원생 및 연구원 멘토"],
+    imageFileName: "human.png",
   },
 ];
 
