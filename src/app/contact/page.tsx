@@ -108,16 +108,36 @@ export default function ContactPage() {
 
             {showConsultForm ? (
               <form>
-                <section className="space-y-10 rounded-[32px] border border-gray-100 bg-white px-7 py-8 shadow-[0_24px_80px_rgba(9,30,66,0.08)] md:px-10 md:py-12">
-                  <div className="space-y-2">
-                    <h2 className="text-[20px] font-semibold text-ink-900 md:text-[24px]">상담 예약 입력 항목</h2>
-                    <p className="text-[13px] text-ink-900/60 md:text-[14px]">
-                      상담을 위해 필요한 학생, 보호자, 문의 정보를 차례로 입력해 주세요.
-                    </p>
-                  </div>
+                <div className="grid gap-10 rounded-[36px] border border-gray-100 bg-white px-7 py-8 shadow-[0_24px_80px_rgba(9,30,66,0.08)] md:grid-cols-[minmax(0,280px)_1fr] md:gap-16 md:px-12 md:py-14 lg:grid-cols-[minmax(0,320px)_1fr]">
+                  <aside className="space-y-8">
+                    <div className="space-y-3">
+                      <p className="text-[13px] font-medium uppercase tracking-[0.4em] text-main-500 md:text-sm">
+                        상담 예약
+                      </p>
+                      <h2 className="text-[32px] font-semibold leading-tight text-ink-900 md:text-[40px] md:leading-[1.1]">
+                        상담 예약 입력 항목
+                      </h2>
+                      <p className="text-[14px] leading-[24px] text-ink-900/60 md:text-[15px]">
+                        상담을 위해 필요한 항목들을 차례대로 입력해 주세요. 왼쪽 목차를 참고하면 더욱 빠르게 작성할 수 있어요.
+                      </p>
+                    </div>
 
-                  <div className="space-y-10">
-                    <div className="space-y-6">
+                    <nav aria-label="상담 예약 입력 섹션" className="space-y-6 text-ink-900/40">
+                      {[
+                        { id: "student", label: "학생 정보", description: "학생 기본 정보 입력" },
+                        { id: "guardian", label: "보호자 정보", description: "연락 가능한 보호자 정보" },
+                        { id: "inquiry", label: "문의 내용", description: "상담 희망 내용 작성" },
+                      ].map(({ id, label, description }) => (
+                        <div key={id} className="space-y-1">
+                          <p className="text-[18px] font-semibold tracking-tight text-ink-900 md:text-[20px]">{label}</p>
+                          <p className="text-[13px] md:text-[14px]">{description}</p>
+                        </div>
+                      ))}
+                    </nav>
+                  </aside>
+
+                  <section className="space-y-12">
+                    <div className="space-y-6" id="student">
                       <div className="space-y-2">
                         <h3 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">학생 정보</h3>
                         <p className="text-[13px] text-ink-900/60 md:text-[14px]">
@@ -193,7 +213,7 @@ export default function ContactPage() {
                       </div>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-6" id="guardian">
                       <div className="space-y-2">
                         <h3 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">보호자 정보</h3>
                         <p className="text-[13px] text-ink-900/60 md:text-[14px]">
@@ -259,7 +279,7 @@ export default function ContactPage() {
                       </div>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-6" id="inquiry">
                       <div className="space-y-2">
                         <h3 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">문의 내용</h3>
                         <p className="text-[13px] text-ink-900/60 md:text-[14px]">
@@ -301,20 +321,20 @@ export default function ContactPage() {
                         </label>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                    <p className="text-[13px] text-ink-900/60 md:text-[14px]">
-                      접수 후 2영업일 이내에 담당자가 연락드릴 예정입니다.
-                    </p>
-                    <button
-                      type="submit"
-                      className="inline-flex items-center justify-center rounded-[16px] bg-main-600 px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-main-600/90"
-                    >
-                      상담 예약 요청하기
-                    </button>
-                  </div>
-                </section>
+                    <div className="flex flex-col gap-3 border-t border-gray-100 pt-6 md:flex-row md:items-center md:justify-between">
+                      <p className="text-[13px] text-ink-900/60 md:text-[14px]">
+                        접수 후 2영업일 이내에 담당자가 연락드릴 예정입니다.
+                      </p>
+                      <button
+                        type="submit"
+                        className="inline-flex items-center justify-center rounded-[16px] bg-main-600 px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-main-600/90"
+                      >
+                        상담 예약 요청하기
+                      </button>
+                    </div>
+                  </section>
+                </div>
               </form>
             ) : null}
           </div>
