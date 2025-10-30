@@ -138,7 +138,7 @@ export default function MentoringApplyPage() {
                     <div className="mt-6">
                       <Link
                         href={{
-                          pathname: "/contact",
+                          pathname: "/mentoring/apply/subscribe",
                           query: { plan: plan.id },
                         }}
                         className={`inline-flex w-full items-center justify-center rounded-[14px] px-4 py-3 text-[15px] font-semibold transition-colors duration-200 ${
