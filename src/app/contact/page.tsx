@@ -183,6 +183,11 @@ export default function ContactPage() {
     null
   );
   const [studentGrade, setStudentGrade] = useState("");
+  const [guardianContactPref, setGuardianContactPref] = useState("");
+  const [inquiryType, setInquiryType] = useState("");
+  const [inquiryTitle, setInquiryTitle] = useState("");
+  const [inquiryBody, setInquiryBody] = useState("");
+
   const showConsultForm = selectedAction === "consult";
 
   return (
@@ -312,6 +317,200 @@ export default function ContactPage() {
                         </label>
                         <InterestLevelSelect />
                       </div>
+                    </div>
+                  </section>
+
+                  <hr className="my-12 border-t border-gray-100" />
+
+                  {/* === 보호자 정보 섹션 (좌: 타이틀 / 우: 폼) === */}
+                  <section className="mt-12 grid gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[220px_1fr]">
+                    {/* 좌측 타이틀 */}
+                    <div className="pt-2">
+                      <h3 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
+                        보호자 정보
+                      </h3>
+                    </div>
+
+                    {/* 우측 폼 */}
+                    <div className="space-y-6">
+                      {/* 성함 */}
+                      <label className="flex flex-col gap-2">
+                        <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                          성함 <span className="text-main-600">*</span>
+                        </span>
+                        <input
+                          type="text"
+                          placeholder="보호자 성함을 입력해 주세요."
+                          required
+                          className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                        />
+                      </label>
+
+                      {/* 이메일 */}
+                      <label className="flex flex-col gap-2">
+                        <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                          이메일 <span className="text-main-600">*</span>
+                        </span>
+                        <input
+                          type="email"
+                          placeholder="문의 내역을 전송 받을 이메일을 입력해 주세요."
+                          required
+                          className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                        />
+                      </label>
+
+                      {/* 휴대전화 */}
+                      <label className="flex flex-col gap-2">
+                        <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                          휴대전화 <span className="text-main-600">*</span>
+                        </span>
+                        <input
+                          type="tel"
+                          placeholder="보호자 휴대전화 번호를 입력해 주세요."
+                          required
+                          className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                        />
+                      </label>
+
+                      {/* 선호 상담 방식 */}
+                      <fieldset className="space-y-2">
+                        <legend className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                          선호하는 상담 방식
+                        </legend>
+                        <div className="mt-3 flex flex-wrap gap-4">
+                          {["전화 상담", "문자 상담", "이메일 상담"].map(
+                            (label) => {
+                              const selected = guardianContactPref === label;
+                              return (
+                                <label
+                                  key={label}
+                                  className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-[13px] transition-all
+              ${selected ? "border-main-400 bg-main-50 text-main-700" : "border-gray-200 bg-white text-ink-900/80"}
+              hover:-translate-y-[1px] hover:shadow-sm`}
+                                >
+                                  <input
+                                    type="radio"
+                                    name="guardianContactPreference"
+                                    value={label}
+                                    className="sr-only"
+                                    checked={selected}
+                                    onChange={() =>
+                                      setGuardianContactPref(label)
+                                    }
+                                  />
+                                  {/* 체크 아이콘 */}
+                                  <svg
+                                    className={`h-[16px] w-[16px] ${selected ? "opacity-100" : "opacity-40"}`}
+                                    viewBox="0 0 20 20"
+                                    fill="currentColor"
+                                    aria-hidden
+                                  >
+                                    <path
+                                      fillRule="evenodd"
+                                      d="M16.704 5.29a1 1 0 010 1.42l-7.01 7.01a1 1 0 01-1.42 0L3.296 8.74a1 1 0 111.414-1.414l4.153 4.152 6.303-6.303a1 1 0 011.538.114z"
+                                      clipRule="evenodd"
+                                    />
+                                  </svg>
+                                  {label}
+                                </label>
+                              );
+                            }
+                          )}
+                        </div>
+
+                        {/* 제출용 hidden input(검증/전송용) */}
+                        <input
+                          type="hidden"
+                          name="guardianContactPreference"
+                          value={guardianContactPref}
+                        />
+                      </fieldset>
+                    </div>
+                  </section>
+
+                  {/* 구분선 */}
+                  <hr className="my-12 border-t border-gray-100" />
+
+                  {/* === 문의 내용 섹션 (좌: 타이틀 / 우: 폼) === */}
+                  <section className="grid gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[220px_1fr]">
+                    {/* 좌측 타이틀 */}
+                    <div className="pt-2">
+                      <h3 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
+                        문의 내용
+                      </h3>
+                    </div>
+
+                    {/* 우측 폼 */}
+                    <div className="space-y-8">
+                      {/* 유형 */}
+                      <label className="flex flex-col gap-2">
+                        <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                          유형 <span className="text-main-600">*</span>
+                        </span>
+                        <select
+                          value={inquiryType}
+                          onChange={(e) => setInquiryType(e.target.value)}
+                          required
+                          className={`rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]
+          ${inquiryType ? "text-ink-900" : "text-ink-900/40"}`}
+                        >
+                          <option value="" disabled>
+                            문의 유형을 선택해 주세요.
+                          </option>
+                          {[
+                            "상담 예약",
+                            "프로그램 소개",
+                            "커리큘럼 문의",
+                            "기타",
+                          ].map((t) => (
+                            <option key={t} value={t}>
+                              {t}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+
+                      {/* 제목 */}
+                      <label className="flex flex-col gap-2">
+                        <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                          제목 <span className="text-main-600">*</span>
+                        </span>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            value={inquiryTitle}
+                            onChange={(e) => setInquiryTitle(e.target.value)}
+                            maxLength={50}
+                            placeholder="문의 제목을 입력해 주세요. (50자 이내)"
+                            required
+                            className="w-full rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                          />
+                          <span className="pointer-events-none absolute bottom-2 right-3 text-[12px] text-ink-900/40">
+                            {inquiryTitle.length}/50
+                          </span>
+                        </div>
+                      </label>
+
+                      {/* 내용 */}
+                      <label className="flex flex-col gap-2">
+                        <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                          내용 <span className="text-main-600">*</span>
+                        </span>
+                        <div className="relative">
+                          <textarea
+                            rows={10}
+                            value={inquiryBody}
+                            onChange={(e) => setInquiryBody(e.target.value)}
+                            maxLength={1000}
+                            placeholder="문의 내용을 상세히 입력해 주세요. (1,000자 이내)"
+                            required
+                            className="w-full rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                          />
+                          <span className="pointer-events-none absolute bottom-2 right-3 text-[12px] text-ink-900/40">
+                            {inquiryBody.length}/1000
+                          </span>
+                        </div>
+                      </label>
                     </div>
                   </section>
 
