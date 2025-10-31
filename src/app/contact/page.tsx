@@ -37,6 +37,13 @@ const gradeOptions = [
 
 const inquiryTypes = ["상담 예약", "프로그램 소개", "커리큘럼 문의", "기타"];
 
+const partnershipInquiryTypes = [
+  "정기교육 신청",
+  "특강/워크숍 제안",
+  "공동 프로그램 기획",
+  "기타 제휴 문의",
+];
+
 const contactPreferences = ["전화 상담", "문자 상담", "이메일 상담"];
 
 const interestStages = [
@@ -204,7 +211,36 @@ export default function ContactPage() {
   );
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  const [organizationName, setOrganizationName] = useState("");
+  const [partnerContactName, setPartnerContactName] = useState("");
+  const [partnerContactEmail, setPartnerContactEmail] = useState("");
+  const [partnerInquiryType, setPartnerInquiryType] = useState(
+    partnershipInquiryTypes[0] ?? ""
+  );
+  const [partnerInquiryTitle, setPartnerInquiryTitle] = useState("");
+  const [partnerInquiryBody, setPartnerInquiryBody] = useState("");
+  const [isPartnerSubmitting, setIsPartnerSubmitting] = useState(false);
+  const [partnerSubmitState, setPartnerSubmitState] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+  const [partnerSubmitError, setPartnerSubmitError] = useState<string | null>(
+    null
+  );
+
   const showConsultForm = selectedAction === "consult";
+  const showProductForm = selectedAction === "product";
+
+  useEffect(() => {
+    setSubmitState("idle");
+    setSubmitError(null);
+    setIsSubmitting(false);
+    setPartnerSubmitState("idle");
+    setPartnerSubmitError(null);
+    setIsPartnerSubmitting(false);
+    if (selectedAction === "product") {
+      setPartnerInquiryType(partnershipInquiryTypes[0] ?? "");
+    }
+  }, [selectedAction]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -320,6 +356,102 @@ export default function ContactPage() {
       );
     } finally {
       setIsSubmitting(false);
+    }
+  };
+
+  const handleProductSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
+    event.preventDefault();
+    const formElement = event.currentTarget;
+
+    if (!selectedAction) {
+      setPartnerSubmitState("error");
+      setPartnerSubmitError("문의 유형을 먼저 선택해 주세요.");
+      return;
+    }
+
+    setIsPartnerSubmitting(true);
+    setPartnerSubmitState("idle");
+    setPartnerSubmitError(null);
+
+    const formData = new FormData(formElement);
+
+    const getTrimmedValue = (key: string) => {
+      const value = formData.get(key);
+      return typeof value === "string" ? value.trim() : "";
+    };
+
+    const payload = {
+      organizationName: getTrimmedValue("organizationName"),
+      contactName: getTrimmedValue("contactName"),
+      contactEmail: getTrimmedValue("contactEmail"),
+      inquiryType: getTrimmedValue("partnershipInquiryType"),
+      inquiryTitle: getTrimmedValue("partnershipInquiryTitle"),
+      inquiryBody: getTrimmedValue("partnershipInquiryBody"),
+      privacyConsent: formData.get("privacyConsent") === "on",
+    };
+
+    const requiredFieldMessages: Array<[string, string]> = [
+      [payload.organizationName, "기관명을 입력해 주세요."],
+      [payload.contactName, "담당자 이름을 입력해 주세요."],
+      [payload.contactEmail, "담당자 이메일을 입력해 주세요."],
+      [payload.inquiryType, "문의 유형을 선택해 주세요."],
+      [payload.inquiryTitle, "문의 제목을 입력해 주세요."],
+      [payload.inquiryBody, "문의 내용을 입력해 주세요."],
+    ];
+
+    const missingField = requiredFieldMessages.find(([value]) => !value);
+    if (missingField) {
+      setPartnerSubmitState("error");
+      setPartnerSubmitError(missingField[1]);
+      setIsPartnerSubmitting(false);
+      return;
+    }
+
+    if (!payload.privacyConsent) {
+      setPartnerSubmitState("error");
+      setPartnerSubmitError("개인정보 수집 및 이용에 동의해 주세요.");
+      setIsPartnerSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/partnership-inquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.json().catch(() => ({}));
+        throw new Error(
+          typeof errorBody.error === "string"
+            ? errorBody.error
+            : "제휴 문의 저장에 실패했습니다."
+        );
+      }
+
+      setPartnerSubmitState("success");
+      setPartnerSubmitError(null);
+      setOrganizationName("");
+      setPartnerContactName("");
+      setPartnerContactEmail("");
+      setPartnerInquiryType(partnershipInquiryTypes[0] ?? "");
+      setPartnerInquiryTitle("");
+      setPartnerInquiryBody("");
+      formElement.reset();
+    } catch (error) {
+      setPartnerSubmitState("error");
+      setPartnerSubmitError(
+        error instanceof Error
+          ? error.message
+          : "제휴 문의 저장 중 문제가 발생했습니다."
+      );
+    } finally {
+      setIsPartnerSubmitting(false);
     }
   };
 
@@ -711,6 +843,213 @@ export default function ContactPage() {
                           : null}
                         {submitState === "error" && submitError
                           ? submitError
+                          : null}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            ) : null}
+
+            {showProductForm ? (
+              <form onSubmit={handleProductSubmit} noValidate>
+                <div className="rounded-[36px] border border-gray-100 bg-white px-7 py-8 shadow-[0_24px_80px_rgba(9,30,66,0.08)] md:px-12 md:py-14">
+                  <div className="mb-10 flex items-start justify-end">
+                    <p className="hidden text-[13px] font-medium text-ink-900/60 md:block">
+                      * 필수입력 항목입니다.
+                    </p>
+                  </div>
+
+                  <section className="grid gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[220px_1fr]">
+                    <div className="pt-2">
+                      <h3 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
+                        기관 정보
+                      </h3>
+                    </div>
+
+                    <div className="space-y-6">
+                      <label className="flex flex-col gap-2">
+                        <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                          기관명 <span className="text-main-600">*</span>
+                        </span>
+                        <input
+                          type="text"
+                          name="organizationName"
+                          value={organizationName}
+                          onChange={(e) => setOrganizationName(e.target.value)}
+                          placeholder="기관명을 입력해 주세요."
+                          required
+                          className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                        />
+                      </label>
+
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <label className="flex flex-col gap-2">
+                          <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                            담당자 <span className="text-main-600">*</span>
+                          </span>
+                          <input
+                            type="text"
+                            name="contactName"
+                            value={partnerContactName}
+                            onChange={(e) => setPartnerContactName(e.target.value)}
+                            placeholder="담당자 이름을 입력해 주세요."
+                            required
+                            className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                          />
+                        </label>
+
+                        <label className="flex flex-col gap-2">
+                          <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                            담당자 이메일 <span className="text-main-600">*</span>
+                          </span>
+                          <input
+                            type="email"
+                            name="contactEmail"
+                            value={partnerContactEmail}
+                            onChange={(e) => setPartnerContactEmail(e.target.value)}
+                            placeholder="담당자 이메일 주소를 입력해 주세요."
+                            required
+                            className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  </section>
+
+                  <hr className="my-12 border-t border-gray-100" />
+
+                  <section className="grid gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[220px_1fr]">
+                    <div className="pt-2">
+                      <h3 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
+                        문의 내용
+                      </h3>
+                    </div>
+
+                    <div className="space-y-8">
+                      <label className="flex flex-col gap-2">
+                        <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                          유형 <span className="text-main-600">*</span>
+                        </span>
+                        <select
+                          name="partnershipInquiryType"
+                          value={partnerInquiryType}
+                          onChange={(e) => setPartnerInquiryType(e.target.value)}
+                          required
+                          className={`rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px] ${
+                            partnerInquiryType ? "text-ink-900" : "text-ink-900/40"
+                          }`}
+                        >
+                          <option value="" disabled>
+                            문의 유형을 선택해 주세요.
+                          </option>
+                          {partnershipInquiryTypes.map((type) => (
+                            <option key={type} value={type}>
+                              {type}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+
+                      <label className="flex flex-col gap-2">
+                        <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                          제목 <span className="text-main-600">*</span>
+                        </span>
+                        <div className="relative">
+                          <input
+                            type="text"
+                            name="partnershipInquiryTitle"
+                            value={partnerInquiryTitle}
+                            onChange={(e) => setPartnerInquiryTitle(e.target.value)}
+                            maxLength={50}
+                            placeholder="문의 제목을 입력해 주세요. (50자 이내)"
+                            required
+                            className="w-full rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                          />
+                          <span className="pointer-events-none absolute bottom-2 right-3 text-[12px] text-ink-900/40">
+                            {partnerInquiryTitle.length}/50
+                          </span>
+                        </div>
+                      </label>
+
+                      <label className="flex flex-col gap-2">
+                        <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                          내용 <span className="text-main-600">*</span>
+                        </span>
+                        <div className="relative">
+                          <textarea
+                            rows={10}
+                            name="partnershipInquiryBody"
+                            value={partnerInquiryBody}
+                            onChange={(e) => setPartnerInquiryBody(e.target.value)}
+                            maxLength={1000}
+                            placeholder="문의 내용을 상세히 입력해 주세요. (1,000자 이내)"
+                            required
+                            className="w-full rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                          />
+                          <span className="pointer-events-none absolute bottom-2 right-3 text-[12px] text-ink-900/40">
+                            {partnerInquiryBody.length}/1000
+                          </span>
+                        </div>
+                      </label>
+                    </div>
+                  </section>
+
+                  <hr className="my-12 border-t border-gray-100" />
+
+                  <section className="grid gap-6 md:grid-cols-[180px_1fr] lg:grid-cols-[220px_1fr]">
+                    <div className="pt-2" />
+
+                    <div className="space-y-4">
+                      <p className="text-[13px] font-semibold text-ink-900">
+                        개인정보 수집 동의
+                      </p>
+
+                      <ul className="list-disc space-y-1 pl-5 text-[13px] text-ink-900/60">
+                        <li>처리 목적: 제휴 문의에 대한 안내</li>
+                        <li>처리 항목: 기관명, 담당자 이름, 이메일</li>
+                        <li>이용 및 보유 기간: 문의일로부터 2년 보관 후 파기</li>
+                      </ul>
+
+                      <label className="mt-3 flex items-center gap-3">
+                        <input
+                          type="checkbox"
+                          name="privacyConsent"
+                          required
+                          className="h-4 w-4 rounded border-gray-300 accent-main-600"
+                        />
+                        <span className="text-[14px] text-ink-900">
+                          제휴 문의를 위한 개인정보 수집에 동의합니다.
+                        </span>
+                      </label>
+                    </div>
+                  </section>
+
+                  <div className="mt-10 flex flex-col gap-3 border-t border-gray-100 pt-6 md:flex-row md:items-center md:justify-between">
+                    <p className="text-[13px] text-ink-900/60 md:text-[14px]">
+                      제휴 제안을 검토한 뒤 2영업일 이내에 연락드릴게요.
+                    </p>
+                    <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
+                      <button
+                        type="submit"
+                        disabled={isPartnerSubmitting}
+                        className={`inline-flex items-center justify-center rounded-[16px] px-6 py-3 text-[15px] font-semibold text-white transition-colors ${
+                          isPartnerSubmitting
+                            ? "bg-main-400"
+                            : "bg-main-600 hover:bg-main-600/90"
+                        }`}
+                      >
+                        {isPartnerSubmitting ? "접수 중..." : "제휴 문의 보내기"}
+                      </button>
+                      <p
+                        className="text-[13px] text-ink-900/70 md:text-[14px]"
+                        aria-live="polite"
+                      >
+                        {partnerSubmitState === "success"
+                          ? "문의가 접수되었습니다. 담당자가 곧 연락드릴게요."
+                          : null}
+                        {partnerSubmitState === "error" && partnerSubmitError
+                          ? partnerSubmitError
                           : null}
                       </p>
                     </div>
