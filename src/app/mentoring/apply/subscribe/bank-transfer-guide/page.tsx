@@ -37,8 +37,9 @@ export default async function BankTransferGuidePage({
                 </h1>
               </div>
               <p className="text-[14px] leading-[24px] text-ink-900/70 md:text-[16px] md:leading-[26px]">
-                아래 계좌로 결제 금액을 입금해주세요. 입금 확인 후 담당 매니저가 연락을 드리고 있습니다.
-                결제 완료 후 24시간 이내에 입금하지 않으면 결제가 취소될 수 있습니다.
+                아래 계좌로 결제 금액을 입금해주세요. 입금 확인 후 담당 매니저가
+                연락을 드리고 있습니다. 결제 완료 후 24시간 이내에 입금하지
+                않으면 결제가 취소될 수 있습니다.
               </p>
             </header>
 
@@ -48,7 +49,8 @@ export default async function BankTransferGuidePage({
                   입금 계좌 및 입금 금액
                 </h2>
                 <p className="text-[13px] leading-[22px] text-ink-900/60 md:text-[14px] md:leading-[24px]">
-                  입금 시 주문자명과 동일한 이름으로 송금해 주시면 빠르게 확인해 드릴 수 있습니다.
+                  입금 시 주문자명과 동일한 이름으로 송금해 주시면 빠르게 확인해
+                  드릴 수 있습니다.
                 </p>
               </section>
 
@@ -62,7 +64,7 @@ export default async function BankTransferGuidePage({
                       국민은행 123456-01-234567
                     </p>
                     <p className="text-[13px] leading-[22px] text-ink-900/60 md:text-[14px] md:leading-[24px]">
-                      (예금주: 주식회사 아이아카데미)
+                      (예금주: 주식회사 아카)
                     </p>
                   </div>
                 </div>
