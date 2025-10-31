@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import type {
   ChangeEvent,
   FormEvent,
@@ -62,6 +63,7 @@ export default function SubscribePageClient({
   selectedPlan,
   finalAmount,
 }: SubscribePageClientProps) {
+  const router = useRouter();
   const [ordererName, setOrdererName] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
@@ -104,16 +106,31 @@ export default function SubscribePageClient({
     setTouched((prev) => ({ ...prev, contact: true }));
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const proceedToGuidePage = () => {
+    const nameValidation = getNameError(ordererName);
+    const contactValidation = getContactError(contact);
+    const emailValidation = getEmailError(email);
+
     setIsSubmitted(true);
     setTouched({ ordererName: true, contact: true, email: true });
 
-    const contactValidation = getContactError(contact);
-
-    if (contactValidation) {
+    if (
+      nameValidation ||
+      contactValidation ||
+      emailValidation ||
+      !agreeRequired
+    ) {
       return;
     }
+
+    router.push(
+      `/mentoring/apply/subscribe/bank-transfer-guide?plan=${planId}`,
+    );
+  };
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    proceedToGuidePage();
   };
 
   return (
@@ -337,6 +354,7 @@ export default function SubscribePageClient({
                       ? "bg-main-600 text-white hover:bg-main-600/90"
                       : "bg-gray-200 text-ink-900/40"
                   }`}
+                  onClick={proceedToGuidePage}
                 >
                   결제하기
                 </button>
