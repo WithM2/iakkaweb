@@ -208,6 +208,7 @@ export default function ContactPage() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const formElement = event.currentTarget;
     if (!selectedAction) {
       setSubmitState("error");
       setSubmitError("문의 유형을 먼저 선택해 주세요.");
@@ -309,7 +310,7 @@ export default function ContactPage() {
       setInquiryType("");
       setInquiryTitle("");
       setInquiryBody("");
-      event.currentTarget.reset();
+      formElement.reset();
     } catch (error) {
       setSubmitState("error");
       setSubmitError(
