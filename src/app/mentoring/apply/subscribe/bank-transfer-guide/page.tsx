@@ -61,7 +61,7 @@ export default async function BankTransferGuidePage({
                   </span>
                   <div className="space-y-1">
                     <p className="text-[18px] font-bold leading-[28px] text-ink-900 md:text-[20px]">
-                      국민은행 123456-01-234567
+                      국민은행 209701-04-529000
                     </p>
                     <p className="text-[13px] leading-[22px] text-ink-900/60 md:text-[14px] md:leading-[24px]">
                       (예금주: 주식회사 아카)
