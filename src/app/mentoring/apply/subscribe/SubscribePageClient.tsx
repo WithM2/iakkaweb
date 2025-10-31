@@ -61,9 +61,7 @@ export default function SubscribePageClient({
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
   const [studentName, setStudentName] = useState("");
-  const [studentSchool, setStudentSchool] = useState("");
-  const [studentGrade, setStudentGrade] = useState("");
-  const [studentInterest, setStudentInterest] = useState("");
+  const [studentPhone, setStudentPhone] = useState("");
   const [agreeRequired, setAgreeRequired] = useState(false);
   const [agreeMarketing, setAgreeMarketing] = useState(false);
 
@@ -119,7 +117,7 @@ export default function SubscribePageClient({
               <p className="text-[14px] font-semibold uppercase tracking-[0.18em] text-main-600">결제 정보 입력</p>
               <h1 className="text-[32px] font-bold tracking-[-0.01em] text-ink-900 md:text-[44px]">결제하기</h1>
               <p className="text-[14px] leading-[24px] text-ink-900/70 md:text-[16px] md:leading-[26px]">
-                구독 정보를 확인하고 결제자, 학생 정보를 입력해주세요.
+                구독 정보를 확인하고 결제자, 학생 연락처 정보를 입력해주세요.
               </p>
             </div>
           </header>
@@ -196,7 +194,7 @@ export default function SubscribePageClient({
                 <div className="space-y-1">
                   <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">학생 정보 입력</h2>
                   <p className="text-[13px] leading-[22px] text-ink-900/60 md:text-[14px] md:leading-[24px]">
-                    수업을 듣는 학생의 기본 정보를 입력해주세요.
+                    수업을 듣는 학생의 이름과 휴대전화 번호를 입력해주세요.
                   </p>
                 </div>
 
@@ -208,22 +206,16 @@ export default function SubscribePageClient({
                     onChange={(event) => setStudentName(event.target.value)}
                   />
                   <Field
-                    label="학교"
-                    placeholder="현재 재학 중인 학교를 입력해주세요."
-                    value={studentSchool}
-                    onChange={(event) => setStudentSchool(event.target.value)}
-                  />
-                  <Field
-                    label="학년"
-                    placeholder="예: 중학교 2학년"
-                    value={studentGrade}
-                    onChange={(event) => setStudentGrade(event.target.value)}
-                  />
-                  <Field
-                    label="관심 분야"
-                    placeholder="관심 있는 활동이나 분야가 있다면 입력해주세요."
-                    value={studentInterest}
-                    onChange={(event) => setStudentInterest(event.target.value)}
+                    label="학생 휴대전화"
+                    placeholder="학생의 휴대폰 번호를 입력해주세요."
+                    type="tel"
+                    inputMode="numeric"
+                    maxLength={11}
+                    value={studentPhone}
+                    onChange={(event) => {
+                      const digitsOnly = event.target.value.replace(/[^\d]/g, "");
+                      setStudentPhone(digitsOnly);
+                    }}
                   />
                 </div>
               </section>
