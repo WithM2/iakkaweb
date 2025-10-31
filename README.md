@@ -34,3 +34,6 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+💾 Supabase 테이블 스키마는 [supabase/schema.sql](./supabase/schema.sql)에 정의되어 있습니다.
+SQL Editor에서 복붙 실행하면 동일한 구조 생성 가능.
