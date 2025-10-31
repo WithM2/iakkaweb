@@ -210,9 +210,6 @@ export default function ContactPage() {
                     궁금하신 내용을 선택하면 가장 빠른 방법으로 도와드릴게요.
                   </p>
                 </div>
-                <p className="text-[13px] font-medium text-ink-900/60 md:text-[14px]">
-                  * 필수항목 입니다.
-                </p>
               </div>
             </header>
 
