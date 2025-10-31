@@ -1,7 +1,12 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import type { ChangeEvent, FormEvent, InputHTMLAttributes, ReactNode } from "react";
+import type {
+  ChangeEvent,
+  FormEvent,
+  InputHTMLAttributes,
+  ReactNode,
+} from "react";
 
 import type { MentoringPlanDetails, MentoringPlanId } from "./page";
 
@@ -72,10 +77,13 @@ export default function SubscribePageClient({
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const nameError = (touched.ordererName || isSubmitted) ? getNameError(ordererName) : "";
-  const contactError = (touched.contact || isSubmitted) ? getContactError(contact) : "";
-  const emailError = (touched.email || isSubmitted) ? getEmailError(email) : "";
-  const requiredAgreementError = isSubmitted && !agreeRequired ? "필수 약관에 동의해주세요." : "";
+  const nameError =
+    touched.ordererName || isSubmitted ? getNameError(ordererName) : "";
+  const contactError =
+    touched.contact || isSubmitted ? getContactError(contact) : "";
+  const emailError = touched.email || isSubmitted ? getEmailError(email) : "";
+  const requiredAgreementError =
+    isSubmitted && !agreeRequired ? "필수 약관에 동의해주세요." : "";
 
   const isPaymentEnabled = useMemo(() => {
     return (
@@ -114,8 +122,9 @@ export default function SubscribePageClient({
         <div className="space-y-12 md:space-y-16">
           <header className="space-y-4">
             <div className="space-y-3">
-              <p className="text-[14px] font-semibold uppercase tracking-[0.18em] text-main-600">결제 정보 입력</p>
-              <h1 className="text-[32px] font-bold tracking-[-0.01em] text-ink-900 md:text-[44px]">결제하기</h1>
+              <h1 className="text-[32px] font-bold tracking-[-0.01em] text-ink-900 md:text-[44px]">
+                결제하기
+              </h1>
               <p className="text-[14px] leading-[24px] text-ink-900/70 md:text-[16px] md:leading-[26px]">
                 구독 정보를 확인하고 결제자, 학생 연락처 정보를 입력해주세요.
               </p>
@@ -126,7 +135,9 @@ export default function SubscribePageClient({
             <form className="space-y-10" noValidate onSubmit={handleSubmit}>
               <section className="space-y-6">
                 <div className="space-y-1">
-                  <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">결제 상품 정보</h2>
+                  <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
+                    결제 상품 정보
+                  </h2>
                   <p className="text-[13px] leading-[22px] text-ink-900/60 md:text-[14px] md:leading-[24px]">
                     구독할 멘토링 상품을 확인해주세요.
                   </p>
@@ -134,8 +145,12 @@ export default function SubscribePageClient({
 
                 <div className="space-y-4 text-[14px] leading-[24px] text-ink-900/80 md:text-[15px] md:leading-[26px]">
                   <div className="flex flex-wrap items-center gap-2 text-ink-900">
-                    <span className="text-[12px] font-semibold text-main-600">{planId === "plus" ? "추천" : "정규"}</span>
-                    <h3 className="text-[20px] font-bold md:text-[22px]">{selectedPlan.displayName}</h3>
+                    <span className="text-[12px] font-semibold text-main-600">
+                      {planId === "plus" ? "추천" : "정규"}
+                    </span>
+                    <h3 className="text-[20px] font-bold md:text-[22px]">
+                      {selectedPlan.displayName}
+                    </h3>
                   </div>
                   <p>{selectedPlan.subtitle}</p>
 
@@ -149,7 +164,9 @@ export default function SubscribePageClient({
 
               <section className="space-y-6">
                 <div className="space-y-1">
-                  <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">주문자 정보 입력</h2>
+                  <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
+                    주문자 정보 입력
+                  </h2>
                   <p className="text-[13px] leading-[22px] text-ink-900/60 md:text-[14px] md:leading-[24px]">
                     결제 진행을 위해 주문자 정보를 입력해주세요.
                   </p>
@@ -192,7 +209,9 @@ export default function SubscribePageClient({
 
               <section className="space-y-6">
                 <div className="space-y-1">
-                  <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">학생 정보 입력</h2>
+                  <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
+                    학생 정보 입력
+                  </h2>
                   <p className="text-[13px] leading-[22px] text-ink-900/60 md:text-[14px] md:leading-[24px]">
                     수업을 듣는 학생의 이름과 휴대전화 번호를 입력해주세요.
                   </p>
@@ -213,7 +232,10 @@ export default function SubscribePageClient({
                     maxLength={11}
                     value={studentPhone}
                     onChange={(event) => {
-                      const digitsOnly = event.target.value.replace(/[^\d]/g, "");
+                      const digitsOnly = event.target.value.replace(
+                        /[^\d]/g,
+                        ""
+                      );
                       setStudentPhone(digitsOnly);
                     }}
                   />
@@ -222,7 +244,9 @@ export default function SubscribePageClient({
 
               <section className="space-y-6">
                 <div className="space-y-1">
-                  <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">약관 동의</h2>
+                  <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
+                    약관 동의
+                  </h2>
                   <p className="text-[13px] leading-[22px] text-ink-900/60 md:text-[14px] md:leading-[24px]">
                     결제 진행을 위해 약관에 동의해주세요.
                   </p>
@@ -234,22 +258,32 @@ export default function SubscribePageClient({
                       type="checkbox"
                       className="mt-1 h-5 w-5 rounded border-gray-300 text-main-600 focus:ring-main-300"
                       checked={agreeRequired}
-                      onChange={(event) => setAgreeRequired(event.target.checked)}
+                      onChange={(event) =>
+                        setAgreeRequired(event.target.checked)
+                      }
                       required
                     />
-                    <span>(필수) 서비스 이용약관 및 개인정보 수집·이용에 동의합니다.</span>
+                    <span>
+                      (필수) 서비스 이용약관 및 개인정보 수집·이용에 동의합니다.
+                    </span>
                   </label>
                   <label className="flex items-start gap-3">
                     <input
                       type="checkbox"
                       className="mt-1 h-5 w-5 rounded border-gray-300 text-main-600 focus:ring-main-300"
                       checked={agreeMarketing}
-                      onChange={(event) => setAgreeMarketing(event.target.checked)}
+                      onChange={(event) =>
+                        setAgreeMarketing(event.target.checked)
+                      }
                     />
-                    <span>(선택) 이벤트 및 프로그램 안내 수신에 동의합니다.</span>
+                    <span>
+                      (선택) 이벤트 및 프로그램 안내 수신에 동의합니다.
+                    </span>
                   </label>
                   {requiredAgreementError ? (
-                    <p className="text-[12px] leading-[20px] text-red-500">{requiredAgreementError}</p>
+                    <p className="text-[12px] leading-[20px] text-red-500">
+                      {requiredAgreementError}
+                    </p>
                   ) : null}
                 </div>
 
@@ -269,10 +303,15 @@ export default function SubscribePageClient({
 
             <aside className="space-y-6 md:sticky md:top-32 md:h-fit md:self-start">
               <div className="rounded-[24px] border border-gray-100 bg-white p-6 shadow-[0_24px_80px_rgba(9,30,66,0.08)] md:p-7">
-                <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">결제 금액</h2>
+                <h2 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
+                  결제 금액
+                </h2>
 
                 <div className="mt-6 space-y-4 text-[14px] leading-[24px] text-ink-900/80 md:text-[15px]">
-                  <SummaryRow label="상품 금액" value={formatCurrency(selectedPlan.baseAmount)} />
+                  <SummaryRow
+                    label="상품 금액"
+                    value={formatCurrency(selectedPlan.baseAmount)}
+                  />
                   <SummaryRow
                     label="할인 금액"
                     value={
@@ -304,7 +343,8 @@ export default function SubscribePageClient({
               </div>
 
               <p className="text-[12px] leading-[20px] text-ink-900/50 md:text-[13px]">
-                결제 완료 후 담당 매니저가 안내 문자를 드립니다. 문의 사항이 있다면 언제든지 연락해주세요.
+                결제 완료 후 담당 매니저가 안내 문자를 드립니다. 문의 사항이
+                있다면 언제든지 연락해주세요.
               </p>
             </aside>
           </div>
@@ -323,7 +363,9 @@ type FieldProps = {
 function Field({ label, error, trailing, ...inputProps }: FieldProps) {
   return (
     <label className="flex flex-col gap-2">
-      <span className="text-[14px] font-semibold text-ink-900 md:text-[15px]">{label}</span>
+      <span className="text-[14px] font-semibold text-ink-900 md:text-[15px]">
+        {label}
+      </span>
       <div className="flex items-center gap-3">
         <input
           {...inputProps}
@@ -333,7 +375,9 @@ function Field({ label, error, trailing, ...inputProps }: FieldProps) {
         />
         {trailing ? <div className="flex-shrink-0">{trailing}</div> : null}
       </div>
-      {error ? <span className="text-[12px] leading-[20px] text-red-500">{error}</span> : null}
+      {error ? (
+        <span className="text-[12px] leading-[20px] text-red-500">{error}</span>
+      ) : null}
     </label>
   );
 }
