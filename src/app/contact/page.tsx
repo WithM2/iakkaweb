@@ -2,7 +2,7 @@
 
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
-import { useState, useEffect, useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 
 const inquiryActions = [
   {
@@ -46,9 +46,13 @@ const interestStages = [
   { id: "Alpha Leader", label: "Alpha Leader" },
 ] as const;
 
-function InterestLevelSelect() {
+type InterestLevelSelectProps = {
+  value: string;
+  onChange: (value: string) => void;
+};
+
+function InterestLevelSelect({ value, onChange }: InterestLevelSelectProps) {
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState<string>("");
   const [activeIndex, setActiveIndex] = useState<number>(-1);
   const boxRef = useRef<HTMLDivElement | null>(null);
 
@@ -70,7 +74,10 @@ function InterestLevelSelect() {
     ) {
       e.preventDefault();
       setOpen(true);
-      setActiveIndex(0);
+      const initialIndex = value
+        ? Math.max(interestStages.findIndex((s) => s.id === value), 0)
+        : 0;
+      setActiveIndex(initialIndex);
       return;
     }
     if (!open) return;
@@ -85,7 +92,7 @@ function InterestLevelSelect() {
       e.preventDefault();
       if (activeIndex >= 0) {
         const item = interestStages[activeIndex];
-        setValue(item.id);
+        onChange(item.id);
         setOpen(false);
       }
     } else if (e.key === "Escape") {
@@ -101,7 +108,7 @@ function InterestLevelSelect() {
   return (
     <div ref={boxRef} className="relative" onKeyDown={onKeyDown}>
       {/* 제출용 hidden input (required) */}
-      <input type="hidden" name="interestLevel" value={value} required />
+      <input type="hidden" name="interestLevel" value={value} />
 
       {/* 보이는 입력창 */}
       <button
@@ -147,7 +154,7 @@ function InterestLevelSelect() {
                 aria-selected={selected}
                 onMouseEnter={() => setActiveIndex(idx)}
                 onClick={() => {
-                  setValue(item.id);
+                  onChange(item.id);
                   setOpen(false);
                 }}
                 className={`flex cursor-pointer items-center justify-between px-4 py-3 text-[14px] md:text-[15px]
@@ -182,13 +189,105 @@ export default function ContactPage() {
   const [selectedAction, setSelectedAction] = useState<InquiryAction | null>(
     null
   );
+  const [studentName, setStudentName] = useState("");
   const [studentGrade, setStudentGrade] = useState("");
+  const [interestLevel, setInterestLevel] = useState("");
+  const [guardianName, setGuardianName] = useState("");
+  const [guardianEmail, setGuardianEmail] = useState("");
+  const [guardianPhone, setGuardianPhone] = useState("");
   const [guardianContactPref, setGuardianContactPref] = useState("");
   const [inquiryType, setInquiryType] = useState("");
   const [inquiryTitle, setInquiryTitle] = useState("");
   const [inquiryBody, setInquiryBody] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitState, setSubmitState] = useState<"idle" | "success" | "error">(
+    "idle"
+  );
+  const [submitMessage, setSubmitMessage] = useState("");
+
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   const showConsultForm = selectedAction === "consult";
+
+  const resetFormState = () => {
+    setStudentName("");
+    setStudentGrade("");
+    setInterestLevel("");
+    setGuardianName("");
+    setGuardianEmail("");
+    setGuardianPhone("");
+    setGuardianContactPref("");
+    setInquiryType("");
+    setInquiryTitle("");
+    setInquiryBody("");
+    formRef.current?.reset();
+  };
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isSubmitting) return;
+
+    if (!interestLevel) {
+      setSubmitState("error");
+      setSubmitMessage("학생의 관심 레벨을 선택해 주세요.");
+      return;
+    }
+
+    if (!guardianContactPref) {
+      setSubmitState("error");
+      setSubmitMessage("선호하는 상담 방식을 선택해 주세요.");
+      return;
+    }
+
+    const formData = new FormData(event.currentTarget);
+
+    const payload = {
+      studentName: studentName.trim(),
+      studentGrade,
+      interestLevel,
+      guardianName: guardianName.trim(),
+      guardianEmail: guardianEmail.trim(),
+      guardianPhone: guardianPhone.trim(),
+      guardianContactPreference: guardianContactPref,
+      inquiryType,
+      inquiryTitle: inquiryTitle.trim(),
+      inquiryBody: inquiryBody.trim(),
+      privacyConsent: formData.get("privacyConsent") === "on",
+    };
+
+    setIsSubmitting(true);
+    setSubmitState("idle");
+    setSubmitMessage("");
+
+    try {
+      const response = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const result = (await response.json()) as { message?: string };
+
+      if (!response.ok) {
+        throw new Error(result.message ?? "문의 저장 중 오류가 발생했습니다.");
+      }
+
+      setSubmitState("success");
+      setSubmitMessage(result.message ?? "문의가 접수되었습니다.");
+      resetFormState();
+    } catch (error) {
+      setSubmitState("error");
+      setSubmitMessage(
+        error instanceof Error
+          ? error.message
+          : "문의 저장 중 오류가 발생했습니다."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -253,7 +352,7 @@ export default function ContactPage() {
             </div>
 
             {showConsultForm ? (
-              <form>
+              <form ref={formRef} onSubmit={handleSubmit}>
                 <div className="rounded-[36px] border border-gray-100 bg-white px-7 py-8 shadow-[0_24px_80px_rgba(9,30,66,0.08)] md:px-12 md:py-14">
                   {/* 상단 우측 필수 안내 */}
                   <div className="mb-10 flex items-start justify-end">
@@ -281,6 +380,9 @@ export default function ContactPage() {
                           </span>
                           <input
                             type="text"
+                            name="studentName"
+                            value={studentName}
+                            onChange={(e) => setStudentName(e.target.value)}
                             placeholder="학생 이름을 입력해 주세요."
                             required
                             className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
@@ -292,6 +394,7 @@ export default function ContactPage() {
                             학년 <span className="text-main-600">*</span>
                           </span>
                           <select
+                            name="studentGrade"
                             value={studentGrade}
                             onChange={(e) => setStudentGrade(e.target.value)}
                             required
@@ -315,7 +418,10 @@ export default function ContactPage() {
                         <label className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
                           관심 레벨 <span className="text-main-600">*</span>
                         </label>
-                        <InterestLevelSelect />
+                        <InterestLevelSelect
+                          value={interestLevel}
+                          onChange={(value) => setInterestLevel(value)}
+                        />
                       </div>
                     </div>
                   </section>
@@ -340,6 +446,9 @@ export default function ContactPage() {
                         </span>
                         <input
                           type="text"
+                          name="guardianName"
+                          value={guardianName}
+                          onChange={(e) => setGuardianName(e.target.value)}
                           placeholder="보호자 성함을 입력해 주세요."
                           required
                           className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
@@ -353,6 +462,9 @@ export default function ContactPage() {
                         </span>
                         <input
                           type="email"
+                          name="guardianEmail"
+                          value={guardianEmail}
+                          onChange={(e) => setGuardianEmail(e.target.value)}
                           placeholder="문의 내역을 전송 받을 이메일을 입력해 주세요."
                           required
                           className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
@@ -366,6 +478,9 @@ export default function ContactPage() {
                         </span>
                         <input
                           type="tel"
+                          name="guardianPhone"
+                          value={guardianPhone}
+                          onChange={(e) => setGuardianPhone(e.target.value)}
                           placeholder="보호자 휴대전화 번호를 입력해 주세요."
                           required
                           className="rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
@@ -378,52 +493,45 @@ export default function ContactPage() {
                           선호하는 상담 방식
                         </legend>
                         <div className="mt-3 flex flex-wrap gap-4">
-                          {["전화 상담", "문자 상담", "이메일 상담"].map(
-                            (label) => {
-                              const selected = guardianContactPref === label;
-                              return (
-                                <label
-                                  key={label}
-                                  className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-[13px] transition-all
+                          {contactPreferences.map((label) => {
+                            const selected = guardianContactPref === label;
+                            return (
+                              <label
+                                key={label}
+                                className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-4 py-2 text-[13px] transition-all
               ${selected ? "border-main-400 bg-main-50 text-main-700" : "border-gray-200 bg-white text-ink-900/80"}
               hover:-translate-y-[1px] hover:shadow-sm`}
+                              >
+                                <input
+                                  type="radio"
+                                  name="guardianContactPreference"
+                                  value={label}
+                                  className="sr-only"
+                                  checked={selected}
+                                  required={guardianContactPref === ""}
+                                  onChange={() =>
+                                    setGuardianContactPref(label)
+                                  }
+                                />
+                                {/* 체크 아이콘 */}
+                                <svg
+                                  className={`h-[16px] w-[16px] ${selected ? "opacity-100" : "opacity-40"}`}
+                                  viewBox="0 0 20 20"
+                                  fill="currentColor"
+                                  aria-hidden
                                 >
-                                  <input
-                                    type="radio"
-                                    name="guardianContactPreference"
-                                    value={label}
-                                    className="sr-only"
-                                    checked={selected}
-                                    onChange={() =>
-                                      setGuardianContactPref(label)
-                                    }
+                                  <path
+                                    fillRule="evenodd"
+                                    d="M16.704 5.29a1 1 0 010 1.42l-7.01 7.01a1 1 0 01-1.42 0L3.296 8.74a1 1 0 111.414-1.414l4.153 4.152 6.303-6.303a1 1 0 011.538.114z"
+                                    clipRule="evenodd"
                                   />
-                                  {/* 체크 아이콘 */}
-                                  <svg
-                                    className={`h-[16px] w-[16px] ${selected ? "opacity-100" : "opacity-40"}`}
-                                    viewBox="0 0 20 20"
-                                    fill="currentColor"
-                                    aria-hidden
-                                  >
-                                    <path
-                                      fillRule="evenodd"
-                                      d="M16.704 5.29a1 1 0 010 1.42l-7.01 7.01a1 1 0 01-1.42 0L3.296 8.74a1 1 0 111.414-1.414l4.153 4.152 6.303-6.303a1 1 0 011.538.114z"
-                                      clipRule="evenodd"
-                                    />
-                                  </svg>
-                                  {label}
-                                </label>
-                              );
-                            }
-                          )}
+                                </svg>
+                                {label}
+                              </label>
+                            );
+                          })}
                         </div>
 
-                        {/* 제출용 hidden input(검증/전송용) */}
-                        <input
-                          type="hidden"
-                          name="guardianContactPreference"
-                          value={guardianContactPref}
-                        />
                       </fieldset>
                     </div>
                   </section>
@@ -448,6 +556,7 @@ export default function ContactPage() {
                           유형 <span className="text-main-600">*</span>
                         </span>
                         <select
+                          name="inquiryType"
                           value={inquiryType}
                           onChange={(e) => setInquiryType(e.target.value)}
                           required
@@ -457,12 +566,7 @@ export default function ContactPage() {
                           <option value="" disabled>
                             문의 유형을 선택해 주세요.
                           </option>
-                          {[
-                            "상담 예약",
-                            "프로그램 소개",
-                            "커리큘럼 문의",
-                            "기타",
-                          ].map((t) => (
+                          {inquiryTypes.map((t) => (
                             <option key={t} value={t}>
                               {t}
                             </option>
@@ -478,6 +582,7 @@ export default function ContactPage() {
                         <div className="relative">
                           <input
                             type="text"
+                            name="inquiryTitle"
                             value={inquiryTitle}
                             onChange={(e) => setInquiryTitle(e.target.value)}
                             maxLength={50}
@@ -499,6 +604,7 @@ export default function ContactPage() {
                         <div className="relative">
                           <textarea
                             rows={10}
+                            name="inquiryBody"
                             value={inquiryBody}
                             onChange={(e) => setInquiryBody(e.target.value)}
                             maxLength={1000}
@@ -555,11 +661,28 @@ export default function ContactPage() {
                     <p className="text-[13px] text-ink-900/60 md:text-[14px]">
                       접수 후 2영업일 이내에 담당자가 연락드릴 예정입니다.
                     </p>
+                    <div
+                      aria-live="polite"
+                      className={`text-[13px] md:text-[14px] ${
+                        submitState === "success"
+                          ? "text-green-600"
+                          : submitState === "error"
+                            ? "text-red-600"
+                            : "text-transparent"
+                      }`}
+                    >
+                      {submitMessage || "."}
+                    </div>
                     <button
                       type="submit"
-                      className="inline-flex items-center justify-center rounded-[16px] bg-main-600 px-6 py-3 text-[15px] font-semibold text-white transition-colors hover:bg-main-600/90"
+                      disabled={isSubmitting}
+                      className={`inline-flex items-center justify-center rounded-[16px] px-6 py-3 text-[15px] font-semibold text-white transition-colors ${
+                        isSubmitting
+                          ? "bg-main-400"
+                          : "bg-main-600 hover:bg-main-600/90"
+                      }`}
                     >
-                      상담 예약 요청하기
+                      {isSubmitting ? "접수 중..." : "상담 예약 요청하기"}
                     </button>
                   </div>
                 </div>
