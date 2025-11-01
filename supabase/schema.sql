@@ -14,6 +14,7 @@ create table if not exists public.inquiries (
   inquiry_title text not null check (char_length(btrim(inquiry_title)) > 0),
   inquiry_body text not null check (char_length(btrim(inquiry_body)) > 0),
   privacy_consent boolean not null default false,
+  is_completed boolean not null default false,
   created_at timestamptz not null default timezone('utc', now()),
   constraint inquiry_action_allowed check (
     inquiry_action in ('consult', 'reservation')
