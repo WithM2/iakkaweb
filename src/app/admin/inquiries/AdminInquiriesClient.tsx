@@ -283,7 +283,10 @@ export default function AdminInquiriesClient({
           ) : (
             filteredInquiries.map((inquiry) => {
               const isUpdating = activeUpdateId === inquiry.id;
-              const nextState = !inquiry.isCompleted;
+              const markAsCompleted = () =>
+                handleToggleCompletion(inquiry, true);
+              const revertCompletion = () =>
+                handleToggleCompletion(inquiry, false);
 
               return (
                 <article
@@ -315,22 +318,25 @@ export default function AdminInquiriesClient({
                         >
                           {inquiry.isCompleted ? "완료" : "미완료"}
                         </span>
-                        <button
-                          type="button"
-                          onClick={() => handleToggleCompletion(inquiry, nextState)}
-                          disabled={isUpdating || !inquiry.canToggleCompletion}
-                          className={`rounded-full px-5 py-2 text-sm font-medium transition ${
-                            inquiry.isCompleted
-                              ? "border border-main-600 text-main-600 hover:bg-main-100 disabled:border-main-300 disabled:text-main-300"
-                              : "bg-main-600 text-white shadow-[0_12px_30px_rgba(0,121,234,0.35)] hover:bg-main-800 disabled:bg-main-300"
-                          }`}
-                        >
-                          {isUpdating
-                            ? "처리 중..."
-                            : inquiry.isCompleted
-                            ? "미완료로 변경"
-                            : "완료 처리"}
-                        </button>
+                        {inquiry.isCompleted ? (
+                          <button
+                            type="button"
+                            onClick={revertCompletion}
+                            disabled={isUpdating || !inquiry.canToggleCompletion}
+                            className="rounded-full border border-main-600 px-5 py-2 text-sm font-medium text-main-600 transition hover:bg-main-100 disabled:border-main-300 disabled:text-main-300"
+                          >
+                            {isUpdating ? "처리 중..." : "상담 완료 취소"}
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={markAsCompleted}
+                            disabled={isUpdating || !inquiry.canToggleCompletion}
+                            className="rounded-full bg-main-600 px-5 py-2 text-sm font-medium text-white shadow-[0_12px_30px_rgba(0,121,234,0.35)] transition hover:bg-main-800 disabled:bg-main-300"
+                          >
+                            {isUpdating ? "처리 중..." : "상담 완료"}
+                          </button>
+                        )}
                       </div>
                     </div>
 
