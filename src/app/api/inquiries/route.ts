@@ -17,6 +17,14 @@ type InquiryPayload = {
   privacyConsent: boolean;
 };
 
+const allowedInquiryActions = ["consult", "reservation"] as const;
+
+function isAllowedInquiryAction(
+  value: string
+): value is (typeof allowedInquiryActions)[number] {
+  return (allowedInquiryActions as readonly string[]).includes(value);
+}
+
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === "string" && value.trim().length > 0;
 }
@@ -42,12 +50,17 @@ function parsePayload(data: Record<string, unknown>): InquiryPayload {
     }
   }
 
+  const inquiryAction = (data.inquiryAction as string).trim();
+  if (!isAllowedInquiryAction(inquiryAction)) {
+    throw new Error("Invalid inquiry action.");
+  }
+
   if (typeof data.privacyConsent !== "boolean" || data.privacyConsent !== true) {
     throw new Error("privacyConsent must be true");
   }
 
   return {
-    inquiryAction: data.inquiryAction.trim(),
+    inquiryAction,
     studentName: data.studentName.trim(),
     studentGrade: data.studentGrade.trim(),
     interestLevel: data.interestLevel.trim(),

@@ -15,11 +15,15 @@ create table if not exists public.inquiries (
   inquiry_body text not null check (char_length(btrim(inquiry_body)) > 0),
   privacy_consent boolean not null default false,
   created_at timestamptz not null default timezone('utc', now()),
+  constraint inquiry_action_allowed check (
+    inquiry_action in ('consult', 'reservation')
+  ),
   constraint privacy_consent_required check (privacy_consent = true)
 );
 
 create index if not exists inquiries_created_at_idx on public.inquiries (created_at desc);
 create index if not exists inquiries_guardian_email_idx on public.inquiries (lower(guardian_email));
+create index if not exists inquiries_action_idx on public.inquiries (inquiry_action);
 
 create table if not exists public.partnership_inquiries (
   id uuid primary key default gen_random_uuid(),
