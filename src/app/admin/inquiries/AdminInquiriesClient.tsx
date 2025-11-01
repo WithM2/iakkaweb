@@ -2,12 +2,20 @@
 
 import { useMemo, useState } from "react";
 
-type CategoryValue = "all" | "consult" | "product" | "reservation";
+type InquiryCategory = "consult" | "product" | "reservation";
+type CategoryFilterValue = "all" | InquiryCategory;
 type StatusValue = "all" | "completed" | "pending";
 
-export type AdminInquiry = {
+type GeneralAdminInquiry = {
+  kind: "general";
   id: string;
-  inquiryAction: string;
+  inquiryAction: InquiryCategory;
+  inquiryType: string;
+  inquiryTitle: string;
+  inquiryBody: string;
+  createdAt: string;
+  isCompleted: boolean;
+  canToggleCompletion: boolean;
   studentName: string;
   studentGrade: string;
   interestLevel: string;
@@ -15,19 +23,31 @@ export type AdminInquiry = {
   guardianEmail: string;
   guardianPhone: string;
   guardianContactPreference: string;
+};
+
+type PartnershipAdminInquiry = {
+  kind: "partnership";
+  id: string;
+  inquiryAction: "product";
   inquiryType: string;
   inquiryTitle: string;
   inquiryBody: string;
-  isCompleted: boolean;
   createdAt: string;
+  isCompleted: boolean;
+  canToggleCompletion: false;
+  organizationName: string;
+  contactName: string;
+  contactEmail: string;
 };
+
+export type AdminInquiry = GeneralAdminInquiry | PartnershipAdminInquiry;
 
 type AdminInquiriesClientProps = {
   initialInquiries: AdminInquiry[];
   completionAvailable: boolean;
 };
 
-const CATEGORY_FILTERS: Array<{ label: string; value: CategoryValue }> = [
+const CATEGORY_FILTERS: Array<{ label: string; value: CategoryFilterValue }> = [
   { label: "전체", value: "all" },
   { label: "상담", value: "consult" },
   { label: "제휴", value: "product" },
@@ -94,7 +114,8 @@ export default function AdminInquiriesClient({
   completionAvailable,
 }: AdminInquiriesClientProps) {
   const [inquiries, setInquiries] = useState(initialInquiries);
-  const [categoryFilter, setCategoryFilter] = useState<CategoryValue>("all");
+  const [categoryFilter, setCategoryFilter] =
+    useState<CategoryFilterValue>("all");
   const [statusFilter, setStatusFilter] = useState<StatusValue>("all");
   const [activeUpdateId, setActiveUpdateId] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -120,19 +141,24 @@ export default function AdminInquiriesClient({
     });
   }, [categoryFilter, statusFilter, inquiries]);
 
-  async function handleToggleCompletion(id: string, nextState: boolean) {
-    if (!completionAvailable) {
+  async function handleToggleCompletion(
+    inquiry: AdminInquiry,
+    nextState: boolean
+  ) {
+    if (!inquiry.canToggleCompletion) {
       setErrorMessage(
-        "Supabase 문의 테이블에 is_completed 컬럼이 없어 완료 상태를 변경할 수 없습니다. Supabase Studio에서 컬럼을 추가한 뒤 다시 시도해 주세요."
+        inquiry.kind === "partnership"
+          ? "제휴 문의는 아직 완료 상태를 변경할 수 없습니다."
+          : "Supabase 문의 테이블에 is_completed 컬럼이 없어 완료 상태를 변경할 수 없습니다. Supabase Studio에서 컬럼을 추가한 뒤 다시 시도해 주세요."
       );
       return;
     }
 
-    setActiveUpdateId(id);
+    setActiveUpdateId(inquiry.id);
     setErrorMessage(null);
 
     try {
-      const response = await fetch(`/api/admin/inquiries/${id}`, {
+      const response = await fetch(`/api/admin/inquiries/${inquiry.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -250,17 +276,17 @@ export default function AdminInquiriesClient({
           )}
 
           <div className="space-y-6">
-            {filteredInquiries.length === 0 ? (
-              <div className="rounded-3xl border border-dashed border-main-300 bg-main-100/50 px-6 py-12 text-center text-sm text-ink-900/60">
-                선택한 조건에 해당하는 문의가 없습니다.
-              </div>
-            ) : (
-              filteredInquiries.map((inquiry) => {
-                const isUpdating = activeUpdateId === inquiry.id;
-                const nextState = !inquiry.isCompleted;
+          {filteredInquiries.length === 0 ? (
+            <div className="rounded-3xl border border-dashed border-main-300 bg-main-100/50 px-6 py-12 text-center text-sm text-ink-900/60">
+              선택한 조건에 해당하는 문의가 없습니다.
+            </div>
+          ) : (
+            filteredInquiries.map((inquiry) => {
+              const isUpdating = activeUpdateId === inquiry.id;
+              const nextState = !inquiry.isCompleted;
 
-                return (
-                  <article
+              return (
+                <article
                     key={inquiry.id}
                     className="rounded-[28px] border border-gray-100 bg-white p-6 shadow-[0_12px_40px_rgba(9,30,66,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_24px_60px_rgba(9,30,66,0.08)]"
                   >
@@ -291,8 +317,8 @@ export default function AdminInquiriesClient({
                         </span>
                         <button
                           type="button"
-                          onClick={() => handleToggleCompletion(inquiry.id, nextState)}
-                          disabled={isUpdating || !completionAvailable}
+                          onClick={() => handleToggleCompletion(inquiry, nextState)}
+                          disabled={isUpdating || !inquiry.canToggleCompletion}
                           className={`rounded-full px-5 py-2 text-sm font-medium transition ${
                             inquiry.isCompleted
                               ? "border border-main-600 text-main-600 hover:bg-main-100 disabled:border-main-300 disabled:text-main-300"
@@ -312,64 +338,104 @@ export default function AdminInquiriesClient({
                       {inquiry.inquiryBody}
                     </p>
 
-                    <dl className="mt-6 grid grid-cols-1 gap-4 text-sm text-ink-900/80 md:grid-cols-2">
-                      <div className="rounded-2xl bg-main-100/60 px-4 py-3">
-                        <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-900/60">
-                          학생 정보
-                        </dt>
-                        <dd className="mt-2 space-y-1">
-                          <p>
-                            <span className="text-ink-900/50">이름</span>
-                            <span className="ml-2 font-medium text-ink-900">
-                              {inquiry.studentName}
-                            </span>
-                          </p>
-                          <p>
-                            <span className="text-ink-900/50">학년</span>
-                            <span className="ml-2 font-medium text-ink-900">
-                              {inquiry.studentGrade}
-                            </span>
-                          </p>
-                          <p>
-                            <span className="text-ink-900/50">관심 단계</span>
-                            <span className="ml-2 font-medium text-ink-900">
-                              {inquiry.interestLevel}
-                            </span>
-                          </p>
-                        </dd>
-                      </div>
-                      <div className="rounded-2xl bg-main-100/60 px-4 py-3">
-                        <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-900/60">
-                          보호자 정보
-                        </dt>
-                        <dd className="mt-2 space-y-1">
-                          <p>
-                            <span className="text-ink-900/50">이름</span>
-                            <span className="ml-2 font-medium text-ink-900">
-                              {inquiry.guardianName}
-                            </span>
-                          </p>
-                          <p>
-                            <span className="text-ink-900/50">이메일</span>
-                            <span className="ml-2 font-medium text-ink-900">
-                              {inquiry.guardianEmail}
-                            </span>
-                          </p>
-                          <p>
-                            <span className="text-ink-900/50">연락처</span>
-                            <span className="ml-2 font-medium text-ink-900">
-                              {inquiry.guardianPhone}
-                            </span>
-                          </p>
-                          <p>
-                            <span className="text-ink-900/50">선호 채널</span>
-                            <span className="ml-2 font-medium text-ink-900">
-                              {inquiry.guardianContactPreference}
-                            </span>
-                          </p>
-                        </dd>
-                      </div>
-                    </dl>
+                    {inquiry.kind === "general" ? (
+                      <dl className="mt-6 grid grid-cols-1 gap-4 text-sm text-ink-900/80 md:grid-cols-2">
+                        <div className="rounded-2xl bg-main-100/60 px-4 py-3">
+                          <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-900/60">
+                            학생 정보
+                          </dt>
+                          <dd className="mt-2 space-y-1">
+                            <p>
+                              <span className="text-ink-900/50">이름</span>
+                              <span className="ml-2 font-medium text-ink-900">
+                                {inquiry.studentName}
+                              </span>
+                            </p>
+                            <p>
+                              <span className="text-ink-900/50">학년</span>
+                              <span className="ml-2 font-medium text-ink-900">
+                                {inquiry.studentGrade}
+                              </span>
+                            </p>
+                            <p>
+                              <span className="text-ink-900/50">관심 단계</span>
+                              <span className="ml-2 font-medium text-ink-900">
+                                {inquiry.interestLevel}
+                              </span>
+                            </p>
+                          </dd>
+                        </div>
+                        <div className="rounded-2xl bg-main-100/60 px-4 py-3">
+                          <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-900/60">
+                            보호자 정보
+                          </dt>
+                          <dd className="mt-2 space-y-1">
+                            <p>
+                              <span className="text-ink-900/50">이름</span>
+                              <span className="ml-2 font-medium text-ink-900">
+                                {inquiry.guardianName}
+                              </span>
+                            </p>
+                            <p>
+                              <span className="text-ink-900/50">이메일</span>
+                              <span className="ml-2 font-medium text-ink-900">
+                                {inquiry.guardianEmail}
+                              </span>
+                            </p>
+                            <p>
+                              <span className="text-ink-900/50">연락처</span>
+                              <span className="ml-2 font-medium text-ink-900">
+                                {inquiry.guardianPhone}
+                              </span>
+                            </p>
+                            <p>
+                              <span className="text-ink-900/50">선호 채널</span>
+                              <span className="ml-2 font-medium text-ink-900">
+                                {inquiry.guardianContactPreference}
+                              </span>
+                            </p>
+                          </dd>
+                        </div>
+                      </dl>
+                    ) : (
+                      <dl className="mt-6 grid grid-cols-1 gap-4 text-sm text-ink-900/80 md:grid-cols-2">
+                        <div className="rounded-2xl bg-main-100/60 px-4 py-3">
+                          <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-900/60">
+                            제휴 기관 정보
+                          </dt>
+                          <dd className="mt-2 space-y-1">
+                            <p>
+                              <span className="text-ink-900/50">기관명</span>
+                              <span className="ml-2 font-medium text-ink-900">
+                                {inquiry.organizationName}
+                              </span>
+                            </p>
+                          </dd>
+                        </div>
+                        <div className="rounded-2xl bg-main-100/60 px-4 py-3">
+                          <dt className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-900/60">
+                            담당자 정보
+                          </dt>
+                          <dd className="mt-2 space-y-1">
+                            <p>
+                              <span className="text-ink-900/50">이름</span>
+                              <span className="ml-2 font-medium text-ink-900">
+                                {inquiry.contactName}
+                              </span>
+                            </p>
+                            <p>
+                              <span className="text-ink-900/50">이메일</span>
+                              <a
+                                href={`mailto:${inquiry.contactEmail}`}
+                                className="ml-2 font-medium text-main-700 underline decoration-main-200 underline-offset-4 hover:text-main-900"
+                              >
+                                {inquiry.contactEmail}
+                              </a>
+                            </p>
+                          </dd>
+                        </div>
+                      </dl>
+                    )}
                   </article>
                 );
               })
