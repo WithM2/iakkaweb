@@ -35,7 +35,19 @@ const gradeOptions = [
   "기타",
 ];
 
-const inquiryTypes = ["상담 예약", "프로그램 소개", "커리큘럼 문의", "기타"];
+const consultInquiryTypes = [
+  "상담 예약",
+  "프로그램 소개",
+  "커리큘럼 문의",
+  "기타",
+] as const;
+
+const reservationInquiryTypes = [
+  "멘토링 예약",
+  "학부모 설명회 예약",
+  "프로그램 체험 예약",
+  "기타",
+] as const;
 
 const partnershipInquiryTypes = [
   "정기교육 신청",
@@ -227,7 +239,9 @@ export default function ContactPage() {
     null
   );
 
-  const showConsultForm = selectedAction === "consult";
+  const showConsultForm =
+    selectedAction === "consult" || selectedAction === "reservation";
+  const isReservationForm = selectedAction === "reservation";
   const showProductForm = selectedAction === "product";
 
   useEffect(() => {
@@ -240,7 +254,27 @@ export default function ContactPage() {
     if (selectedAction === "product") {
       setPartnerInquiryType(partnershipInquiryTypes[0] ?? "");
     }
+    if (selectedAction === "consult" || selectedAction === "reservation") {
+      setInquiryType("");
+      setInquiryTitle("");
+      setInquiryBody("");
+      setGuardianContactPref("");
+    }
   }, [selectedAction]);
+
+  useEffect(() => {
+    if (selectedAction !== "reservation") {
+      return;
+    }
+
+    const normalizedType = inquiryType.trim();
+    if (normalizedType && normalizedType !== inquiryTitle) {
+      setInquiryTitle(normalizedType);
+    }
+    if (!normalizedType && inquiryTitle) {
+      setInquiryTitle("");
+    }
+  }, [selectedAction, inquiryType, inquiryTitle]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -250,6 +284,8 @@ export default function ContactPage() {
       setSubmitError("문의 유형을 먼저 선택해 주세요.");
       return;
     }
+
+    const isReservationAction = selectedAction === "reservation";
 
     if (!guardianContactPref) {
       setSubmitState("error");
@@ -289,9 +325,24 @@ export default function ContactPage() {
       [payload.guardianName, "보호자 성함을 입력해 주세요."],
       [payload.guardianEmail, "보호자 이메일을 입력해 주세요."],
       [payload.guardianPhone, "보호자 휴대전화 번호를 입력해 주세요."],
-      [payload.inquiryType, "문의 유형을 선택해 주세요."],
-      [payload.inquiryTitle, "문의 제목을 입력해 주세요."],
-      [payload.inquiryBody, "문의 내용을 입력해 주세요."],
+      [
+        payload.inquiryType,
+        isReservationAction
+          ? "예약 유형을 선택해 주세요."
+          : "문의 유형을 선택해 주세요.",
+      ],
+      [
+        payload.inquiryTitle,
+        isReservationAction
+          ? "예약 유형을 선택해 주세요."
+          : "문의 제목을 입력해 주세요.",
+      ],
+      [
+        payload.inquiryBody,
+        isReservationAction
+          ? "요청사항을 입력해 주세요."
+          : "문의 내용을 입력해 주세요.",
+      ],
     ];
 
     const missingField = requiredFieldMessages.find(([value]) => !value);
@@ -311,7 +362,11 @@ export default function ContactPage() {
 
     if (!payload.privacyConsent) {
       setSubmitState("error");
-      setSubmitError("개인정보 수집 및 이용에 동의해 주세요.");
+      setSubmitError(
+        isReservationAction
+          ? "예약 신청을 위한 개인정보 수집에 동의해 주세요."
+          : "개인정보 수집 및 이용에 동의해 주세요."
+      );
       setIsSubmitting(false);
       return;
     }
@@ -705,7 +760,7 @@ export default function ContactPage() {
                     {/* 좌측 타이틀 */}
                     <div className="pt-2">
                       <h3 className="text-[18px] font-semibold text-ink-900 md:text-[20px]">
-                        문의 내용
+                        {isReservationForm ? "예약 신청" : "문의 내용"}
                       </h3>
                     </div>
 
@@ -725,9 +780,14 @@ export default function ContactPage() {
           ${inquiryType ? "text-ink-900" : "text-ink-900/40"}`}
                         >
                           <option value="" disabled>
-                            문의 유형을 선택해 주세요.
+                            {isReservationForm
+                              ? "예약 유형을 선택해 주세요."
+                              : "문의 유형을 선택해 주세요."}
                           </option>
-                          {inquiryTypes.map((type) => (
+                          {(isReservationForm
+                            ? reservationInquiryTypes
+                            : consultInquiryTypes
+                          ).map((type) => (
                             <option key={type} value={type}>
                               {type}
                             </option>
@@ -736,45 +796,59 @@ export default function ContactPage() {
                       </label>
 
                       {/* 제목 */}
-                      <label className="flex flex-col gap-2">
-                        <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                          제목 <span className="text-main-600">*</span>
-                        </span>
-                        <div className="relative">
-                          <input
-                            type="text"
-                            name="inquiryTitle"
-                            value={inquiryTitle}
-                            onChange={(e) => setInquiryTitle(e.target.value)}
-                            maxLength={50}
-                            placeholder="문의 제목을 입력해 주세요. (50자 이내)"
-                            required
-                            className="w-full rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
-                          />
-                          <span className="pointer-events-none absolute bottom-2 right-3 text-[12px] text-ink-900/40">
-                            {inquiryTitle.length}/50
+                      {isReservationForm ? (
+                        <input
+                          type="hidden"
+                          name="inquiryTitle"
+                          value={inquiryTitle}
+                          readOnly
+                        />
+                      ) : (
+                        <label className="flex flex-col gap-2">
+                          <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
+                            제목 <span className="text-main-600">*</span>
                           </span>
-                        </div>
-                      </label>
+                          <div className="relative">
+                            <input
+                              type="text"
+                              name="inquiryTitle"
+                              value={inquiryTitle}
+                              onChange={(e) => setInquiryTitle(e.target.value)}
+                              maxLength={50}
+                              placeholder="문의 제목을 입력해 주세요. (50자 이내)"
+                              required
+                              className="w-full rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
+                            />
+                            <span className="pointer-events-none absolute bottom-2 right-3 text-[12px] text-ink-900/40">
+                              {inquiryTitle.length}/50
+                            </span>
+                          </div>
+                        </label>
+                      )}
 
                       {/* 내용 */}
                       <label className="flex flex-col gap-2">
                         <span className="text-[13px] font-semibold text-ink-900 md:text-[14px]">
-                          내용 <span className="text-main-600">*</span>
+                          {isReservationForm ? "요청사항" : "내용"}{" "}
+                          <span className="text-main-600">*</span>
                         </span>
                         <div className="relative">
                           <textarea
-                            rows={10}
+                            rows={isReservationForm ? 6 : 10}
                             name="inquiryBody"
                             value={inquiryBody}
                             onChange={(e) => setInquiryBody(e.target.value)}
-                            maxLength={1000}
-                            placeholder="문의 내용을 상세히 입력해 주세요. (1,000자 이내)"
+                            maxLength={isReservationForm ? 200 : 1000}
+                            placeholder={
+                              isReservationForm
+                                ? "예약과 관련한 요청사항을 입력해 주세요. (200자 이내)"
+                                : "문의 내용을 상세히 입력해 주세요. (1,000자 이내)"
+                            }
                             required
                             className="w-full rounded-[18px] border border-gray-200 bg-white px-4 py-3 text-[14px] text-ink-900 placeholder:text-ink-900/40 focus:border-main-400 focus:outline-none focus:ring-2 focus:ring-main-200 md:text-[15px]"
                           />
                           <span className="pointer-events-none absolute bottom-2 right-3 text-[12px] text-ink-900/40">
-                            {inquiryBody.length}/1000
+                            {inquiryBody.length}/{isReservationForm ? 200 : 1000}
                           </span>
                         </div>
                       </label>
@@ -811,7 +885,9 @@ export default function ContactPage() {
                           className="h-4 w-4 rounded border-gray-300 accent-main-600"
                         />
                         <span className="text-[14px] text-ink-900">
-                          상담문의을 위한 개인정보 수집에 동의합니다.
+                          {isReservationForm
+                            ? "예약 신청을 위한 개인정보 수집에 동의합니다."
+                            : "상담 문의를 위한 개인정보 수집에 동의합니다."}
                         </span>
                       </label>
                     </div>
@@ -820,7 +896,9 @@ export default function ContactPage() {
                   {/* 제출 영역 */}
                   <div className="mt-10 flex flex-col gap-3 border-t border-gray-100 pt-6 md:flex-row md:items-center md:justify-between">
                     <p className="text-[13px] text-ink-900/60 md:text-[14px]">
-                      접수 후 2영업일 이내에 담당자가 연락드릴 예정입니다.
+                      {isReservationForm
+                        ? "예약 가능 일정을 확인한 뒤 2영업일 이내에 연락드릴게요."
+                        : "접수 후 2영업일 이내에 담당자가 연락드릴 예정입니다."}
                     </p>
                     <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-4">
                       <button
@@ -832,14 +910,20 @@ export default function ContactPage() {
                             : "bg-main-600 hover:bg-main-600/90"
                         }`}
                       >
-                        {isSubmitting ? "접수 중..." : "상담 예약 요청하기"}
+                        {isSubmitting
+                          ? "접수 중..."
+                          : isReservationForm
+                            ? "예약 신청하기"
+                            : "상담 예약 요청하기"}
                       </button>
                       <p
                         className="text-[13px] text-ink-900/70 md:text-[14px]"
                         aria-live="polite"
                       >
                         {submitState === "success"
-                          ? "문의가 접수되었습니다. 담당자가 곧 연락드릴게요."
+                          ? isReservationForm
+                            ? "예약 신청이 접수되었습니다. 담당자가 곧 연락드릴게요."
+                            : "문의가 접수되었습니다. 담당자가 곧 연락드릴게요."
                           : null}
                         {submitState === "error" && submitError
                           ? submitError
