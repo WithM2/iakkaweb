@@ -70,7 +70,7 @@ async function fetchInquiries(): Promise<{
   const allowedActions = new Set(["consult", "product", "reservation"]);
 
   const generalInquiries: AdminInquiry[] = (data ?? []).map((item) => {
-    const hasCompletionColumn = typeof item.is_completed === "boolean";
+    const hasCompletionColumn = item.is_completed !== undefined;
     const inquiryAction = allowedActions.has(item.inquiry_action)
       ? (item.inquiry_action as AdminInquiry["inquiryAction"])
       : "consult";
@@ -83,7 +83,7 @@ async function fetchInquiries(): Promise<{
       inquiryTitle: item.inquiry_title,
       inquiryBody: item.inquiry_body,
       createdAt: item.created_at,
-      isCompleted: hasCompletionColumn ? item.is_completed : false,
+      isCompleted: hasCompletionColumn ? Boolean(item.is_completed) : false,
       canToggleCompletion: hasCompletionColumn,
       studentName: item.student_name,
       studentGrade: item.student_grade,
