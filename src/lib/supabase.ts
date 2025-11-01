@@ -14,7 +14,7 @@ type InquiryRow = {
   inquiry_title: string;
   inquiry_body: string;
   privacy_consent: boolean;
-  is_completed: boolean;
+  is_completed?: boolean | null;
   created_at: string;
 };
 

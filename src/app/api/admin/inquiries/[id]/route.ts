@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import type { PostgrestError } from "@supabase/supabase-js";
+
 import { createServiceRoleClient } from "@/lib/supabase";
 
 type RouteContext = {
@@ -43,6 +45,18 @@ export async function PATCH(request: Request, { params }: RouteContext) {
     .maybeSingle();
 
   if (error) {
+    const postgrestError = error as PostgrestError;
+
+    if (postgrestError.code === "42703") {
+      return NextResponse.json(
+        {
+          error:
+            "Supabase 문의 테이블에 is_completed 컬럼이 없어 상태를 변경할 수 없습니다. Supabase Studio에서 컬럼(boolean, 기본값 false)을 추가한 뒤 다시 시도해 주세요.",
+        },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json(
       { error: "문의 상태를 업데이트하지 못했습니다." },
       { status: 500 }

@@ -24,6 +24,7 @@ export type AdminInquiry = {
 
 type AdminInquiriesClientProps = {
   initialInquiries: AdminInquiry[];
+  completionAvailable: boolean;
 };
 
 const CATEGORY_FILTERS: Array<{ label: string; value: CategoryValue }> = [
@@ -90,6 +91,7 @@ function FilterPill({
 
 export default function AdminInquiriesClient({
   initialInquiries,
+  completionAvailable,
 }: AdminInquiriesClientProps) {
   const [inquiries, setInquiries] = useState(initialInquiries);
   const [categoryFilter, setCategoryFilter] = useState<CategoryValue>("all");
@@ -119,6 +121,13 @@ export default function AdminInquiriesClient({
   }, [categoryFilter, statusFilter, inquiries]);
 
   async function handleToggleCompletion(id: string, nextState: boolean) {
+    if (!completionAvailable) {
+      setErrorMessage(
+        "Supabase 문의 테이블에 is_completed 컬럼이 없어 완료 상태를 변경할 수 없습니다. Supabase Studio에서 컬럼을 추가한 뒤 다시 시도해 주세요."
+      );
+      return;
+    }
+
     setActiveUpdateId(id);
     setErrorMessage(null);
 
@@ -132,7 +141,10 @@ export default function AdminInquiriesClient({
       });
 
       if (!response.ok) {
-        throw new Error("요청을 처리하지 못했습니다.");
+        const { error } = (await response.json().catch(() => ({ error: "" }))) as {
+          error?: string;
+        };
+        throw new Error(error || "요청을 처리하지 못했습니다.");
       }
 
       const data = (await response.json()) as {
@@ -223,6 +235,14 @@ export default function AdminInquiriesClient({
             </div>
           </dl>
 
+          {!completionAvailable && (
+            <div className="rounded-2xl border border-[#F1E0B9] bg-[#FFF8E7] px-4 py-3 text-sm text-[#8F6400]">
+              문의 상태 관리를 사용하려면 Supabase Studio에서 <code>inquiries</code>
+              테이블에 <code>is_completed</code> 컬럼(boolean, 기본값 false)을 추가한
+              후 다시 시도해 주세요.
+            </div>
+          )}
+
           {errorMessage && (
             <div className="rounded-2xl border border-[#FBD5D5] bg-[#FFF5F5] px-4 py-3 text-sm text-[#B42318]">
               {errorMessage}
@@ -272,7 +292,7 @@ export default function AdminInquiriesClient({
                         <button
                           type="button"
                           onClick={() => handleToggleCompletion(inquiry.id, nextState)}
-                          disabled={isUpdating}
+                          disabled={isUpdating || !completionAvailable}
                           className={`rounded-full px-5 py-2 text-sm font-medium transition ${
                             inquiry.isCompleted
                               ? "border border-main-600 text-main-600 hover:bg-main-100 disabled:border-main-300 disabled:text-main-300"

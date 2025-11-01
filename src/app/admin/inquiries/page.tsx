@@ -12,20 +12,38 @@ export const metadata: Metadata = {
 
 export const revalidate = 0;
 
-async function fetchInquiries(): Promise<AdminInquiry[]> {
+type RawInquiry = {
+  id: string;
+  inquiry_action: string;
+  student_name: string;
+  student_grade: string;
+  interest_level: string;
+  guardian_name: string;
+  guardian_email: string;
+  guardian_phone: string;
+  guardian_contact_preference: string;
+  inquiry_type: string;
+  inquiry_title: string;
+  inquiry_body: string;
+  is_completed?: boolean | null;
+  created_at: string;
+};
+
+async function fetchInquiries(): Promise<{
+  inquiries: AdminInquiry[];
+  completionAvailable: boolean;
+}> {
   const supabase = createServiceRoleClient();
   const { data, error } = await supabase
     .from("inquiries")
-    .select(
-      "id, inquiry_action, student_name, student_grade, interest_level, guardian_name, guardian_email, guardian_phone, guardian_contact_preference, inquiry_type, inquiry_title, inquiry_body, is_completed, created_at"
-    )
+    .select<RawInquiry>("*")
     .order("created_at", { ascending: false });
 
   if (error) {
     throw new Error(`Failed to load inquiries: ${error.message}`);
   }
 
-  return (
+  const inquiries =
     data?.map((item) => ({
       id: item.id,
       inquiryAction: item.inquiry_action,
@@ -39,14 +57,24 @@ async function fetchInquiries(): Promise<AdminInquiry[]> {
       inquiryType: item.inquiry_type,
       inquiryTitle: item.inquiry_title,
       inquiryBody: item.inquiry_body,
-      isCompleted: item.is_completed,
+      isCompleted: typeof item.is_completed === "boolean" ? item.is_completed : false,
       createdAt: item.created_at,
-    })) ?? []
+    })) ?? [];
+
+  const completionAvailable = Boolean(
+    data?.some((item) => typeof item.is_completed === "boolean")
   );
+
+  return { inquiries, completionAvailable };
 }
 
 export default async function AdminInquiriesPage() {
-  const inquiries = await fetchInquiries();
+  const { inquiries, completionAvailable } = await fetchInquiries();
 
-  return <AdminInquiriesClient initialInquiries={inquiries} />;
+  return (
+    <AdminInquiriesClient
+      initialInquiries={inquiries}
+      completionAvailable={completionAvailable}
+    />
+  );
 }
