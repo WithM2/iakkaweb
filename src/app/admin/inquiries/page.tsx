@@ -49,11 +49,11 @@ async function fetchInquiries(): Promise<{
     await Promise.all([
       supabase
         .from("inquiries")
-        .select<RawInquiry>("*")
+        .select("*")
         .order("created_at", { ascending: false }),
       supabase
         .from("partnership_inquiries")
-        .select<RawPartnershipInquiry>("*")
+        .select("*")
         .order("created_at", { ascending: false }),
     ]);
 
@@ -69,7 +69,8 @@ async function fetchInquiries(): Promise<{
 
   const allowedActions = new Set(["consult", "product", "reservation"]);
 
-  const generalInquiries: AdminInquiry[] = (data ?? []).map((item) => {
+  const inquiryRows = (data ?? []) as RawInquiry[];
+  const generalInquiries: AdminInquiry[] = inquiryRows.map((item) => {
     const hasCompletionColumn = item.is_completed !== undefined;
     const inquiryAction = allowedActions.has(item.inquiry_action)
       ? (item.inquiry_action as AdminInquiry["inquiryAction"])
@@ -95,7 +96,8 @@ async function fetchInquiries(): Promise<{
     } satisfies AdminInquiry;
   });
 
-  const partnershipInquiries: AdminInquiry[] = (partnershipData ?? []).map(
+  const partnershipRows = (partnershipData ?? []) as RawPartnershipInquiry[];
+  const partnershipInquiries: AdminInquiry[] = partnershipRows.map(
     (item) => ({
       kind: "partnership",
       id: item.id,

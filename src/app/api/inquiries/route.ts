@@ -50,7 +50,11 @@ function parsePayload(data: Record<string, unknown>): InquiryPayload {
     }
   }
 
-  const inquiryAction = (data.inquiryAction as string).trim();
+  const cleanedFields = Object.fromEntries(
+    requiredFields.map((field) => [field, (data[field] as string).trim()])
+  ) as Record<(typeof requiredFields)[number], string>;
+
+  const inquiryAction = cleanedFields.inquiryAction;
   if (!isAllowedInquiryAction(inquiryAction)) {
     throw new Error("Invalid inquiry action.");
   }
@@ -61,16 +65,16 @@ function parsePayload(data: Record<string, unknown>): InquiryPayload {
 
   return {
     inquiryAction,
-    studentName: data.studentName.trim(),
-    studentGrade: data.studentGrade.trim(),
-    interestLevel: data.interestLevel.trim(),
-    guardianName: data.guardianName.trim(),
-    guardianEmail: data.guardianEmail.trim(),
-    guardianPhone: data.guardianPhone.trim(),
-    guardianContactPreference: data.guardianContactPreference.trim(),
-    inquiryType: data.inquiryType.trim(),
-    inquiryTitle: data.inquiryTitle.trim(),
-    inquiryBody: data.inquiryBody.trim(),
+    studentName: cleanedFields.studentName,
+    studentGrade: cleanedFields.studentGrade,
+    interestLevel: cleanedFields.interestLevel,
+    guardianName: cleanedFields.guardianName,
+    guardianEmail: cleanedFields.guardianEmail,
+    guardianPhone: cleanedFields.guardianPhone,
+    guardianContactPreference: cleanedFields.guardianContactPreference,
+    inquiryType: cleanedFields.inquiryType,
+    inquiryTitle: cleanedFields.inquiryTitle,
+    inquiryBody: cleanedFields.inquiryBody,
     privacyConsent: data.privacyConsent,
   } satisfies InquiryPayload;
 }

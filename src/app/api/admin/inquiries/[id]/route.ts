@@ -1,17 +1,17 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 import type { PostgrestError } from "@supabase/supabase-js";
 
 import { createServiceRoleClient } from "@/lib/supabase";
 
 type RouteContext = {
-  params: {
+  params: Promise<{
     id: string;
-  };
+  }>;
 };
 
-export async function PATCH(request: Request, { params }: RouteContext) {
-  const { id } = params;
+export async function PATCH(request: NextRequest, context: RouteContext) {
+  const { id } = await context.params;
 
   if (!id) {
     return NextResponse.json(

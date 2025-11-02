@@ -32,17 +32,21 @@ function parsePayload(data: Record<string, unknown>): PartnershipInquiryPayload 
     }
   }
 
+  const cleanedFields = Object.fromEntries(
+    requiredFields.map((field) => [field, (data[field] as string).trim()])
+  ) as Record<(typeof requiredFields)[number], string>;
+
   if (typeof data.privacyConsent !== "boolean" || data.privacyConsent !== true) {
     throw new Error("privacyConsent must be true");
   }
 
   return {
-    organizationName: data.organizationName.trim(),
-    contactName: data.contactName.trim(),
-    contactEmail: data.contactEmail.trim(),
-    inquiryType: data.inquiryType.trim(),
-    inquiryTitle: data.inquiryTitle.trim(),
-    inquiryBody: data.inquiryBody.trim(),
+    organizationName: cleanedFields.organizationName,
+    contactName: cleanedFields.contactName,
+    contactEmail: cleanedFields.contactEmail,
+    inquiryType: cleanedFields.inquiryType,
+    inquiryTitle: cleanedFields.inquiryTitle,
+    inquiryBody: cleanedFields.inquiryBody,
     privacyConsent: data.privacyConsent,
   } satisfies PartnershipInquiryPayload;
 }
