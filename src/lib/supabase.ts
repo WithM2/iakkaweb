@@ -61,9 +61,12 @@ type Database = {
 };
 
 function getSupabaseUrl() {
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const url =
+    process.env.NEXT_PUBLIC_SUPABASE_URL ?? process.env.SUPABASE_URL ?? "";
   if (!url) {
-    throw new Error("NEXT_PUBLIC_SUPABASE_URL is not set");
+    throw new Error(
+      "NEXT_PUBLIC_SUPABASE_URL or SUPABASE_URL environment variable must be set"
+    );
   }
   return url;
 }
