@@ -17,15 +17,15 @@ const mentoringPlanDetails: Record<MentoringPlanId, MentoringPlanDetails> = {
     displayName: "Dream Maker Standard",
     subtitle: "주 1회 60분 수업 · 1:3 멘토링",
     benefits: ["6개월 과정", "정규 교육과 병행 가능한 커리큘럼"],
-    baseAmount: 99000,
-    discountAmount: 0,
+    baseAmount: 150000,
+    discountAmount: 51000,
   },
   plus: {
     displayName: "Dream Maker Plus",
     subtitle: "주 2회 60분 수업 · 1:3 멘토링",
     benefits: ["3개월 집중 과정", "빠르게 레벨을 완료하는 커리큘럼"],
-    baseAmount: 250000,
-    discountAmount: 70000,
+    baseAmount: 300000,
+    discountAmount: 120000,
   },
 };
 
