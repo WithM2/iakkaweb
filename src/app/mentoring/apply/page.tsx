@@ -170,7 +170,7 @@ export default function MentoringApplyPage() {
                 <li>
                   Dream Maker 이후 단계부터 학습을 원하시는 경우,
                   <span className="px-1 font-semibold text-main-600">
-                    <Link href="/support">고객지원 &gt; 문의하기</Link>
+                    <Link href="/contact">고객지원 &gt; 문의하기</Link>
                   </span>
                   를 이용해 주세요.
                 </li>
