@@ -25,6 +25,7 @@ const pricingPlans: PricingPlan[] = [
       "1:4 소수 정예 협업 스튜디오",
     ],
     price: "월 99,000원",
+    originalPrice: "월 150,000원",
     highlightBadge: true,
   },
   {
@@ -39,7 +40,7 @@ const pricingPlans: PricingPlan[] = [
       "완성 포트폴리오 및 성과 리포트 제공",
     ],
     price: "월 180,000원",
-    originalPrice: "월 250,000원",
+    originalPrice: "월 300,000원",
     highlightBadge: true,
   },
 ];

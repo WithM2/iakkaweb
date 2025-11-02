@@ -13,7 +13,7 @@ type MentoringPlan = {
   }[];
   features: readonly string[];
   price: string;
-  originalPrice?: string;
+  originalPrice: string;
   ctaLabel: string;
 };
 
@@ -31,6 +31,7 @@ const mentoringPlans: MentoringPlan[] = [
     ],
     features: ["주 1회 60분 수업 (월 4회 총 240분)", "1:3 멘토링"],
     price: "월 99,000원",
+    originalPrice: "월 150,000원",
     ctaLabel: "Standard 구독하기",
   },
   {
@@ -50,7 +51,7 @@ const mentoringPlans: MentoringPlan[] = [
     ],
     features: ["주 2회 60분 수업 (월 8회 총 480분)", "1:3 멘토링"],
     price: "월 180,000원",
-    originalPrice: "월 250,000원",
+    originalPrice: "월 300,000원",
     ctaLabel: "Plus 구독하기",
   },
 ] as const;
