@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
 import type {
   ChangeEvent,
   FormEvent,
@@ -63,7 +62,6 @@ export default function SubscribePageClient({
   selectedPlan,
   finalAmount,
 }: SubscribePageClientProps) {
-  const router = useRouter();
   const [ordererName, setOrdererName] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
@@ -71,6 +69,8 @@ export default function SubscribePageClient({
   const [studentPhone, setStudentPhone] = useState("");
   const [agreeRequired, setAgreeRequired] = useState(false);
   const [agreeMarketing, setAgreeMarketing] = useState(false);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
 
   const [touched, setTouched] = useState<TouchedState>({
     ordererName: false,
@@ -106,7 +106,7 @@ export default function SubscribePageClient({
     setTouched((prev) => ({ ...prev, contact: true }));
   };
 
-  const proceedToGuidePage = () => {
+  const proceedToPayment = async () => {
     const nameValidation = getNameError(ordererName);
     const contactValidation = getContactError(contact);
     const emailValidation = getEmailError(email);
@@ -123,14 +123,59 @@ export default function SubscribePageClient({
       return;
     }
 
-    router.push(
-      `/mentoring/apply/subscribe/bank-transfer-guide?plan=${planId}`,
-    );
+    try {
+      setIsProcessingPayment(true);
+      setPaymentError(null);
+
+      const response = await fetch("/api/payments/danal", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          amount: finalAmount,
+          planId,
+          planName: selectedPlan.displayName,
+          ordererName,
+          contact,
+          email,
+          studentName,
+          studentPhone,
+          agreeMarketing,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorPayload = await response.json().catch(() => null);
+        throw new Error(
+          errorPayload?.message || "결제 요청 처리 중 오류가 발생했습니다.",
+        );
+      }
+
+      const { redirectUrl } = (await response.json()) as {
+        redirectUrl?: string;
+      };
+
+      if (!redirectUrl) {
+        throw new Error("결제 페이지를 불러오지 못했습니다.");
+      }
+
+      window.location.href = redirectUrl;
+    } catch (error) {
+      console.error(error);
+      setPaymentError(
+        error instanceof Error
+          ? error.message
+          : "결제 요청 처리 중 오류가 발생했습니다.",
+      );
+    } finally {
+      setIsProcessingPayment(false);
+    }
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    proceedToGuidePage();
+    void proceedToPayment();
   };
 
   return (
@@ -306,14 +351,14 @@ export default function SubscribePageClient({
 
                 <button
                   type="submit"
-                  disabled={!isPaymentEnabled}
+                  disabled={!isPaymentEnabled || isProcessingPayment}
                   className={`inline-flex w-full items-center justify-center rounded-[16px] px-6 py-4 text-[16px] font-semibold transition-colors duration-200 ${
-                    isPaymentEnabled
+                    isPaymentEnabled && !isProcessingPayment
                       ? "bg-main-600 text-white hover:bg-main-600/90"
                       : "bg-gray-200 text-ink-900/40"
                   }`}
                 >
-                  결제하기
+                  {isProcessingPayment ? "결제 페이지로 이동 중..." : "결제하기"}
                 </button>
               </section>
             </form>
@@ -348,16 +393,22 @@ export default function SubscribePageClient({
 
                 <button
                   type="button"
-                  disabled={!isPaymentEnabled}
+                  disabled={!isPaymentEnabled || isProcessingPayment}
                   className={`mt-6 inline-flex w-full items-center justify-center rounded-[14px] px-5 py-3 text-[15px] font-semibold transition-colors duration-200 ${
-                    isPaymentEnabled
+                    isPaymentEnabled && !isProcessingPayment
                       ? "bg-main-600 text-white hover:bg-main-600/90"
                       : "bg-gray-200 text-ink-900/40"
                   }`}
-                  onClick={proceedToGuidePage}
+                  onClick={() => void proceedToPayment()}
                 >
-                  결제하기
+                  {isProcessingPayment ? "결제 페이지로 이동 중..." : "결제하기"}
                 </button>
+
+                {paymentError ? (
+                  <p className="text-[12px] leading-[20px] text-red-500">
+                    {paymentError}
+                  </p>
+                ) : null}
               </div>
 
               <p className="text-[12px] leading-[20px] text-ink-900/50 md:text-[13px]">
