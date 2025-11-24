@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Script from "next/script";
+import { useEffect, useMemo, useState } from "react";
 import type {
   ChangeEvent,
   FormEvent,
@@ -8,6 +9,7 @@ import type {
   ReactNode,
 } from "react";
 
+import { loadDanalPaymentsSDK } from "@danalpay/javascript-sdk";
 import type { MentoringPlanDetails, MentoringPlanId } from "./page";
 
 type SubscribePageClientProps = {
@@ -62,6 +64,10 @@ export default function SubscribePageClient({
   selectedPlan,
   finalAmount,
 }: SubscribePageClientProps) {
+  const [danalPayments, setDanalPayments] = useState<
+    Awaited<ReturnType<typeof loadDanalPaymentsSDK>> | null
+  >(null);
+  const [danalError, setDanalError] = useState<string | null>(null);
   const [ordererName, setOrdererName] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
@@ -86,6 +92,27 @@ export default function SubscribePageClient({
   const emailError = touched.email || isSubmitted ? getEmailError(email) : "";
   const requiredAgreementError =
     isSubmitted && !agreeRequired ? "필수 약관에 동의해주세요." : "";
+
+  useEffect(() => {
+    const clientKey =
+      process.env.NEXT_PUBLIC_DANAL_CLIENT_KEY ||
+      "CL_TEST_I4d8FWYSSKl-42F7y3o9g_7iexSCyHbL8qthpZxPnpY=";
+
+    loadDanalPaymentsSDK({ clientKey })
+      .then((sdk) => {
+        setDanalPayments(sdk);
+        setDanalError(null);
+      })
+      .catch((error) => {
+        console.error(error);
+        setDanalPayments(null);
+        setDanalError(
+          error instanceof Error
+            ? error.message
+            : "결제 모듈을 불러오지 못했습니다.",
+        );
+      });
+  }, []);
 
   const isPaymentEnabled = useMemo(() => {
     return (
@@ -160,7 +187,17 @@ export default function SubscribePageClient({
         throw new Error("결제 페이지를 불러오지 못했습니다.");
       }
 
-      window.location.href = redirectUrl;
+      if (!danalPayments) {
+        throw new Error(
+          danalError || "결제 모듈을 불러오는 중입니다. 잠시 후 다시 시도해주세요.",
+        );
+      }
+
+      await Promise.resolve(
+        danalPayments.requestPayment({ redirectUrl }),
+      ).catch(() => {
+        window.location.href = redirectUrl;
+      });
     } catch (error) {
       console.error(error);
       setPaymentError(
@@ -179,7 +216,9 @@ export default function SubscribePageClient({
   };
 
   return (
-    <main className="bg-white">
+    <>
+      <Script src="https://static.danalpay.com/d1/sdk/index.js" strategy="afterInteractive" />
+      <main className="bg-white">
       <section className="mx-auto w-full max-w-[1200px] px-5 py-16 md:px-6 md:py-24">
         <div className="space-y-12 md:space-y-16">
           <header className="space-y-4">
@@ -420,6 +459,7 @@ export default function SubscribePageClient({
         </div>
       </section>
     </main>
+    </>
   );
 }
 
