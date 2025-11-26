@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import Script from "next/script";
 import type {
   ChangeEvent,
   FormEvent,
@@ -10,6 +10,12 @@ import type {
 } from "react";
 
 import type { MentoringPlanDetails, MentoringPlanId } from "./page";
+import {
+  DANAL_SANDBOX_BASE_PARAMS,
+  DANAL_TEST_CLIENT_KEY,
+  type DanalPaymentRequest,
+  type DanalPaymentsMethod,
+} from "@/lib/danalPayments";
 
 type SubscribePageClientProps = {
   planId: MentoringPlanId;
@@ -63,7 +69,6 @@ export default function SubscribePageClient({
   selectedPlan,
   finalAmount,
 }: SubscribePageClientProps) {
-  const router = useRouter();
   const [ordererName, setOrdererName] = useState("");
   const [contact, setContact] = useState("");
   const [email, setEmail] = useState("");
@@ -71,6 +76,10 @@ export default function SubscribePageClient({
   const [studentPhone, setStudentPhone] = useState("");
   const [agreeRequired, setAgreeRequired] = useState(false);
   const [agreeMarketing, setAgreeMarketing] = useState(false);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+
+  const [selectedPaymentMethod] = useState<DanalPaymentsMethod>("INTEGRATED");
 
   const [touched, setTouched] = useState<TouchedState>({
     ordererName: false,
@@ -106,7 +115,7 @@ export default function SubscribePageClient({
     setTouched((prev) => ({ ...prev, contact: true }));
   };
 
-  const proceedToGuidePage = () => {
+  const handlePayment = async () => {
     const nameValidation = getNameError(ordererName);
     const contactValidation = getContactError(contact);
     const emailValidation = getEmailError(email);
@@ -123,18 +132,70 @@ export default function SubscribePageClient({
       return;
     }
 
-    router.push(
-      `/mentoring/apply/subscribe/bank-transfer-guide?plan=${planId}`,
-    );
+    if (!window.DanalPayments) {
+      setPaymentError("결제 모듈 로딩 실패");
+      return;
+    }
+
+    const basePayload: DanalPaymentRequest = {
+      ...DANAL_SANDBOX_BASE_PARAMS,
+      orderName: selectedPlan.displayName ?? DANAL_SANDBOX_BASE_PARAMS.orderName,
+      amount: finalAmount ?? DANAL_SANDBOX_BASE_PARAMS.amount,
+      orderId: new Date().getTime().toString(),
+      userId: email || DANAL_SANDBOX_BASE_PARAMS.userId,
+      userEmail: email || DANAL_SANDBOX_BASE_PARAMS.userEmail,
+      userName: ordererName || DANAL_SANDBOX_BASE_PARAMS.userName,
+      paymentsMethod: selectedPaymentMethod,
+    };
+
+    const requestPayload: DanalPaymentRequest = {
+      ...basePayload,
+      methods: {
+        mobile: {
+          itemCode: "1270000000",
+          itemType: "1",
+        },
+        virtualAccount: {
+          notiUrl: "https://notiUrl.com",
+        },
+        card: {},
+        naverPay: {},
+        kakaoPay: {},
+        payco: {},
+        transfer: {},
+        cultureland: {},
+        bookAndLife: {},
+      },
+    };
+
+    const danalPayments = window.DanalPayments(DANAL_TEST_CLIENT_KEY);
+
+    try {
+      setIsProcessingPayment(true);
+      setPaymentError(null);
+      await danalPayments.requestPayment(requestPayload);
+    } catch (error) {
+      console.error(error);
+      setPaymentError("결제 요청 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
+    } finally {
+      setIsProcessingPayment(false);
+    }
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    proceedToGuidePage();
+    void handlePayment();
   };
 
   return (
     <main className="bg-white">
+      <Script
+        src="https://static.danalpay.com/d1/sdk/index.js"
+        strategy="afterInteractive"
+        onError={() => {
+          setPaymentError("결제 모듈 로딩 실패");
+        }}
+      />
       <section className="mx-auto w-full max-w-[1200px] px-5 py-16 md:px-6 md:py-24">
         <div className="space-y-12 md:space-y-16">
           <header className="space-y-4">
@@ -306,14 +367,14 @@ export default function SubscribePageClient({
 
                 <button
                   type="submit"
-                  disabled={!isPaymentEnabled}
+                  disabled={!isPaymentEnabled || isProcessingPayment}
                   className={`inline-flex w-full items-center justify-center rounded-[16px] px-6 py-4 text-[16px] font-semibold transition-colors duration-200 ${
-                    isPaymentEnabled
+                    isPaymentEnabled && !isProcessingPayment
                       ? "bg-main-600 text-white hover:bg-main-600/90"
                       : "bg-gray-200 text-ink-900/40"
                   }`}
                 >
-                  결제하기
+                  {isProcessingPayment ? "결제창 준비중" : "결제하기"}
                 </button>
               </section>
             </form>
@@ -348,17 +409,23 @@ export default function SubscribePageClient({
 
                 <button
                   type="button"
-                  disabled={!isPaymentEnabled}
+                  disabled={!isPaymentEnabled || isProcessingPayment}
                   className={`mt-6 inline-flex w-full items-center justify-center rounded-[14px] px-5 py-3 text-[15px] font-semibold transition-colors duration-200 ${
-                    isPaymentEnabled
+                    isPaymentEnabled && !isProcessingPayment
                       ? "bg-main-600 text-white hover:bg-main-600/90"
                       : "bg-gray-200 text-ink-900/40"
                   }`}
-                  onClick={proceedToGuidePage}
+                  onClick={() => void handlePayment()}
                 >
-                  결제하기
+                  {isProcessingPayment ? "결제창 준비중" : "결제하기"}
                 </button>
               </div>
+
+              {paymentError ? (
+                <p className="text-[12px] leading-[20px] text-red-500">
+                  {paymentError}
+                </p>
+              ) : null}
 
               <p className="text-[12px] leading-[20px] text-ink-900/50 md:text-[13px]">
                 결제 완료 후 담당 매니저가 안내 문자를 드립니다. 문의 사항이
