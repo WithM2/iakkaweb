@@ -7,17 +7,18 @@ const FOOTER_LINKS = [
 ];
 
 const COMPANY_DETAILS = [
-  "이용약관 | 등록자 : IAKKA",
-  "사업자등록번호 : 000-00-00000 | ",
-  "이메일 : iakka.kr@gmail.com | 전화 : 010-3199-1331",
-  "주소 : 경기도 안양시 만안구 안양로 311, project 500 tower 1610",
-  "© IAKKA ALL RIGHTS RESERVED",
+  "사업자명 : (주) 아카",
+  "사업자등록번호 : 869-88-03078",
+  "전화 : 031-341-0888",
+  "주소 : 경기도 안양시 만안구 안양로 311, 16층 10호 (안양동, PROJECT 500 TOWER)",
+  "이메일 : iakka.kr@gmail.com",
+  "대표자명 : 이재현",
 ];
 
 const CONTACT_CHANNELS = [
   {
     label: "전화 연결",
-    href: "tel:01031991331",
+    href: "tel:031-341-0888",
     icon: (
       <svg
         aria-hidden
@@ -103,7 +104,7 @@ export default function Footer() {
               고객센터
             </p>
             <p className="text-[32px] font-bold leading-none text-white md:text-[40px]">
-              010-3199-1331
+              031-341-0888
             </p>
             <p className="text-[13px] text-white/60 md:text-[14px]">
               평일 09:00 - 18:00 (주말 · 공휴일 제외)
@@ -148,7 +149,7 @@ export default function Footer() {
               className="text-white hover:text-main-300"
               href="tel:01031991331"
             >
-              010-3199-1331
+              031-341-0888
             </a>
           </div>
         </div>
