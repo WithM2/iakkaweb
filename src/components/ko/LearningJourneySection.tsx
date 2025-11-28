@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 
+import Image from "next/image";
+
 interface JourneyStage {
   id: string;
   stepTitle: string;
@@ -10,6 +12,15 @@ interface JourneyStage {
     title: string;
     items: string[];
   }>;
+}
+
+interface LearningMode {
+  id: string;
+  label: string;
+  headline: string;
+  description: string;
+  points: string[];
+  imageSrc: string;
 }
 
 const journeyStages: JourneyStage[] = [
@@ -129,16 +140,49 @@ const journeyStages: JourneyStage[] = [
   },
 ];
 
+const learningModes: LearningMode[] = [
+  {
+    id: "online",
+    label: "온라인",
+    headline: "자체 교육 앱을 활용한 온라인 교육",
+    description:
+      "학기 중에도 멘토와 학습 진도를 꾸준히 점검하고, 프로젝트 결과물을 완성해요.",
+    points: [
+      "개인별 학습 미션과 실시간 진도 관리",
+      "정기 피드백과 Q&A 라이브 세션",
+      "프로젝트 산출물 업로드 및 협업 지원",
+    ],
+    imageSrc: "/images/learning-online.png",
+  },
+  {
+    id: "offline",
+    label: "오프라인",
+    headline: "현장에서 실습하는 캠프형 수업",
+    description:
+      "팀원들과 직접 만들고 체험하며 발표까지 이어지는 몰입형 교육을 진행해요.",
+    points: [
+      "하드웨어와 메이커 키트를 활용한 실습 프로젝트",
+      "팀 단위 협업과 발표, 데모데이 진행",
+      "멘토와 함께 결과물을 개선하는 피드백 세션",
+    ],
+    imageSrc: "/images/learning-offline.png",
+  },
+];
+
 export default function LearningJourneySection() {
   const [selectedStageId, setSelectedStageId] = useState(journeyStages[0].id);
+  const [selectedModeId, setSelectedModeId] = useState(learningModes[0].id);
 
   const activeStage =
     journeyStages.find((stage) => stage.id === selectedStageId) ??
     journeyStages[0];
+  const activeMode =
+    learningModes.find((mode) => mode.id === selectedModeId) ??
+    learningModes[0];
 
   return (
-    <section className="w-full bg-[linear-gradient(180deg,#232323_0%,#143263_50%,#232323_100%)] text-white">
-      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-10 px-5 py-16 md:px-6 md:py-20">
+    <section className="w-full bg-[linear-gradient(180deg,#232323_0%,#143263_35%,#0f1e33_70%,#0b141f_100%)] text-white">
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-16 px-5 py-16 md:px-6 md:py-20">
         <div className="flex flex-col items-center text-center">
           <h3 className="text-[36px] font-semibold text-white">
             체계적인 교육 프로세스
@@ -202,6 +246,79 @@ export default function LearningJourneySection() {
                   </ul>
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-10 border-t border-white/10 pt-14">
+          <div className="flex flex-col items-center text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.12em] text-main-300">
+              Hybrid Learning
+            </p>
+            <h3 className="mt-3 text-[32px] font-semibold text-white md:text-[36px]">
+              앱과 캠프를 잇는 하이브리드 수업
+            </h3>
+            <p className="mt-3 text-[18px] text-white/80 md:text-[20px]">
+              온라인과 오프라인의 장점을 모두 살려, 어디서든 성장할 수 있는 교육을 제공합니다.
+            </p>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="inline-flex w-fit items-center rounded-full bg-white/10 p-1 text-sm font-semibold shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
+              {learningModes.map((mode) => {
+                const isActive = mode.id === activeMode.id;
+
+                return (
+                  <button
+                    key={mode.id}
+                    type="button"
+                    onClick={() => setSelectedModeId(mode.id)}
+                    className={`rounded-full px-5 py-2 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f1e33] ${
+                      isActive
+                        ? "bg-main-400 text-slate-900"
+                        : "text-white hover:bg-white/10"
+                    }`}
+                  >
+                    {mode.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2 lg:gap-12">
+            <div className="flex flex-col justify-between rounded-[20px] border border-white/10 bg-white/5 p-6 shadow-[0_18px_40px_rgba(0,0,0,0.3)]">
+              <div className="space-y-3">
+                <h4 className="text-[24px] font-semibold text-white">
+                  {activeMode.headline}
+                </h4>
+                <p className="text-[16px] text-white/80">
+                  {activeMode.description}
+                </p>
+              </div>
+              <ul className="mt-5 space-y-2 text-[15px] leading-[26px] text-white">
+                {activeMode.points.map((point) => (
+                  <li
+                    key={point}
+                    className="flex items-start gap-2 rounded-[12px] bg-white/5 px-4 py-2"
+                  >
+                    <span className="mt-[6px] block h-2 w-2 rounded-full bg-main-300" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="relative h-full min-h-[280px] overflow-hidden rounded-[28px] border border-white/10 bg-white/5 shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
+              <div className="absolute inset-0 bg-gradient-to-br from-main-400/20 via-transparent to-transparent" />
+              <Image
+                src={activeMode.imageSrc}
+                alt={`${activeMode.label} 수업 예시 이미지`}
+                width={720}
+                height={480}
+                className="h-full w-full object-cover"
+                priority
+              />
             </div>
           </div>
         </div>
