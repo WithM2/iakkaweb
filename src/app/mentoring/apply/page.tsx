@@ -61,8 +61,8 @@ export default function MentoringApplyPage() {
     <>
       <Header />
 
-      <nav className="border-b border-gray-100 bg-gray-50">
-        <div className="mx-auto flex w-full max-w-[1200px] items-center gap-2 px-5 py-3 text-[13px] font-medium text-ink-900/70 md:px-6">
+      <nav className="border-b border-gray-100 bg-white">
+        <div className="mx-auto flex w-full max-w-[1200px] items-center gap-2 px-5 py-3 text-[13px] font-medium text-ink-900/60 md:px-6">
           <Link href="/" className="transition-colors duration-150 hover:text-main-600">
             HOME
           </Link>
@@ -76,7 +76,7 @@ export default function MentoringApplyPage() {
           <span className="text-ink-900/30">&gt;</span>
           <Link
             href="#mentoring-apply"
-            className="transition-colors duration-150 hover:text-main-600"
+            className="text-ink-900 transition-colors duration-150 hover:text-main-600"
           >
             교육 신청
           </Link>
