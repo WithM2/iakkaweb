@@ -34,23 +34,9 @@ body {
   }
 }
 
-@keyframes partner-rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
 @layer utilities {
   .animate-review-marquee {
     animation: review-marquee 36s linear infinite;
-    will-change: transform;
-  }
-
-  .animate-partner-rotate {
-    animation: partner-rotate 18s linear infinite;
     will-change: transform;
   }
 }
