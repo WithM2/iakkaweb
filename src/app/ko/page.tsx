@@ -8,7 +8,6 @@ import LearningJourneySection from "@/components/ko/LearningJourneySection";
 import MentorShowcaseSection from "@/components/ko/MentorShowcaseSection";
 import PricingSection from "@/components/ko/PricingSection";
 import PartnerInstitutionsSection from "@/components/ko/PartnerInstitutionsSection";
-import Image from "next/image";
 import Link from "next/link";
 
 const problemSolutionRows = [
@@ -86,14 +85,16 @@ export default function PageKO() {
 
       {/* HERO */}
       <section className="relative isolate h-[70vh] md:h-[80vh] w-full">
-        {/* 배경 이미지 */}
-        <Image
-          src="/images/hero.png"
-          alt="아이들이 포스트잇 보드에서 협업하는 모습"
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
+        {/* 배경 동영상 */}
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          src="/videos/hero.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          poster="/images/hero.png"
+          aria-hidden
         />
 
         {/* 어두운 오버레이 (캡처 느낌) */}
