@@ -61,7 +61,29 @@ export default function MentoringApplyPage() {
     <>
       <Header />
 
-      <main className="bg-white">
+      <nav className="border-b border-gray-100 bg-gray-50">
+        <div className="mx-auto flex w-full max-w-[1200px] items-center gap-2 px-5 py-3 text-[13px] font-medium text-ink-900/70 md:px-6">
+          <Link href="/" className="transition-colors duration-150 hover:text-main-600">
+            HOME
+          </Link>
+          <span className="text-ink-900/30">&gt;</span>
+          <Link
+            href="#mentoring-programs"
+            className="transition-colors duration-150 hover:text-main-600"
+          >
+            교육 프로그램
+          </Link>
+          <span className="text-ink-900/30">&gt;</span>
+          <Link
+            href="#mentoring-apply"
+            className="transition-colors duration-150 hover:text-main-600"
+          >
+            교육 신청
+          </Link>
+        </div>
+      </nav>
+
+      <main className="bg-white" id="mentoring-apply">
         <section className="mx-auto w-full max-w-[1200px] px-5 py-16 md:px-6 md:py-24">
           <div className="space-y-12 md:space-y-16">
             <header className="space-y-4">
@@ -72,7 +94,7 @@ export default function MentoringApplyPage() {
               </div>
             </header>
 
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2" id="mentoring-programs">
               {mentoringPlans.map((plan) => (
                 <article
                   key={plan.id}
