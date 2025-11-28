@@ -1,6 +1,6 @@
 const OFFICE_INFO = [
-  "경기도 안양시 만안구 안양로 311,",
-  "project 500 tower 1610",
+  "경기도 안양시 만안구 안양로 311",
+  "16층 10호 (안양동, PROJECT 500 TOWER)",
 ];
 
 const INQUIRY_INFO = [
