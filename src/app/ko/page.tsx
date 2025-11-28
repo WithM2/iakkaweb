@@ -46,7 +46,38 @@ const problemSolutionRows = [
 ];
 
 // 협력 기관 로고 이미지는 사용자가 제공하는 파일명으로 교체해 주세요.
-const partnerLogos: { name: string; src: string; alt?: string }[] = [];
+const partnerLogos: { name: string; src: string; alt?: string }[] = [
+  {
+    name: "성균관대학교",
+    src: "/partners/skku.png",
+    alt: "성균관대학교 로고",
+  },
+  {
+    name: "고려대학교",
+    src: "/partners/ku.png",
+    alt: "고려대학교 로고",
+  },
+  {
+    name: "아주대학교",
+    src: "/partners/ajou.png",
+    alt: "아주대학교 로고",
+  },
+  {
+    name: "홍은청소년문화의집",
+    src: "/partners/hongeun.png",
+    alt: "홍은청소년문화의집 로고",
+  },
+  {
+    name: "서대문구가족센터",
+    src: "/partners/seodaemoonFamily.png",
+    alt: "서대문구가족센터 로고",
+  },
+  {
+    name: "서대문진로직업체험지원센터",
+    src: "/partners/seodaemoonCareer.png",
+    alt: "서대문진로직업체험지원센터 로고",
+  },
+];
 
 export default function PageKO() {
   return (
