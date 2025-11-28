@@ -37,10 +37,10 @@ export default function MentoringPlanDetailPage({
           </header>
 
           {/* 본문 그리드 */}
-          <div className="grid gap-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-center">
+          <div className="grid gap-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-stretch">
             {/* 왼쪽: 썸네일 이미지 */}
-            <div className="flex justify-center md:justify-start">
-              <div className="relative h-[260px] w-full max-w-[420px] overflow-hidden rounded-[32px] md:h-[320px]">
+            <div className="flex justify-center md:h-full md:justify-start">
+              <div className="relative aspect-square h-full w-full max-w-[420px] overflow-hidden rounded-[32px]">
                 <Image
                   src="/images/mentoring/subscribe.png"
                   alt={fullTitle}
@@ -52,7 +52,7 @@ export default function MentoringPlanDetailPage({
             </div>
 
             {/* 오른쪽: 상품 카드 */}
-            <article className="flex flex-col rounded-[28px] border border-gray-100 bg-white p-7 shadow-[0_18px_40px_rgba(0,0,0,0.08)] md:p-9">
+            <article className="flex h-full flex-col rounded-[28px] border border-gray-100 bg-white p-7 shadow-[0_18px_40px_rgba(0,0,0,0.08)] md:p-9">
               {/* 플랜 정보 */}
               <div className="space-y-4 border-b border-gray-100 pb-5">
                 <div className="flex items-center gap-3">
