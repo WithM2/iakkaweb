@@ -275,10 +275,10 @@ export default function LearningJourneySection() {
                     key={mode.id}
                     type="button"
                     onClick={() => setSelectedModeId(mode.id)}
-                    className={`rounded-full px-5 py-2 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f1e33] ${
+                    className={`rounded-full px-6 py-2 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f1e33] ${
                       isActive
-                        ? "bg-main-400 text-slate-900"
-                        : "text-white hover:bg-white/10"
+                        ? "bg-[linear-gradient(90deg,#0d8eff,#0a6fdc)] text-white shadow-[0_10px_30px_rgba(0,121,234,0.35)]"
+                        : "text-white/70 hover:bg-white/10"
                     }`}
                   >
                     {mode.label}
@@ -289,7 +289,7 @@ export default function LearningJourneySection() {
           </div>
 
           <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2 lg:gap-12">
-            <div className="flex h-[320px] flex-col justify-between rounded-[20px] border border-white/10 bg-white/5 p-6 shadow-[0_18px_40px_rgba(0,0,0,0.3)] md:h-[360px]">
+            <div className="flex h-[320px] flex-col justify-between rounded-[28px] border border-white/10 bg-white/5 p-7 shadow-[0_18px_40px_rgba(0,0,0,0.3)] md:h-[360px] md:p-9">
               <div className="space-y-3">
                 <h4 className="text-[24px] font-semibold text-white">
                   {activeMode.headline}
