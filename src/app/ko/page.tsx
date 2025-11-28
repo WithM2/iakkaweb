@@ -7,6 +7,7 @@ import Footer from "@/components/common/Footer";
 import LearningJourneySection from "@/components/ko/LearningJourneySection";
 import MentorShowcaseSection from "@/components/ko/MentorShowcaseSection";
 import PricingSection from "@/components/ko/PricingSection";
+import PartnerInstitutionsSection from "@/components/ko/PartnerInstitutionsSection";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -41,6 +42,40 @@ const problemSolutionRows = [
     solutionTitle: "‘만들고, 출시하는 경험’이 자신감을 만듭니다",
     solutionDescription:
       "작은 성장을 직접 경험하며 ‘나도 할 수 있다’는 자기 효능감을 키웁니다.",
+  },
+];
+
+// 협력 기관 로고 이미지는 사용자가 제공하는 파일명으로 교체해 주세요.
+const partnerLogos: { name: string; src: string; alt?: string }[] = [
+  {
+    name: "성균관대학교",
+    src: "/partners/skku.png",
+    alt: "성균관대학교 로고",
+  },
+  {
+    name: "고려대학교",
+    src: "/partners/ku.png",
+    alt: "고려대학교 로고",
+  },
+  {
+    name: "아주대학교",
+    src: "/partners/ajou.png",
+    alt: "아주대학교 로고",
+  },
+  {
+    name: "홍은청소년문화의집",
+    src: "/partners/hongeun.png",
+    alt: "홍은청소년문화의집 로고",
+  },
+  {
+    name: "서대문구가족센터",
+    src: "/partners/seodaemoonFamily.png",
+    alt: "서대문구가족센터 로고",
+  },
+  {
+    name: "서대문진로직업체험지원센터",
+    src: "/partners/seodaemoonCareer.png",
+    alt: "서대문진로직업체험지원센터 로고",
   },
 ];
 
@@ -223,6 +258,8 @@ export default function PageKO() {
       <ParentTestimonialsSection />
 
       <ReviewSection />
+
+      <PartnerInstitutionsSection logos={partnerLogos} />
 
       <ContactSection />
 
