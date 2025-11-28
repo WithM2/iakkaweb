@@ -267,51 +267,53 @@ export default function LearningJourneySection() {
             </p>
           </div>
 
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-12">
-            <div className="flex flex-col gap-6 lg:w-[420px]">
-              <div className="inline-flex w-fit items-center rounded-full bg-white/10 p-1 text-sm font-semibold shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
-                {learningModes.map((mode) => {
-                  const isActive = mode.id === activeMode.id;
+          <div className="flex justify-center">
+            <div className="inline-flex w-fit items-center rounded-full bg-white/10 p-1 text-sm font-semibold shadow-[0_10px_30px_rgba(0,0,0,0.2)]">
+              {learningModes.map((mode) => {
+                const isActive = mode.id === activeMode.id;
 
-                  return (
-                    <button
-                      key={mode.id}
-                      type="button"
-                      onClick={() => setSelectedModeId(mode.id)}
-                      className={`rounded-full px-5 py-2 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f1e33] ${
-                        isActive
-                          ? "bg-main-400 text-slate-900"
-                          : "text-white hover:bg-white/10"
-                      }`}
-                    >
-                      {mode.label}
-                    </button>
-                  );
-                })}
-              </div>
+                return (
+                  <button
+                    key={mode.id}
+                    type="button"
+                    onClick={() => setSelectedModeId(mode.id)}
+                    className={`rounded-full px-5 py-2 transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0f1e33] ${
+                      isActive
+                        ? "bg-main-400 text-slate-900"
+                        : "text-white hover:bg-white/10"
+                    }`}
+                  >
+                    {mode.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
 
-              <div className="space-y-3 rounded-[20px] border border-white/10 bg-white/5 p-6 shadow-[0_18px_40px_rgba(0,0,0,0.3)]">
+          <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2 lg:gap-12">
+            <div className="flex flex-col justify-between rounded-[20px] border border-white/10 bg-white/5 p-6 shadow-[0_18px_40px_rgba(0,0,0,0.3)]">
+              <div className="space-y-3">
                 <h4 className="text-[24px] font-semibold text-white">
                   {activeMode.headline}
                 </h4>
                 <p className="text-[16px] text-white/80">
                   {activeMode.description}
                 </p>
-                <ul className="space-y-2 text-[15px] leading-[26px] text-white">
-                  {activeMode.points.map((point) => (
-                    <li
-                      key={point}
-                      className="flex items-start gap-2 rounded-[12px] bg-white/5 px-4 py-2"
-                    >
-                      <span className="mt-[6px] block h-2 w-2 rounded-full bg-main-300" />
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
               </div>
+              <ul className="mt-5 space-y-2 text-[15px] leading-[26px] text-white">
+                {activeMode.points.map((point) => (
+                  <li
+                    key={point}
+                    className="flex items-start gap-2 rounded-[12px] bg-white/5 px-4 py-2"
+                  >
+                    <span className="mt-[6px] block h-2 w-2 rounded-full bg-main-300" />
+                    <span>{point}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
 
-            <div className="relative flex-1 overflow-hidden rounded-[28px] border border-white/10 bg-white/5 shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
+            <div className="relative h-full min-h-[280px] overflow-hidden rounded-[28px] border border-white/10 bg-white/5 shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
               <div className="absolute inset-0 bg-gradient-to-br from-main-400/20 via-transparent to-transparent" />
               <Image
                 src={activeMode.imageSrc}
