@@ -1,60 +1,7 @@
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
 import Link from "next/link";
-
-type MentoringPlan = {
-  id: "standard" | "plus";
-  titleEmphasis: string;
-  tier: string;
-  description: string;
-  tags: readonly {
-    label: string;
-    variant: "soft" | "solid";
-  }[];
-  features: readonly string[];
-  price: string;
-  originalPrice: string;
-  ctaLabel: string;
-};
-
-const mentoringPlans: MentoringPlan[] = [
-  {
-    id: "standard",
-    titleEmphasis: "Dream Maker",
-    tier: "Standard",
-    description: "정규 교육 과정과 병행할 수 있는 여유로운 커리큘럼",
-    tags: [
-      {
-        label: "6개월 과정",
-        variant: "soft",
-      },
-    ],
-    features: ["주 1회 60분 수업 (월 4회 총 240분)", "1:3 멘토링"],
-    price: "월 99,000원",
-    originalPrice: "월 150,000원",
-    ctaLabel: "Standard 구독하기",
-  },
-  {
-    id: "plus",
-    titleEmphasis: "Dream Maker",
-    tier: "Plus",
-    description: "빠르게 레벨을 완료할 수 있는 커리큘럼",
-    tags: [
-      {
-        label: "추천",
-        variant: "solid",
-      },
-      {
-        label: "3개월 과정",
-        variant: "solid",
-      },
-    ],
-    features: ["주 2회 60분 수업 (월 8회 총 480분)", "1:3 멘토링"],
-    price: "월 180,000원",
-    originalPrice: "월 300,000원",
-    ctaLabel: "Plus 구독하기",
-  },
-] as const;
+import { mentoringPlans } from "./_config/mentoringPlans";
 
 export default function MentoringApplyPage() {
   return (
@@ -127,11 +74,7 @@ export default function MentoringApplyPage() {
                             {tag.label}
                           </span>
                         ))}
-                        <p
-                          className={
-                            "text-[16px] font-bold leading-[24px] text-ink-900 md:ml-2 md:flex-1 md:text-[18px] md:leading-[28px]"
-                          }
-                        >
+                        <p className="text-[16px] font-bold leading-[24px] text-ink-900 md:ml-2 md:flex-1 md:text-[18px] md:leading-[28px]">
                           {plan.description}
                         </p>
                       </div>
@@ -160,10 +103,7 @@ export default function MentoringApplyPage() {
 
                     <div className="mt-6">
                       <Link
-                        href={{
-                          pathname: "/mentoring/apply/subscribe",
-                          query: { plan: plan.id },
-                        }}
+                        href={`/mentoring/apply/${plan.id}`}
                         className={`inline-flex w-full items-center justify-center rounded-[14px] px-4 py-3 text-[15px] font-semibold transition-colors duration-200 ${
                           plan.id === "standard"
                             ? "border border-main-600 bg-white text-main-600 hover:bg-main-100"
