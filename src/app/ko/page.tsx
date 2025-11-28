@@ -1,5 +1,6 @@
 import Header from "@/components/common/Header";
 import AchievementHighlightsSection from "@/components/ko/AchievementHighlightsSection";
+import ParentTestimonialsSection from "@/components/ko/ParentTestimonialsSection";
 import ReviewSection from "@/components/ReviewSection";
 import ContactSection from "@/components/ko/ContactSection";
 import Footer from "@/components/common/Footer";
@@ -218,6 +219,8 @@ export default function PageKO() {
       <PricingSection />
 
       <AchievementHighlightsSection />
+
+      <ParentTestimonialsSection />
 
       <ReviewSection />
 
