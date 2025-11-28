@@ -45,6 +45,9 @@ const problemSolutionRows = [
   },
 ];
 
+// 협력 기관 로고 이미지는 사용자가 제공하는 파일명으로 교체해 주세요.
+const partnerLogos: { name: string; src: string; alt?: string }[] = [];
+
 export default function PageKO() {
   return (
     <>
@@ -225,7 +228,7 @@ export default function PageKO() {
 
       <ReviewSection />
 
-      <PartnerInstitutionsSection />
+      <PartnerInstitutionsSection logos={partnerLogos} />
 
       <ContactSection />
 
