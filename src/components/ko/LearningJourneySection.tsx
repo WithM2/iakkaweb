@@ -283,7 +283,7 @@ export default function LearningJourneySection() {
           </div>
 
           <div className="grid grid-cols-1 items-stretch gap-8 lg:grid-cols-2 lg:gap-12">
-            <div className="flex flex-col justify-between rounded-[20px] border border-white/10 bg-white/5 p-6 shadow-[0_18px_40px_rgba(0,0,0,0.3)]">
+            <div className="flex h-full min-h-[320px] flex-col justify-between rounded-[20px] border border-white/10 bg-white/5 p-6 shadow-[0_18px_40px_rgba(0,0,0,0.3)]">
               <div className="space-y-3">
                 <h4 className="text-[24px] font-semibold text-white">
                   {activeMode.headline}
@@ -301,7 +301,7 @@ export default function LearningJourneySection() {
               </Link>
             </div>
 
-            <div className="relative h-full min-h-[280px] overflow-hidden rounded-[28px] border border-white/10 bg-white/5 shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
+            <div className="relative h-full min-h-[320px] overflow-hidden rounded-[28px] border border-white/10 bg-white/5 shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
               <div className="absolute inset-0 bg-gradient-to-br from-main-400/20 via-transparent to-transparent" />
               <Image
                 src={activeMode.imageSrc}
