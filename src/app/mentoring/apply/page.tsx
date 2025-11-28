@@ -61,7 +61,29 @@ export default function MentoringApplyPage() {
     <>
       <Header />
 
-      <main className="bg-white">
+      <nav className="border-b border-gray-100 bg-white">
+        <div className="mx-auto flex w-full max-w-[1200px] items-center gap-2 px-5 py-3 text-[13px] font-medium text-ink-900/60 md:px-6">
+          <Link href="/" className="transition-colors duration-150 hover:text-main-600">
+            HOME
+          </Link>
+          <span className="text-ink-900/30">&gt;</span>
+          <Link
+            href="#mentoring-programs"
+            className="transition-colors duration-150 hover:text-main-600"
+          >
+            교육 프로그램
+          </Link>
+          <span className="text-ink-900/30">&gt;</span>
+          <Link
+            href="#mentoring-apply"
+            className="text-ink-900 transition-colors duration-150 hover:text-main-600"
+          >
+            교육 신청
+          </Link>
+        </div>
+      </nav>
+
+      <main className="bg-white" id="mentoring-apply">
         <section className="mx-auto w-full max-w-[1200px] px-5 py-16 md:px-6 md:py-24">
           <div className="space-y-12 md:space-y-16">
             <header className="space-y-4">
@@ -72,7 +94,7 @@ export default function MentoringApplyPage() {
               </div>
             </header>
 
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2" id="mentoring-programs">
               {mentoringPlans.map((plan) => (
                 <article
                   key={plan.id}
@@ -159,12 +181,13 @@ export default function MentoringApplyPage() {
             <div className="space-y-4">
               <ul className="list-disc space-y-2 pl-5 text-[13px] leading-[22px] text-ink-900/70 md:text-[14px] md:leading-[24px]">
                 <li>
-                  커리큘럼 완료에 소요되는 시간은 학생의 학습 상황에 따라 상이할
-                  수 있습니다.
+                  얼리버드 결제 시 추후 요금이 변동되어도 현재 가격으로 계속 멘토링을 이용할 수 있습니다.
                 </li>
                 <li>
-                  상황에 따라 1:3 멘토링이 아닌, 1:2 혹은 1:1 멘토링으로 진행될
-                  수 있습니다.
+                  커리큘럼 완료에 소요되는 시간은 학생의 학습 상황에 따라 상이할 수 있습니다.
+                </li>
+                <li>
+                  상황에 따라 1:3 멘토링이 아닌, 1:2 혹은 1:1 멘토링으로 진행될 수 있습니다.
                 </li>
                 <li>학생의 레벨 상승에 따라 구독 요금이 변경됩니다.</li>
                 <li>
