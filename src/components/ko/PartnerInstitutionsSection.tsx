@@ -47,15 +47,15 @@ export default function PartnerInstitutionsSection({
                   logos.map((partner, index) => (
                     <div
                       key={`${partner.name}-${index}-${cycle}`}
-                      className="flex h-[120px] w-[220px] flex-shrink-0 items-center justify-center rounded-[24px] bg-white shadow-[0_16px_48px_rgba(17,24,39,0.08)] md:h-[140px] md:w-[240px]"
+                      className="relative h-[120px] w-[220px] flex-shrink-0 overflow-hidden rounded-[24px] bg-white shadow-[0_16px_48px_rgba(17,24,39,0.08)] md:h-[140px] md:w-[240px]"
                       aria-hidden={cycle === 1}
                     >
                       <Image
                         src={partner.src}
                         alt={partner.alt ?? `${partner.name} 로고`}
-                        width={200}
-                        height={80}
-                        className="h-[60px] w-auto animate-partner-rotate group-hover:[animation-play-state:paused] md:h-[70px]"
+                        fill
+                        className="object-contain p-6"
+                        sizes="(min-width: 768px) 240px, 220px"
                         priority
                       />
                     </div>
