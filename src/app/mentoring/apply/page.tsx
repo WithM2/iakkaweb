@@ -181,12 +181,13 @@ export default function MentoringApplyPage() {
             <div className="space-y-4">
               <ul className="list-disc space-y-2 pl-5 text-[13px] leading-[22px] text-ink-900/70 md:text-[14px] md:leading-[24px]">
                 <li>
-                  커리큘럼 완료에 소요되는 시간은 학생의 학습 상황에 따라 상이할
-                  수 있습니다.
+                  얼리버드 결제 시 추후 요금이 변동되어도 현재 가격으로 계속 멘토링을 이용할 수 있습니다.
                 </li>
                 <li>
-                  상황에 따라 1:3 멘토링이 아닌, 1:2 혹은 1:1 멘토링으로 진행될
-                  수 있습니다.
+                  커리큘럼 완료에 소요되는 시간은 학생의 학습 상황에 따라 상이할 수 있습니다.
+                </li>
+                <li>
+                  상황에 따라 1:3 멘토링이 아닌, 1:2 혹은 1:1 멘토링으로 진행될 수 있습니다.
                 </li>
                 <li>학생의 레벨 상승에 따라 구독 요금이 변경됩니다.</li>
                 <li>
