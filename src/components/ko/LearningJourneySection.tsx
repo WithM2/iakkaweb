@@ -19,7 +19,8 @@ interface LearningMode {
   label: string;
   headline: string;
   description: string;
-  points: string[];
+  linkLabel: string;
+  linkHref: string;
   imageSrc: string;
 }
 
@@ -147,11 +148,8 @@ const learningModes: LearningMode[] = [
     headline: "자체 교육 앱을 활용한 온라인 교육",
     description:
       "학기 중에도 멘토와 학습 진도를 꾸준히 점검하고, 프로젝트 결과물을 완성해요.",
-    points: [
-      "개인별 학습 미션과 실시간 진도 관리",
-      "정기 피드백과 Q&A 라이브 세션",
-      "프로젝트 산출물 업로드 및 협업 지원",
-    ],
+    linkLabel: "앱 학습 내용 확인하기",
+    linkHref: "#",
     imageSrc: "/images/learning-online.png",
   },
   {
@@ -160,11 +158,8 @@ const learningModes: LearningMode[] = [
     headline: "현장에서 실습하는 캠프형 수업",
     description:
       "팀원들과 직접 만들고 체험하며 발표까지 이어지는 몰입형 교육을 진행해요.",
-    points: [
-      "하드웨어와 메이커 키트를 활용한 실습 프로젝트",
-      "팀 단위 협업과 발표, 데모데이 진행",
-      "멘토와 함께 결과물을 개선하는 피드백 세션",
-    ],
+    linkLabel: "캠프 활동내용 확인하기",
+    linkHref: "#",
     imageSrc: "/images/learning-offline.png",
   },
 ];
@@ -296,17 +291,13 @@ export default function LearningJourneySection() {
                   {activeMode.description}
                 </p>
               </div>
-              <ul className="mt-5 space-y-2 text-[15px] leading-[26px] text-white">
-                {activeMode.points.map((point) => (
-                  <li
-                    key={point}
-                    className="flex items-start gap-2 rounded-[12px] bg-white/5 px-4 py-2"
-                  >
-                    <span className="mt-[6px] block h-2 w-2 rounded-full bg-main-300" />
-                    <span>{point}</span>
-                  </li>
-                ))}
-              </ul>
+              <a
+                href={activeMode.linkHref}
+                className="mt-6 inline-flex items-center gap-2 text-[15px] font-semibold text-main-200 underline decoration-main-300/50 decoration-2 underline-offset-[8px] transition-colors hover:text-main-100"
+              >
+                {activeMode.linkLabel}
+                <span aria-hidden>→</span>
+              </a>
             </div>
 
             <div className="relative h-full min-h-[280px] overflow-hidden rounded-[28px] border border-white/10 bg-white/5 shadow-[0_24px_60px_rgba(0,0,0,0.35)]">
