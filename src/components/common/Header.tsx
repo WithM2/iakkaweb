@@ -22,12 +22,10 @@ export default function Header() {
 
           {/* GNB: md 이상에서 표시, 로고 옆에 밀착 */}
           <nav className="hidden md:flex items-center gap-7 text-[14px] text-gray-700">
-            {/* 
-            <Link href="/about" className="hover:text-gray-900">기업정보</Link>
+            {/* <Link href="/about" className="hover:text-gray-900">기업정보</Link>
             <Link href="/programs" className="hover:text-gray-900">교육 프로그램</Link>
             <Link href="/community" className="hover:text-gray-900">커뮤니티</Link>
-            <Link href="/support" className="hover:text-gray-900">고객지원</Link>
-             */}
+            <Link href="/support" className="hover:text-gray-900">고객지원</Link> */}
           </nav>
         </div>
 
