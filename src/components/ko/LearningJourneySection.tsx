@@ -294,9 +294,12 @@ export default function LearningJourneySection() {
                 <h4 className="text-[24px] font-semibold text-white">
                   {activeMode.headline}
                 </h4>
-                <p className="text-[16px] text-white/80">
-                  {activeMode.description}
-                </p>
+                <div className="flex flex-col space-y-1 text-[16px] text-white/80">
+                  {activeMode.description.map((line, idx) => (
+                    <p key={idx}>{line}</p>
+                  ))}
+                </div>
+
               </div>
               <Link
                 href={activeMode.linkHref}
