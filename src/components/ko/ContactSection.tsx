@@ -4,7 +4,7 @@ const OFFICE_INFO = [
 ];
 
 const INQUIRY_INFO = [
-  { label: "전화 문의", value: "010-3199-1331" },
+  { label: "전화 문의", value: "031-341-0888" },
   { label: "이메일 문의", value: "iakka.kr@gmail.com" },
 ];
 
