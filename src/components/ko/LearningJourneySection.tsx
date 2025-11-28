@@ -19,7 +19,7 @@ interface LearningMode {
   id: string;
   label: string;
   headline: string;
-  description: string;
+  description: string[];
   linkLabel: string;
   linkHref: string;
   imageSrc: string;
@@ -146,19 +146,25 @@ const learningModes: LearningMode[] = [
   {
     id: "online",
     label: "온라인",
-    headline: "자체 교육 앱을 활용한 온라인 교육",
+    headline: "자체 교육 어플을 활용한 온라인 교육",
     description:
-      "학기 중에도 멘토와 학습 진도를 꾸준히 점검하고, 프로젝트 결과물을 완성해요.",
-    linkLabel: "앱 학습 화면 확인하기",
+      [
+        "학기 중에는 멘토링 어플인 '아카데미'를 통해",
+        "국내 명문대 대학생 튜터와 함께 교육을 수강합니다.",
+      ],
+    linkLabel: "멘토링 신청하기",
     linkHref: "#online-learning",
     imageSrc: "/images/onlineClass.png",
   },
   {
     id: "offline",
     label: "오프라인",
-    headline: "현장에서 실습하는 캠프형 수업",
+    headline: "배운 내용을 실험하는 오프라인 캠프",
     description:
-      "팀원들과 직접 만들고 체험하며 발표까지 이어지는 몰입형 교육을 진행해요.",
+      [
+        "온라인에서 배운 내용들을 학습 교구를 통해 체험하고,",
+        "여러 아이들과 만나며 실습과 개발, 발표를 진행합니다.",
+      ],
     linkLabel: "캠프 활동내용 확인하기",
     linkHref: "#camp-journey",
     imageSrc: "/images/offlineClass.png",
