@@ -39,8 +39,8 @@ export default function MentoringPlanDetailPage({
           {/* 본문 그리드 */}
           <div className="grid gap-10 md:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] md:items-stretch">
             {/* 왼쪽: 썸네일 이미지 */}
-            <div className="flex justify-center md:h-full md:justify-start">
-              <div className="relative aspect-square h-full w-full max-w-[420px] overflow-hidden rounded-[32px]">
+            <div className="flex h-full justify-center md:justify-start">
+              <div className="relative aspect-square w-full max-w-[420px] overflow-hidden rounded-[32px] md:h-full md:w-auto md:max-w-full">
                 <Image
                   src="/images/mentoring/subscribe.png"
                   alt={fullTitle}
