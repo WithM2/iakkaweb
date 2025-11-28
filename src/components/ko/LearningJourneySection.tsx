@@ -181,80 +181,76 @@ export default function LearningJourneySection() {
     learningModes[0];
 
   return (
-    <div className="w-full">
-      <section className="w-full bg-[linear-gradient(180deg,#232323_0%,#143263_50%,#232323_100%)] text-white">
-        <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-10 px-5 py-16 md:px-6 md:py-20">
-          <div className="flex flex-col items-center text-center">
-            <h3 className="text-[36px] font-semibold text-white">
-              체계적인 교육 프로세스
-            </h3>
-            <p className="mt-3 text-[20px] text-white/80">
-              프로젝트가 완성으로 이어지는 과정을 단계별로 살펴보세요.
-            </p>
+    <section className="w-full bg-[linear-gradient(180deg,#232323_0%,#143263_35%,#0f1e33_70%,#0b141f_100%)] text-white">
+      <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-16 px-5 py-16 md:px-6 md:py-20">
+        <div className="flex flex-col items-center text-center">
+          <h3 className="text-[36px] font-semibold text-white">
+            체계적인 교육 프로세스
+          </h3>
+          <p className="mt-3 text-[20px] text-white/80">
+            프로젝트가 완성으로 이어지는 과정을 단계별로 살펴보세요.
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-stretch lg:gap-16">
+          <div className="flex w-full max-w-[460px] flex-shrink-0 flex-col">
+            <div className="mt-6 grid gap-3 lg:mt-0">
+              {journeyStages.map((stage) => {
+                const isActive = stage.id === activeStage.id;
+
+                return (
+                  <button
+                    key={stage.id}
+                    type="button"
+                    onClick={() => setSelectedStageId(stage.id)}
+                    className={`rounded-[16px] border px-5 py-4 text-left transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#143263] ${
+                      isActive
+                        ? "border-main-300 bg-white text-slate-900 shadow-[0_16px_40px_rgba(0,121,234,0.35)]"
+                        : "bg-white/5 border-white/10 text-white/80 hover:bg-white/15 hover:border-white/20 hover:text-white"
+                    }`}
+                  >
+                    <div className="text-[26px] font-semibold text-main-600">
+                      {stage.stepTitle}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
-          <div className="flex flex-col gap-10 lg:flex-row lg:items-stretch lg:gap-16">
-            <div className="flex w-full max-w-[460px] flex-shrink-0 flex-col">
-              <div className="mt-6 grid gap-3 lg:mt-0">
-                {journeyStages.map((stage) => {
-                  const isActive = stage.id === activeStage.id;
-
-                  return (
-                    <button
-                      key={stage.id}
-                      type="button"
-                      onClick={() => setSelectedStageId(stage.id)}
-                      className={`rounded-[16px] border px-5 py-4 text-left transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#143263] ${
-                        isActive
-                          ? "border-main-300 bg-white text-slate-900 shadow-[0_16px_40px_rgba(0,121,234,0.35)]"
-                          : "bg-white/5 border-white/10 text-white/80 hover:bg-white/15 hover:border-white/20 hover:text-white"
-                      }`}
-                    >
-                      <div className="text-[26px] font-semibold text-main-600">
-                        {stage.stepTitle}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
+          <div className="flex flex-1 flex-col gap-8 rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,#1f2c4f_0%,#0f162b_100%)] p-8 md:gap-10 md:p-10">
+            <div>
+              <h4 className="text-[28px] font-semibold text-main-600 md:text-[30px]">
+                {activeStage.stepTitle}
+              </h4>
+              <p className="mt-2 text-[18px] font-medium text-white md:text-[18px]">
+                {activeStage.subtitle}
+              </p>
             </div>
 
-            <div className="flex flex-1 flex-col gap-8 rounded-[28px] border border-white/10 bg-[linear-gradient(180deg,#1f2c4f_0%,#0f162b_100%)] p-8 md:gap-10 md:p-10">
-              <div>
-                <h4 className="text-[28px] font-semibold text-main-600 md:text-[30px]">
-                  {activeStage.stepTitle}
-                </h4>
-                <p className="mt-2 text-[18px] font-medium text-white md:text-[18px]">
-                  {activeStage.subtitle}
-                </p>
-              </div>
-
-              <div className="space-y-7 md:space-y-8">
-                {activeStage.sections.map((section) => (
-                  <div key={section.title} className="flex flex-col gap-3">
-                    <h5 className="text-[18px] font-semibold text-white md:text-[18px]">
-                      {section.title}
-                    </h5>
-                    <ul className="space-y-2 text-[14px] leading-[26px] text-white md:space-y-3">
-                      {section.items.map((item) => (
-                        <li
-                          key={item}
-                          className="list-disc pl-5 marker:text-main-400"
-                        >
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
+            <div className="space-y-7 md:space-y-8">
+              {activeStage.sections.map((section) => (
+                <div key={section.title} className="flex flex-col gap-3">
+                  <h5 className="text-[18px] font-semibold text-white md:text-[18px]">
+                    {section.title}
+                  </h5>
+                  <ul className="space-y-2 text-[14px] leading-[26px] text-white md:space-y-3">
+                    {section.items.map((item) => (
+                      <li
+                        key={item}
+                        className="list-disc pl-5 marker:text-main-400"
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-      </section>
 
-      <section className="w-full bg-[linear-gradient(180deg,#0f1e33_0%,#0b141f_100%)] text-white">
-        <div className="mx-auto flex w-full max-w-[1200px] flex-col gap-10 px-5 py-16 md:px-6 md:py-20">
+        <div className="flex flex-col gap-10 border-t border-white/10 pt-14">
           <div className="flex flex-col items-center text-center">
             <p className="text-sm font-semibold uppercase tracking-[0.12em] text-main-300">
               Hybrid Learning
@@ -326,7 +322,7 @@ export default function LearningJourneySection() {
             </div>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 }
