@@ -7,6 +7,7 @@ import Footer from "@/components/common/Footer";
 import LearningJourneySection from "@/components/ko/LearningJourneySection";
 import MentorShowcaseSection from "@/components/ko/MentorShowcaseSection";
 import PricingSection from "@/components/ko/PricingSection";
+import PartnerInstitutionsSection from "@/components/ko/PartnerInstitutionsSection";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -223,6 +224,8 @@ export default function PageKO() {
       <ParentTestimonialsSection />
 
       <ReviewSection />
+
+      <PartnerInstitutionsSection />
 
       <ContactSection />
 
