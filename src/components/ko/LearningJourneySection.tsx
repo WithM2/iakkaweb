@@ -153,7 +153,7 @@ const learningModes: LearningMode[] = [
         "국내 명문대 대학생 튜터와 함께 교육을 수강합니다.",
       ],
     linkLabel: "멘토링 신청하기",
-    linkHref: "#online-learning",
+    linkHref: "/mentoring/apply",
     imageSrc: "/images/onlineClass.png",
   },
   {
@@ -261,7 +261,7 @@ export default function LearningJourneySection() {
               앱과 캠프를 잇는 하이브리드 수업
             </h3>
             <p className="mt-3 text-[18px] text-white/80 md:text-[20px]">
-              온라인과 오프라인의 장점을 모두 살려, 어디서든 성장할 수 있는 교육을 제공합니다.
+              보다 원활한 학습을 위해, 온라인 지식 습득 후 오프라인으로 심화 경험을 할 수 있도록 하이브리드 운영 체제를 채택하고 있습니다.
             </p>
           </div>
 
