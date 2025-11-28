@@ -123,7 +123,7 @@ export default function PageKO() {
               {/* 파란 아웃라인 버튼 */}
               <Link
                 href="/contact"
-                className="inline-flex items-center rounded-[12px] border border-main-600 px-4 py-2 text-[14px] font-semibold text-main-600 hover:bg-main-600/10"
+                className="inline-flex items-center rounded-[12px] border border-main-600 bg-white px-4 py-2 text-[14px] font-semibold text-main-600 hover:bg-white/90"
               >
                 상담 예약
               </Link>
