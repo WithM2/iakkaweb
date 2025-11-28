@@ -285,7 +285,7 @@ export default function TermsPage() {
               Terms of Service
             </p>
             <h1 className="text-[28px] font-bold leading-[36px] md:text-[40px] md:leading-[52px]">
-              멘토링 교육 어플리케이션 이용약관(초안)
+              멘토링 교육 어플리케이션 이용약관
             </h1>
             <p className="max-w-[840px] text-[15px] leading-[24px] text-white/70 md:text-[16px] md:leading-[26px]">
               멘토링 교육 서비스 이용과 장비 구매·대여 조건을 모두 담은 약관 전문입니다.
@@ -305,16 +305,12 @@ export default function TermsPage() {
             <div className="mt-5 grid gap-4 md:grid-cols-3">
               {[
                 {
-                  title: "시행일",
-                  content: "2025. 10. X (예정)",
-                },
-                {
                   title: "버전",
                   content: "초안 1.0",
                 },
                 {
                   title: "문의",
-                  content: "contact@iakka.kr",
+                  content: "iakka.kr@gmail.com",
                 },
               ].map(({ title, content }) => (
                 <div
