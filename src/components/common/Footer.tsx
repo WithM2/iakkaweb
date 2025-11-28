@@ -1,8 +1,8 @@
 import Link from "next/link";
 
 const FOOTER_LINKS = [
-  { label: "이용약관", href: "#!" },
-  { label: "개인정보처리방침", href: "#!" },
+  { label: "이용약관", href: "/terms" },
+  { label: "개인정보처리방침", href: "/privacy" },
   { label: "고객센터", href: "/contact" },
 ];
 
