@@ -152,7 +152,7 @@ const learningModes: LearningMode[] = [
       "정기 피드백과 Q&A 라이브 세션",
       "프로젝트 산출물 업로드 및 협업 지원",
     ],
-    imageSrc: "/images/learning-online.png",
+    imageSrc: "/images/onlineClass.png",
   },
   {
     id: "offline",
@@ -165,7 +165,7 @@ const learningModes: LearningMode[] = [
       "팀 단위 협업과 발표, 데모데이 진행",
       "멘토와 함께 결과물을 개선하는 피드백 세션",
     ],
-    imageSrc: "/images/learning-offline.png",
+    imageSrc: "/images/offlineClass.png",
   },
 ];
 
