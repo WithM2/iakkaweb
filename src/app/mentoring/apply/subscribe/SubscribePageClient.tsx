@@ -157,7 +157,9 @@ export default function SubscribePageClient({
     const requestPayload: DanalPaymentRequest = {
       ...basePayload,
       methods: {
-        card: {},
+        card: {
+          quota: "00",
+        },
       },
     };
 
