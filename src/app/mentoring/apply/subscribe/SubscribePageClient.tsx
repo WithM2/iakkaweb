@@ -11,6 +11,7 @@ import type {
 
 import type { MentoringPlanDetails, MentoringPlanId } from "./page";
 import {
+  DANAL_REBILL_PARAMS,
   DANAL_SANDBOX_BASE_PARAMS,
   DANAL_TEST_CLIENT_KEY,
   type DanalPaymentRequest,
@@ -79,7 +80,7 @@ export default function SubscribePageClient({
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
-  const [selectedPaymentMethod] = useState<DanalPaymentsMethod>("INTEGRATED");
+  const [selectedPaymentMethod] = useState<DanalPaymentsMethod>("CARD");
 
   const [touched, setTouched] = useState<TouchedState>({
     ordererName: false,
@@ -137,34 +138,26 @@ export default function SubscribePageClient({
       return;
     }
 
+    const resultBaseUrl = window.location.origin;
+
     const basePayload: DanalPaymentRequest = {
       ...DANAL_SANDBOX_BASE_PARAMS,
+      ...DANAL_REBILL_PARAMS,
       orderName: selectedPlan.displayName ?? DANAL_SANDBOX_BASE_PARAMS.orderName,
       amount: finalAmount ?? DANAL_SANDBOX_BASE_PARAMS.amount,
       orderId: new Date().getTime().toString(),
       userId: email || DANAL_SANDBOX_BASE_PARAMS.userId,
       userEmail: email || DANAL_SANDBOX_BASE_PARAMS.userEmail,
       userName: ordererName || DANAL_SANDBOX_BASE_PARAMS.userName,
+      cancelUrl: `${resultBaseUrl}/pay/result?status=fail`,
+      returnUrl: `${resultBaseUrl}/pay/result?status=success`,
       paymentsMethod: selectedPaymentMethod,
     };
 
     const requestPayload: DanalPaymentRequest = {
       ...basePayload,
       methods: {
-        mobile: {
-          itemCode: "1270000000",
-          itemType: "1",
-        },
-        virtualAccount: {
-          notiUrl: "https://notiUrl.com",
-        },
         card: {},
-        naverPay: {},
-        kakaoPay: {},
-        payco: {},
-        transfer: {},
-        cultureland: {},
-        bookAndLife: {},
       },
     };
 
