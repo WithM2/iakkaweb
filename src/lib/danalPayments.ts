@@ -12,6 +12,16 @@ export const DANAL_SANDBOX_BASE_PARAMS = {
   userName: "김다날",
 } as const;
 
+export const DANAL_REBILL_PARAMS = {
+  serviceType: "BATCH",
+  txType: "AUTH",
+  currency: "410",
+  isBill: "N",
+  isNoti: "N",
+  cancelUrl: "https://developers.danalpay.com/sandbox/callback?status=fail",
+  returnUrl: "https://developers.danalpay.com/sandbox/callback?status=success",
+} as const;
+
 export type DanalPaymentsMethod =
   | "INTEGRATED"
   | "CARD"
@@ -35,6 +45,13 @@ export type DanalPaymentRequest = {
   failUrl: string;
   userEmail?: string;
   userName?: string;
+  serviceType?: string;
+  txType?: string;
+  currency?: string;
+  isBill?: "Y" | "N";
+  isNoti?: "Y" | "N";
+  cancelUrl?: string;
+  returnUrl?: string;
   [key: string]: unknown;
 };
 
