@@ -26,14 +26,43 @@ type DanalReadyOptions = {
 
 const DEFAULT_READY_ENDPOINT = "https://tx-creditcard.danalpay.com/credit/Ready";
 
-function getEnvValue(key: string, fallback?: string) {
-  const value = process.env[key] ?? fallback;
+function getEnvValue(key: string) {
+  const value = process.env[key];
 
   if (!value) {
     throw new Error(`${key} is not configured`);
   }
 
   return value;
+}
+
+function resolveCallbackUrl(key: string, fallback?: string) {
+  const envValue = process.env[key];
+
+  if (envValue) {
+    const resolved = new URL(envValue);
+
+    if (fallback) {
+      const fallbackUrl = new URL(fallback);
+      const plan = fallbackUrl.searchParams.get("plan");
+      const payment = fallbackUrl.searchParams.get("payment");
+
+      if (plan) {
+        resolved.searchParams.set("plan", plan);
+      }
+      if (payment) {
+        resolved.searchParams.set("payment", payment);
+      }
+    }
+
+    return resolved.toString();
+  }
+
+  if (fallback) {
+    return fallback;
+  }
+
+  throw new Error(`${key} is not configured`);
 }
 
 function buildQueryString(payload: Record<string, string>) {
@@ -55,8 +84,8 @@ function encryptPayload(payload: Record<string, string>, cryptoKey: string, iv: 
 }
 
 function buildReadyPayload(params: DanalReadyRequest, options: DanalReadyOptions = {}) {
-  const cancelUrl = getEnvValue("DANAL_REBILL_CANCEL_URL", options.cancelUrl);
-  const returnUrl = getEnvValue("DANAL_REBILL_RETURN_URL", options.returnUrl);
+  const cancelUrl = resolveCallbackUrl("DANAL_REBILL_CANCEL_URL", options.cancelUrl);
+  const returnUrl = resolveCallbackUrl("DANAL_REBILL_RETURN_URL", options.returnUrl);
   const cpid = getEnvValue("DANAL_REBILL_CPID");
   const cryptoKey = getEnvValue("DANAL_REBILL_CRYPTO_KEY");
   const ivKey = getEnvValue("DANAL_REBILL_CRYPTO_IV");
