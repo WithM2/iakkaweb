@@ -55,6 +55,7 @@ function buildReadyPayload(params: DanalReadyRequest) {
   const cpid = getEnvValue("DANAL_REBILL_CPID");
   const cryptoKey = getEnvValue("DANAL_REBILL_CRYPTO_KEY");
   const ivKey = getEnvValue("DANAL_REBILL_CRYPTO_IV");
+  const cpPwd = process.env.DANAL_REBILL_CPPWD;
 
   const readyData = encryptPayload(
     {
@@ -84,6 +85,9 @@ function buildReadyPayload(params: DanalReadyRequest) {
   const subCpid = process.env.DANAL_REBILL_SUBCPID;
   if (subCpid) {
     body.set("SUBCPID", subCpid);
+  }
+  if (cpPwd) {
+    body.set("CPPWD", cpPwd);
   }
   body.set("DATA", readyData);
 
