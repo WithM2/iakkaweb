@@ -19,10 +19,15 @@ type DanalReadyResponse = {
   startParams: string;
 };
 
+type DanalReadyOptions = {
+  cancelUrl?: string;
+  returnUrl?: string;
+};
+
 const DEFAULT_READY_ENDPOINT = "https://tx-creditcard.danalpay.com/credit/Ready";
 
-function getEnvValue(key: string) {
-  const value = process.env[key];
+function getEnvValue(key: string, fallback?: string) {
+  const value = process.env[key] ?? fallback;
 
   if (!value) {
     throw new Error(`${key} is not configured`);
@@ -49,9 +54,9 @@ function encryptPayload(payload: Record<string, string>, cryptoKey: string, iv: 
   return encodeURIComponent(base64Encoded);
 }
 
-function buildReadyPayload(params: DanalReadyRequest) {
-  const cancelUrl = getEnvValue("DANAL_REBILL_CANCEL_URL");
-  const returnUrl = getEnvValue("DANAL_REBILL_RETURN_URL");
+function buildReadyPayload(params: DanalReadyRequest, options: DanalReadyOptions = {}) {
+  const cancelUrl = getEnvValue("DANAL_REBILL_CANCEL_URL", options.cancelUrl);
+  const returnUrl = getEnvValue("DANAL_REBILL_RETURN_URL", options.returnUrl);
   const cpid = getEnvValue("DANAL_REBILL_CPID");
   const cryptoKey = getEnvValue("DANAL_REBILL_CRYPTO_KEY");
   const ivKey = getEnvValue("DANAL_REBILL_CRYPTO_IV");
@@ -118,9 +123,9 @@ async function parseReadyResponse(response: Response) {
   return { startUrl, startParams } satisfies DanalReadyResponse;
 }
 
-export async function requestDanalReady(params: DanalReadyRequest) {
+export async function requestDanalReady(params: DanalReadyRequest, options: DanalReadyOptions = {}) {
   const readyEndpoint = process.env.DANAL_REBILL_READY_ENDPOINT ?? DEFAULT_READY_ENDPOINT;
-  const requestBody = buildReadyPayload(params);
+  const requestBody = buildReadyPayload(params, options);
 
   const response = await fetch(readyEndpoint, {
     method: "POST",

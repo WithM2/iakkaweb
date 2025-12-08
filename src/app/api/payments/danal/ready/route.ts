@@ -16,6 +16,16 @@ type ReadyPayload = {
 
 export async function POST(request: Request) {
   const body = (await request.json()) as ReadyPayload;
+  const origin = request.headers.get("origin");
+  const referer = request.headers.get("referer");
+  const inferredOrigin = origin || (referer ? new URL(referer).origin : undefined);
+
+  const cancelUrl = inferredOrigin
+    ? `${inferredOrigin}/mentoring/apply/plus/subscribe?plan=plus&payment=cancel`
+    : undefined;
+  const returnUrl = inferredOrigin
+    ? `${inferredOrigin}/mentoring/apply/plus/subscribe?plan=plus&payment=success`
+    : undefined;
 
   if (!body.orderId || !body.amount || !body.itemName) {
     return NextResponse.json(
@@ -42,7 +52,9 @@ export async function POST(request: Request) {
       userEmail: body.userEmail,
       userAgent: body.userAgent,
       bypassValue: body.bypassValue,
-    });
+    },
+    { cancelUrl, returnUrl },
+  );
 
     return NextResponse.json(readyResponse);
   } catch (error) {
