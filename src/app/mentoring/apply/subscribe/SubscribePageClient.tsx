@@ -191,6 +191,7 @@ export default function SubscribePageClient({
           userEmail: email,
           userAgent: userAgentType,
           bypassValue: buildBypassValue({ studentName, studentPhone }),
+          planId,
         }),
       });
 

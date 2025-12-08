@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { requestDanalReady } from "@/lib/payments/danal/ready";
+import type { MentoringPlanId } from "@/app/mentoring/apply/_config/mentoringPlans";
 
 type ReadyPayload = {
   orderId?: string;
@@ -12,19 +13,25 @@ type ReadyPayload = {
   userEmail?: string;
   userAgent?: "PC" | "MW" | "MA" | "MI";
   bypassValue?: string;
+  planId?: MentoringPlanId;
 };
+
+function resolvePlanId(planId?: string): MentoringPlanId {
+  return planId === "standard" || planId === "plus" ? planId : "plus";
+}
 
 export async function POST(request: Request) {
   const body = (await request.json()) as ReadyPayload;
   const origin = request.headers.get("origin");
   const referer = request.headers.get("referer");
   const inferredOrigin = origin || (referer ? new URL(referer).origin : undefined);
+  const planId = resolvePlanId(body.planId);
 
   const cancelUrl = inferredOrigin
-    ? `${inferredOrigin}/mentoring/apply/plus/subscribe?plan=plus&payment=cancel`
+    ? `${inferredOrigin}/mentoring/apply/subscribe?plan=${planId}&payment=cancel`
     : undefined;
   const returnUrl = inferredOrigin
-    ? `${inferredOrigin}/mentoring/apply/plus/subscribe?plan=plus&payment=success`
+    ? `${inferredOrigin}/mentoring/apply/subscribe?plan=${planId}&payment=success`
     : undefined;
 
   if (!body.orderId || !body.amount || !body.itemName) {
@@ -42,19 +49,20 @@ export async function POST(request: Request) {
   }
 
   try {
-    const readyResponse = await requestDanalReady({
-      orderId: body.orderId,
-      amount: body.amount,
-      itemName: body.itemName,
-      userId: body.userId,
-      userName: body.userName,
-      userPhone: body.userPhone,
-      userEmail: body.userEmail,
-      userAgent: body.userAgent,
-      bypassValue: body.bypassValue,
-    },
-    { cancelUrl, returnUrl },
-  );
+    const readyResponse = await requestDanalReady(
+      {
+        orderId: body.orderId,
+        amount: body.amount,
+        itemName: body.itemName,
+        userId: body.userId,
+        userName: body.userName,
+        userPhone: body.userPhone,
+        userEmail: body.userEmail,
+        userAgent: body.userAgent,
+        bypassValue: body.bypassValue,
+      },
+      { cancelUrl, returnUrl },
+    );
 
     return NextResponse.json(readyResponse);
   } catch (error) {
