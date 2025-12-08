@@ -10,6 +10,11 @@ import type {
 
 import type { MentoringPlanDetails, MentoringPlanId } from "./page";
 
+type DanalReadyResponse = {
+  startUrl: string;
+  startParams: string;
+};
+
 type SubscribePageClientProps = {
   planId: MentoringPlanId;
   selectedPlan: MentoringPlanDetails;
@@ -55,6 +60,49 @@ const getEmailError = (value: string) => {
   }
 
   return "";
+};
+
+const getUserAgentType = (): "PC" | "MW" | "MA" | "MI" => {
+  if (typeof navigator === "undefined") {
+    return "PC";
+  }
+
+  const userAgent = navigator.userAgent;
+  return /Mobi|Android/i.test(userAgent) ? "MW" : "PC";
+};
+
+const buildBypassValue = ({
+  studentName,
+  studentPhone,
+}: {
+  studentName: string;
+  studentPhone: string;
+}) => {
+  const entries = [
+    studentName ? `StudentName=${studentName}` : "",
+    studentPhone ? `StudentPhone=${studentPhone}` : "",
+  ].filter(Boolean);
+
+  return entries.length > 0 ? `${entries.join(";")};` : "";
+};
+
+const openDanalPaymentWindow = (startUrl: string, startParams: string) => {
+  const paymentWindow = window.open("", "danalPaymentWindow", "width=420,height=720");
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = startUrl;
+  form.target = "danalPaymentWindow";
+
+  const startParamsInput = document.createElement("input");
+  startParamsInput.type = "hidden";
+  startParamsInput.name = "STARTPARAMS";
+  startParamsInput.value = startParams;
+  form.appendChild(startParamsInput);
+
+  document.body.appendChild(form);
+  paymentWindow?.focus();
+  form.submit();
+  form.remove();
 };
 
 export default function SubscribePageClient({
@@ -106,7 +154,7 @@ export default function SubscribePageClient({
     setTouched((prev) => ({ ...prev, contact: true }));
   };
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     const nameValidation = getNameError(ordererName);
     const contactValidation = getContactError(contact);
     const emailValidation = getEmailError(email);
@@ -124,15 +172,49 @@ export default function SubscribePageClient({
     }
 
     setIsProcessingPayment(true);
-    setPaymentError(
-      "결제 모듈이 제거되었습니다. 새로운 결제 수단을 연동한 후 다시 시도해주세요.",
-    );
-    setIsProcessingPayment(false);
+    setPaymentError(null);
+
+    try {
+      const userAgentType = getUserAgentType();
+      const response = await fetch("/api/payments/danal/ready", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          orderId: `mentoring-${planId}-${Date.now()}`,
+          amount: finalAmount,
+          itemName: selectedPlan.displayName,
+          userId: `${planId}-${contact}`,
+          userName: ordererName,
+          userPhone: contact,
+          userEmail: email,
+          userAgent: userAgentType,
+          bypassValue: buildBypassValue({ studentName, studentPhone }),
+        }),
+      });
+
+      if (!response.ok) {
+        const { error } = (await response.json()) as { error?: string };
+        throw new Error(error || "결제 모듈 호출에 실패했습니다.");
+      }
+
+      const readyResponse = (await response.json()) as DanalReadyResponse;
+      openDanalPaymentWindow(readyResponse.startUrl, readyResponse.startParams);
+    } catch (error) {
+      const message =
+        error instanceof Error
+          ? error.message
+          : "결제 모듈 호출 중 오류가 발생했습니다.";
+      setPaymentError(message);
+    } finally {
+      setIsProcessingPayment(false);
+    }
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    handlePayment();
+    void handlePayment();
   };
 
   return (
