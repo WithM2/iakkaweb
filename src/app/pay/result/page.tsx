@@ -75,7 +75,8 @@ export default function PaymentResultPage({
             </div>
           ) : null}
           <p className="text-xs text-ink-900/60">
-            샌드박스 successUrl / failUrl은 developers.danalpay.com으로 고정되어 있습니다.
+            새로운 결제 모듈에서 성공 / 실패 리다이렉트 URL을 설정하여 결제 결과를
+            전달해주세요.
           </p>
         </div>
 

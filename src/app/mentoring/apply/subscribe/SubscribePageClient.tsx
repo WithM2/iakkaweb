@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Script from "next/script";
 import type {
   ChangeEvent,
   FormEvent,
@@ -10,13 +9,6 @@ import type {
 } from "react";
 
 import type { MentoringPlanDetails, MentoringPlanId } from "./page";
-import {
-  DANAL_REBILL_PARAMS,
-  DANAL_SANDBOX_BASE_PARAMS,
-  DANAL_TEST_CLIENT_KEY,
-  type DanalPaymentRequest,
-  type DanalPaymentsMethod,
-} from "@/lib/danalPayments";
 
 type SubscribePageClientProps = {
   planId: MentoringPlanId;
@@ -80,8 +72,6 @@ export default function SubscribePageClient({
   const [paymentError, setPaymentError] = useState<string | null>(null);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
-  const [selectedPaymentMethod] = useState<DanalPaymentsMethod>("CARD");
-
   const [touched, setTouched] = useState<TouchedState>({
     ordererName: false,
     contact: false,
@@ -116,7 +106,7 @@ export default function SubscribePageClient({
     setTouched((prev) => ({ ...prev, contact: true }));
   };
 
-  const handlePayment = async () => {
+  const handlePayment = () => {
     const nameValidation = getNameError(ordererName);
     const contactValidation = getContactError(contact);
     const emailValidation = getEmailError(email);
@@ -133,64 +123,20 @@ export default function SubscribePageClient({
       return;
     }
 
-    if (!window.DanalPayments) {
-      setPaymentError("결제 모듈 로딩 실패");
-      return;
-    }
-
-    const resultBaseUrl = window.location.origin;
-
-    const basePayload: DanalPaymentRequest = {
-      ...DANAL_SANDBOX_BASE_PARAMS,
-      ...DANAL_REBILL_PARAMS,
-      orderName: selectedPlan.displayName ?? DANAL_SANDBOX_BASE_PARAMS.orderName,
-      amount: finalAmount ?? DANAL_SANDBOX_BASE_PARAMS.amount,
-      orderId: new Date().getTime().toString(),
-      userId: email || DANAL_SANDBOX_BASE_PARAMS.userId,
-      userEmail: email || DANAL_SANDBOX_BASE_PARAMS.userEmail,
-      userName: ordererName || DANAL_SANDBOX_BASE_PARAMS.userName,
-      cancelUrl: `${resultBaseUrl}/pay/result?status=fail`,
-      returnUrl: `${resultBaseUrl}/pay/result?status=success`,
-      paymentsMethod: selectedPaymentMethod,
-    };
-
-    const requestPayload: DanalPaymentRequest = {
-      ...basePayload,
-      methods: {
-        card: {
-          quota: "00",
-        },
-      },
-    };
-
-    const danalPayments = window.DanalPayments(DANAL_TEST_CLIENT_KEY);
-
-    try {
-      setIsProcessingPayment(true);
-      setPaymentError(null);
-      await danalPayments.requestPayment(requestPayload);
-    } catch (error) {
-      console.error(error);
-      setPaymentError("결제 요청 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.");
-    } finally {
-      setIsProcessingPayment(false);
-    }
+    setIsProcessingPayment(true);
+    setPaymentError(
+      "결제 모듈이 제거되었습니다. 새로운 결제 수단을 연동한 후 다시 시도해주세요.",
+    );
+    setIsProcessingPayment(false);
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    void handlePayment();
+    handlePayment();
   };
 
   return (
     <main className="bg-white">
-      <Script
-        src="https://static.danalpay.com/d1/sdk/index.js"
-        strategy="afterInteractive"
-        onError={() => {
-          setPaymentError("결제 모듈 로딩 실패");
-        }}
-      />
       <section className="mx-auto w-full max-w-[1200px] px-5 py-16 md:px-6 md:py-24">
         <div className="space-y-12 md:space-y-16">
           <header className="space-y-4">
