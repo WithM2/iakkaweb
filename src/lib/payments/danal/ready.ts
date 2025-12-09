@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 
-import { parseNameValuePairs, urlEncodeUtf8Value } from "./encoding";
+import { parseNameValuePairs, urlEncodeEucKrValue } from "./encoding";
 
 type DanalReadyRequest = {
   orderId: string;
@@ -67,7 +67,7 @@ function resolveCallbackUrl(key: string, fallback?: string) {
 
 function buildQueryString(payload: Record<string, string>) {
   return Object.entries(payload)
-    .map(([key, value]) => `${key}=${urlEncodeUtf8Value(value)}`)
+    .map(([key, value]) => `${key}=${urlEncodeEucKrValue(value)}`)
     .join("&");
 }
 
