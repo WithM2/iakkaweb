@@ -1,6 +1,6 @@
 import crypto from "node:crypto";
 
-import { parseNameValuePairs, urlEncodeEucKrValue } from "./encoding";
+import { encodeEucKrString, parseNameValuePairs, urlEncodeEucKrValue } from "./encoding";
 
 type DanalReadyRequest = {
   orderId: string;
@@ -73,11 +73,12 @@ function buildQueryString(payload: Record<string, string>) {
 
 function encryptPayload(payload: Record<string, string>, cryptoKey: string, iv: string) {
   const queryString = buildQueryString(payload);
+  const queryStringBytes = encodeEucKrString(queryString);
   const keyBuffer = Buffer.from(cryptoKey, "hex");
   const ivBuffer = Buffer.from(iv, "hex");
 
   const cipher = crypto.createCipheriv("aes-256-cbc", keyBuffer, ivBuffer);
-  const encrypted = Buffer.concat([cipher.update(queryString, "utf8"), cipher.final()]);
+  const encrypted = Buffer.concat([cipher.update(queryStringBytes), cipher.final()]);
   const base64Encoded = encrypted.toString("base64");
 
   return encodeURIComponent(base64Encoded);
