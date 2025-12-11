@@ -88,11 +88,11 @@ const buildBypassValue = ({
 
 const openDanalPaymentWindow = (startUrl: string, startParams: string) => {
   const contentWidth = Math.min(window.innerWidth - 40, 680);
-  const contentHeight = Math.min(window.innerHeight - 80, 960);
+  const contentHeight = Math.min(window.innerHeight - 400, 960);
   const paymentWindow = window.open(
     "",
     "danalPaymentWindow",
-    `width=${contentWidth},height=${contentHeight},resizable=yes,scrollbars=yes`,
+    `width=${contentWidth},height=${contentHeight},resizable=yes,scrollbars=yes`
   );
   const form = document.createElement("form");
   form.method = "POST";
