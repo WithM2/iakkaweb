@@ -158,7 +158,8 @@ function decryptReadyData(encryptedData: string) {
   const ivKey = getEnvValue("DANAL_REBILL_CRYPTO_IV");
 
   const decodedData = decodePercentEncodedEucKr(encryptedData);
-  const encryptedBuffer = Buffer.from(decodedData, "base64");
+  const normalizedData = decodedData.replace(/ /g, "+");
+  const encryptedBuffer = Buffer.from(normalizedData, "base64");
   const decipher = crypto.createDecipheriv(
     "aes-256-cbc",
     Buffer.from(cryptoKey, "hex"),
