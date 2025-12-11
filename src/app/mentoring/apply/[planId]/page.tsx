@@ -9,13 +9,14 @@ import {
 } from "../_config/mentoringPlans";
 
 type MentoringPlanDetailPageProps = {
-  params: { planId: MentoringPlanId };
+  params: Promise<{ planId: MentoringPlanId }>;
 };
 
-export default function MentoringPlanDetailPage({
+export default async function MentoringPlanDetailPage({
   params,
 }: MentoringPlanDetailPageProps) {
-  const plan = getMentoringPlanById(params.planId);
+  const { planId } = await params;
+  const plan = getMentoringPlanById(planId);
 
   if (!plan) {
     notFound();
