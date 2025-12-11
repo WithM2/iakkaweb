@@ -1,6 +1,10 @@
 import crypto from "node:crypto";
 
-import { encodeEucKrString, parseNameValuePairs, urlEncodeEucKrValue } from "./encoding";
+import {
+  encodeEucKrString,
+  parseNameValuePairs,
+  urlEncodeEucKrValue,
+} from "./encoding";
 
 type DanalReadyRequest = {
   orderId: string;
@@ -24,7 +28,7 @@ type DanalReadyOptions = {
   returnUrl?: string;
 };
 
-const DEFAULT_READY_ENDPOINT = "https://tx-creditcard.danalpay.com/credit/Ready";
+const DEFAULT_READY_ENDPOINT = "https://tx-creditcard.danalpay.com/credit/";
 
 function getEnvValue(key: string) {
   const value = process.env[key];
@@ -71,26 +75,51 @@ function buildQueryString(payload: Record<string, string>) {
     .join("&");
 }
 
-function encryptPayload(payload: Record<string, string>, cryptoKey: string, iv: string) {
+function encryptPayload(
+  payload: Record<string, string>,
+  cryptoKey: string,
+  iv: string
+) {
   const queryString = buildQueryString(payload);
   const queryStringBytes = encodeEucKrString(queryString);
   const keyBuffer = Buffer.from(cryptoKey, "hex");
   const ivBuffer = Buffer.from(iv, "hex");
 
   const cipher = crypto.createCipheriv("aes-256-cbc", keyBuffer, ivBuffer);
-  const encrypted = Buffer.concat([cipher.update(queryStringBytes), cipher.final()]);
+  const encrypted = Buffer.concat([
+    cipher.update(queryStringBytes),
+    cipher.final(),
+  ]);
   const base64Encoded = encrypted.toString("base64");
 
   return encodeURIComponent(base64Encoded);
 }
 
-function buildReadyPayload(params: DanalReadyRequest, options: DanalReadyOptions = {}) {
-  const cancelUrl = resolveCallbackUrl("DANAL_REBILL_CANCEL_URL", options.cancelUrl);
-  const returnUrl = resolveCallbackUrl("DANAL_REBILL_RETURN_URL", options.returnUrl);
+function buildReadyPayload(
+  params: DanalReadyRequest,
+  options: DanalReadyOptions = {}
+) {
+  const cancelUrl = resolveCallbackUrl(
+    "DANAL_REBILL_CANCEL_URL",
+    options.cancelUrl
+  );
+  const returnUrl = resolveCallbackUrl(
+    "DANAL_REBILL_RETURN_URL",
+    options.returnUrl
+  );
   const cpid = getEnvValue("DANAL_REBILL_CPID");
   const cryptoKey = getEnvValue("DANAL_REBILL_CRYPTO_KEY");
   const ivKey = getEnvValue("DANAL_REBILL_CRYPTO_IV");
   const cpPwd = process.env.DANAL_REBILL_CPPWD;
+
+  console.log(
+    "cryptoKey length(hex interpreted):",
+    Buffer.from(cryptoKey, "hex").length
+  );
+  console.log(
+    "ivKey length(hex interpreted):",
+    Buffer.from(ivKey, "hex").length
+  );
 
   const readyData = encryptPayload(
     {
@@ -112,7 +141,7 @@ function buildReadyPayload(params: DanalReadyRequest, options: DanalReadyOptions
       BYPASSVALUE: params.bypassValue ?? "",
     },
     cryptoKey,
-    ivKey,
+    ivKey
   );
 
   const body = new URLSearchParams();
@@ -139,7 +168,8 @@ async function parseReadyResponse(response: Response) {
   }
 
   if (returnCode !== "0000") {
-    const message = parsed.RETURNMSG || "다날 정기결제 초기인증 준비에 실패했습니다.";
+    const message =
+      parsed.RETURNMSG || "다날 정기결제 초기인증 준비에 실패했습니다.";
     throw new Error(`${returnCode}: ${message}`);
   }
 
@@ -153,8 +183,12 @@ async function parseReadyResponse(response: Response) {
   return { startUrl, startParams } satisfies DanalReadyResponse;
 }
 
-export async function requestDanalReady(params: DanalReadyRequest, options: DanalReadyOptions = {}) {
-  const readyEndpoint = process.env.DANAL_REBILL_READY_ENDPOINT ?? DEFAULT_READY_ENDPOINT;
+export async function requestDanalReady(
+  params: DanalReadyRequest,
+  options: DanalReadyOptions = {}
+) {
+  const readyEndpoint =
+    process.env.DANAL_REBILL_READY_ENDPOINT ?? DEFAULT_READY_ENDPOINT;
   const requestBody = buildReadyPayload(params, options);
 
   const response = await fetch(readyEndpoint, {
