@@ -30,6 +30,23 @@ type PartnershipInquiryRow = {
   created_at: string;
 };
 
+type PaymentRow = {
+  id: string;
+  order_id: string;
+  plan_id: "standard" | "plus";
+  amount: number;
+  item_name: string;
+  user_id: string;
+  user_name: string;
+  user_phone: string;
+  user_email: string | null;
+  user_agent: "PC" | "MW" | "MA" | "MI";
+  bypass_value: string | null;
+  danal_start_url: string;
+  danal_start_params: string;
+  created_at: string;
+};
+
 type Database = {
   public: {
     Tables: {
@@ -50,6 +67,15 @@ type Database = {
           created_at?: string;
         };
         Update: Partial<PartnershipInquiryRow>;
+        Relationships: [];
+      };
+      payments: {
+        Row: PaymentRow;
+        Insert: Omit<PaymentRow, "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        };
+        Update: Partial<PaymentRow>;
         Relationships: [];
       };
     };
