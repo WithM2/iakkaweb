@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { requestDanalReady } from "@/lib/payments/danal/ready";
+import { createServiceRoleClient } from "@/lib/supabase";
 import type { MentoringPlanId } from "@/app/mentoring/apply/_config/mentoringPlans";
 
 type ReadyPayload = {
@@ -63,6 +64,29 @@ export async function POST(request: Request) {
       },
       { cancelUrl, returnUrl },
     );
+
+    const supabase = createServiceRoleClient();
+    const { error } = await supabase.from("payments").insert({
+      order_id: body.orderId,
+      plan_id: planId,
+      amount: body.amount,
+      item_name: body.itemName,
+      user_id: body.userId,
+      user_name: body.userName,
+      user_phone: body.userPhone,
+      user_email: body.userEmail ?? null,
+      user_agent: body.userAgent,
+      bypass_value: body.bypassValue ?? null,
+      danal_start_url: readyResponse.startUrl,
+      danal_start_params: readyResponse.startParams,
+    });
+
+    if (error) {
+      return NextResponse.json(
+        { error: "결제 정보를 저장하지 못했습니다." },
+        { status: 500 },
+      );
+    }
 
     return NextResponse.json(readyResponse);
   } catch (error) {

@@ -43,3 +43,23 @@ create index if not exists partnership_inquiries_created_at_idx
   on public.partnership_inquiries (created_at desc);
 create index if not exists partnership_inquiries_contact_email_idx
   on public.partnership_inquiries (lower(contact_email));
+
+create table if not exists public.payments (
+  id uuid primary key default gen_random_uuid(),
+  order_id text not null unique check (char_length(btrim(order_id)) > 0),
+  plan_id text not null check (plan_id in ('standard', 'plus')),
+  amount integer not null check (amount > 0),
+  item_name text not null check (char_length(btrim(item_name)) > 0),
+  user_id text not null check (char_length(btrim(user_id)) > 0),
+  user_name text not null check (char_length(btrim(user_name)) > 0),
+  user_phone text not null check (char_length(btrim(user_phone)) > 0),
+  user_email text,
+  user_agent text not null check (user_agent in ('PC', 'MW', 'MA', 'MI')),
+  bypass_value text,
+  danal_start_url text not null check (char_length(btrim(danal_start_url)) > 0),
+  danal_start_params text not null check (char_length(btrim(danal_start_params)) > 0),
+  created_at timestamptz not null default timezone('utc', now())
+);
+
+create index if not exists payments_created_at_idx on public.payments (created_at desc);
+create index if not exists payments_order_id_idx on public.payments (order_id);
